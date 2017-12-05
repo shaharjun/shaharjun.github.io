@@ -4,13 +4,10 @@
 <head>
 <meta charset='UTF-8'>
 <meta name="robots" content="noindex">
-<link rel="stylsheet"
-	href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-<link
-	href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300'
-	rel='stylesheet' type='text/css'>
-<link rel='stylesheet prefetch'
-	href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylsheet" href='css/bootstrap.min.css'>
+<link href='css/fonts.css' rel='stylesheet' type='text/css'>
+<link rel='stylesheet prefetch' href='css/reset.min.css'>
 <link rel='stylesheet prefetch'
 	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
 <link rel='stylesheet' href='css/chatStyle.css'>
@@ -23,6 +20,7 @@
 					<img id="profile-img" src="images/profile.png" class="online"
 						alt="" />
 					<p>Arjun Shah</p>
+					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 					<div id="status-options">
 						<ul>
 							<li id="status-online" class="active"><span
@@ -34,6 +32,15 @@
 								<p>Busy</p></li>
 							<li id="status-offline"><span class="status-circle"></span>
 								<p>Offline</p></li>
+						</ul>
+					</div>
+					<div id="expanded">
+						<ul>
+							<li>Name : Arjun Shah</li>
+							<li>Email : arjunshah248@gmail.com</li>
+							<li>Phone : 1234567890</li>
+							<a id="logout-button"><li><i class="fa fa-sign-out"
+									aria-hidden="true"></i> Logout</li></a>
 						</ul>
 					</div>
 				</div>
@@ -100,7 +107,7 @@
 			</div>
 			<div class="messages">
 				<ul>
-
+				
 				</ul>
 			</div>
 			<div class="message-input">
