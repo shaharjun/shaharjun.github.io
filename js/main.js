@@ -14,7 +14,7 @@ if("pratChatToken" in localStorage){
 		console.log("Access Allowed");
 }
 else{
-		alert("Access Denied, redirecting to Login");
+		console.log("Access Denied, redirecting to Login");
 		window.location.href = "login.html";
 }	
 
