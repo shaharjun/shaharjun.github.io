@@ -11,18 +11,21 @@ function isValidMessage(message) {
 	return isValid;
 }
 
-function sendChat() {
+function sendChat(index) {
 	var message = $('#chatBox').val();
+        var message1="acknowledged";
 	var html = "<li class='replies'>"
 		+ "<img src='images/profile.png' alt='' />"
 		+ "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
 	var receivedMessage = "<li class='sent'>"
 		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\"> acknowledged" + "</p></li>";
+		+ "<p style=\"word-wrap: break-word;\">" + message1 + "</p></li>";
 	var isValid = isValidMessage(message);
 	if (isValid) {
 		$('.messages ul').append(html);
 		$('.messages ul').append(receivedMessage);
+                storeChat(index,message,0);
+                storeChat(index,message1,1);
 	}
 	$('#chatBox').val(' ');
 }
@@ -49,7 +52,7 @@ function currentContact(str) {
         
 }
 $(document).ready(function () {
-
+         var currentContactIndex=0;
 	$(window).on('keydown', function (e) {
 		if (e.which == 13) {
 			sendChat();
@@ -65,6 +68,7 @@ $(document).ready(function () {
 		window.location.href = "login.html";
 	}
 	$('.contact').click(function () {
+		console.log($(this).index());
 		var str = $('p', this).html();
 		currentContact(str);
 	});
@@ -109,4 +113,13 @@ $(document).ready(function () {
 		$("#status-options").removeClass("active");
 	});
 });
-
+messageData={
+'contactIndex':0,
+'message':"",
+'messageType':0
+}
+function storeChat(currentContactIndex,message,messageType){
+   messages=localStorage.getItem("messages");
+   if(messages==null)
+    console.log(messages);
+}
