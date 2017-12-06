@@ -636,6 +636,7 @@
     border-radius: 50%;
     float: left;
     margin: 9px 12px 0 9px;
+    cursor:pointer;
 }
 
 #frame .content .contact-profile p {
@@ -846,31 +847,45 @@
 
 #cprof {
     display: inline-block;
+    background-color: white;
 }
-
-#pcard {
+#pcard{
     height: 100%;
-    width: 100%;
+    width:100%;
+    display: inline-grid;
 }
-
-#logout-button {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin: 5px 0 0 0;
+.card-image{
+            max-height:250px;
+            max-width:250px;
+            margin:auto;
+            position: relative; 
+        }
+.display-pic{
 }
-
-@media screen and (max-width: 735px) {
-    #frame .wrap .starred {
-        float: none;
-        width: 100%;
-        padding: 15px 0;
-    }
+.card{
+    margin-top: 0;
+    background-color: white;
 }
+.cardLabel{
+  font-size: 22px;
+  padding-top: 2%;
+  color:green !important;
 
-@media screen and (max-width: 735px) {
-    #frame .wrap .starred span {
-        display: none;
-    }
+}
+.card-content{
+    padding:0 !important;
+    text-align: center;
+}
+#userName p{
+    font-size: 40px;
+}
+.card-content p{
+    padding-top: 5px;
+}
+.wrappie{
+    height:50%;
+    width:50%;
+}
+.exit-card{
+    margin-bottom: 37px;
 }
