@@ -1,39 +1,39 @@
 
 function isValidMessage(message){
-var i=0,messageLength=message.length,isValid=true;
-        for(i=0;i<messageLength;i++){
-              if(message[i]!=' ')
-                break;
-        }
-console.log(messageLength);
-if(i>=messageLength){
-	isValid=false;
-        }
-return isValid;
+	var i=0,messageLength=message.length,isValid=true;
+	for(i=0;i<messageLength;i++){
+		if(message[i]!=' ')
+			break;
+	}
+	console.log(messageLength);
+	if(i>=messageLength){
+		isValid=false;
+	}
+	return isValid;
 }
 function sendChat(){
-        var message=$('#chatBox').val();
+	var message=$('#chatBox').val();
 	var html = "<li class='replies'>"
-	+ "<img src='images/profile.png' alt='' />"
-	+"<p>" +message + "</p></li>";
-        var isValid=isValidMessage(message);
-        if(isValid){
-	$('.messages ul').append(html);
-        }
-        
+		+ "<img src='images/profile.png' alt='' />"
+		+"<p style=\"word-wrap: break-word;\">" +message + "</p></li>";
+	var isValid=isValidMessage(message);
+	if(isValid){
+		$('.messages ul').append(html);
+	}
+
 	$('#chatBox').val(' ');
-       
+
 }
 function currentContact( str){
-$('.content p').html(str);
+	$('.content p').html(str);
 
 }
 $(document).ready(function() {
 
 	$(window).on('keydown', function(e) {
 		if (e.which == 13) {
-		  sendChat();
-		  return false;
+			sendChat();
+			return false;
 		}});
 
 	if("pratChatToken" in localStorage){
@@ -44,8 +44,8 @@ $(document).ready(function() {
 		window.location.href = "login.html";
 	}	
 	$('.contact').click(function(){
-	var str=$('p',this).html();
-	currentContact(str);
+		var str=$('p',this).html();
+		currentContact(str);
 	});
 	$(".expand-button").click(function() {
 		$("#profile").toggleClass("expanded");
