@@ -1,29 +1,47 @@
 
+function isValidMessage(message){
+	var i=0,messageLength=message.length,isValid=true;
+	for(i=0;i<messageLength;i++){
+		if(message[i]!=' ')
+			break;
+	}
+	console.log(messageLength);
+	if(i>=messageLength){
+		isValid=false;
+	}
+	return isValid;
+}
 function sendChat(){
+	var message=$('#chatBox').val();
 	var html = "<li class='replies'>"
 		+ "<img src='images/profile.png' alt='' />"
-		+"<p style=\"word-wrap: break-word\">" +$('#chatBox').val() + "</p></li>";
-	$('.messages ul').append(html);
+		+"<p style=\"word-wrap: break-word;\">" +message + "</p></li>";
+	var isValid=isValidMessage(message);
+	if(isValid){
+		$('.messages ul').append(html);
+	}
+
 	$('#chatBox').val(' ');
-}
 
 function showContactProfile() {
 	$('#cprof').css('z-index','300');
 	$('#chat').css('position','absolute');
 	$('#chat').css('z-index',-1);
 }
-
 function backHome() {
 	$('#cprof').css('z-index','-1');
 	$('#chat').css('position','relative');
 	$('#chat').css('z-index',300);
 }
+function currentContact( str){
+	$('.content p').html(str);
+}
 $(document).ready(function() {
 
 	$(window).on('keydown', function(e) {
 		if (e.which == 13) {
-		  sendChat();
-		  return false;
+			sendChat();
+			return false;
 		}});
 
 	if("pratChatToken" in localStorage){
@@ -33,6 +51,10 @@ $(document).ready(function() {
 		console.log("Access Denied, redirecting to Login");
 		window.location.href = "login.html";
 	}	
+	$('.contact').click(function(){
+		var str=$('p',this).html();
+		currentContact(str);
+	});
 	$(".expand-button").click(function() {
 		$("#profile").toggleClass("expanded");
 		$("#contacts").toggleClass("expanded");
