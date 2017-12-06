@@ -339,6 +339,20 @@
     background: #435f7a;
 }
 
+#frame #sidepanel .wrap .starred {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    border-top: 1px solid #32465a;
+    border-bottom: 1px solid #32465a;
+    padding: 8px;
+    cursor: pointer;
+}
+
+#frame #sidepanel .wrap .starred:active {
+    background: #32465a;
+}
+
 #frame #sidepanel #search {
     border-top: 1px solid #32465a;
     border-bottom: 1px solid #32465a;
@@ -830,6 +844,7 @@
 .row {
     display: flex;
 }
+
 #cprof {
     display: inline-block;
     background-color: white;
