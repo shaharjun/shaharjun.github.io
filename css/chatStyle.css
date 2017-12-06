@@ -829,3 +829,10 @@
 .row {
     display: flex;
 }
+#cprof {
+    display: inline-block;
+}
+#pcard{
+    height: 100%;
+    width:100%;
+}
