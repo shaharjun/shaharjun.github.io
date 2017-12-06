@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html class=''>
 
@@ -7,15 +8,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylsheet" href='css/bootstrap.min.css'>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
-<link href = "css/materialize.css" rel='stylesheet'>
+<link href="css/materialize.css" rel='stylesheet'>
 <link rel='stylesheet prefetch' href='css/reset.min.css'>
 <link rel='stylesheet prefetch'
 	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
 <link rel='stylesheet' href='css/chatStyle.css'>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <link rel='stylesheet' href='css/style.css'>
 <style>
-
 </style>
 
 </head>
@@ -27,7 +28,7 @@
 					<img id="profile-img" src="images/profile.png" class="online"
 						alt="" />
 					<p>Arjun Shah</p>
-                                        <div></div>
+					<div></div>
 					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 					<div id="status-options">
 						<ul>
@@ -53,19 +54,21 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="wrap">
+				<div align="left" class="starred">
+					&nbsp&nbsp&nbsp<i style="color: gold;" class="fa fa-star"
+						aria-hidden="true"></i>&nbsp&nbspStarred Messages
+				</div>
+			</div>
+
 			<div id="search">
 				<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-				<input type="text" style="width:100%" class="browser-default" placeholder="Search contacts..." />
+				<input type="text" style="width: 100%" class="browser-default"
+					placeholder="Search contacts..." />
 			</div>
 			<div id="contacts">
-				&nbsp
-				<div class="wrap">
-					<div align="left" class="meta">
-						&nbsp&nbsp&nbsp<i class="fa fa-star" aria-hidden="true"></i>&nbsp&nbspStarred
-						Messages
-					</div>
-				</div>
-				&nbsp
+				&nbsp &nbsp
 				<ul>
 					<li class="contact">
 						<div class="wrap">
@@ -94,72 +97,75 @@
 					<i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
 						contact</span>
 				</button>
-                <button id="settings">
+				<button id="settings">
 					<i class="fa fa-bell" aria-hidden="true"></i> <span>Reminder</span>
 				</button>
-                <button id="addGroup">
+				<button id="addGroup">
 					<i class="fa fa-users" aria-hidden="true"></i><span>Create
 						Group</span>
 				</button>
-                <button id="addPoll">
+				<button id="addPoll">
 					<i class="fa fa-bar-chart" aria-hidden="true"></i><span>Create
 						Poll</span>
 				</button>
 			</div>
 		</div>
-		<div  id="cprof" style="position:absolute;z-index:-1" class="content ">
+		<div id="cprof" style="position: absolute; z-index: -1"
+			class="content ">
 			<div class="card " id="pcard">
-			  
-			  		<div id="wrappie">
 
-			  			<!-- Exit button -->
-			  			<div class="exit-card">
-						  <a class="btn-flat" style="float:right;margin-right:10px;" onclick="backHome()"><i class="material-icons">close</i></a>
-						</div> 
+				<div id="wrappie">
 
-			  			<!-- Card Profile image -->	
-					    <div class="card-image">
-		                  <img src="images/profile.png" class="display-pic">
-		                </div>
-
-			              <!-- Card Profile content -->
-			              <div class="card-content">
-			          		  <div id="userName">
-			          		  	<p>Rohan Adhyapak</p>	
-			          		  </div>
-			                  <div id="userEmail">
-			                    <p class="cardLabel">Email</p>
-			                    <p>rohan.adhyapak@gmail.com</p>
-			                  </div>
-			                  <div id="userPhone">
-			                    <p class="cardLabel">Phone No.</p>
-			                    <p>9676433245</p>
-			                  </div>
-			              </div>
+					<!-- Exit button -->
+					<div class="exit-card">
+						<a class="btn-flat" style="float: right; margin-right: 10px;"
+							onclick="backHome()"><i class="material-icons">close</i></a>
 					</div>
+
+					<!-- Card Profile image -->
+					<div class="card-image">
+						<img src="images/profile.png" class="display-pic">
+					</div>
+
+					<!-- Card Profile content -->
+					<div class="card-content">
+						<div id="userName">
+							<p>Rohan Adhyapak</p>
+						</div>
+						<div id="userEmail">
+							<p class="cardLabel">Email</p>
+							<p>rohan.adhyapak@gmail.com</p>
+						</div>
+						<div id="userPhone">
+							<p class="cardLabel">Phone No.</p>
+							<p>9676433245</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div id="chat" class="content" style="z-index:1">
+		<div id="chat" class="content" style="z-index: 1">
 			<div class="contact-profile">
 				<img src="images/profile.png" onclick="showContactProfile()" alt="" />
 				<p>Team Mate</p>
 			</div>
 			<div class="messages">
 				<ul>
-				
+
 				</ul>
 			</div>
 			<div class="message-input">
-				<div class="wrap" style="display:flex">
-					<input id='chatBox' type="text" class="browser-default" style ="width:100%" placeholder="Write your message..." />
+				<div class="wrap" style="display: flex">
+					<input id='chatBox' type="text" class="browser-default"
+						style="width: 100%" placeholder="Write your message..." />
 					<button class="submit" id="sb" onClick='sendChat()'>
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>
 					</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src='js/plugins/jquery-2.2.4.min.js'></script>
-    <script src='js/main.js'></script>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src='js/plugins/jquery-2.2.4.min.js'></script>
+	<script src='js/main.js'></script>
 </body>
 </html>
