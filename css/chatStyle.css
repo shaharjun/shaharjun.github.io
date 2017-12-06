@@ -339,6 +339,20 @@
     background: #435f7a;
 }
 
+#frame #sidepanel .wrap .starred {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    border-top: 1px solid #32465a;
+    border-bottom: 1px solid #32465a;
+    padding: 8px;
+    cursor: pointer;
+}
+
+#frame #sidepanel .wrap .starred:active {
+    background: #32465a;
+}
+
 #frame #sidepanel #search {
     border-top: 1px solid #32465a;
     border-bottom: 1px solid #32465a;
@@ -829,17 +843,34 @@
 .row {
     display: flex;
 }
+
 #cprof {
     display: inline-block;
 }
-#pcard{
+
+#pcard {
     height: 100%;
-    width:100%;
+    width: 100%;
 }
-#logout-button{
+
+#logout-button {
     position: absolute;
     width: 10px;
     height: 10px;
     border-radius: 50%;
     margin: 5px 0 0 0;
+}
+
+@media screen and (max-width: 735px) {
+    #frame .wrap .starred {
+        float: none;
+        width: 100%;
+        padding: 15px 0;
+    }
+}
+
+@media screen and (max-width: 735px) {
+    #frame .wrap .starred span {
+        display: none;
+    }
 }
