@@ -24,6 +24,10 @@ function sendChat(){
 	$('#chatBox').val(' ');
        
 }
+function currentContact( str){
+$('.content p').html(str);
+
+}
 $(document).ready(function() {
 
 	if("pratChatToken" in localStorage){
@@ -33,6 +37,10 @@ $(document).ready(function() {
 		console.log("Access Denied, redirecting to Login");
 		window.location.href = "login.html";
 	}	
+	$('.contact').click(function(){
+	var str=$('p',this).html();
+	currentContact(str);
+	});
 	$(".expand-button").click(function() {
 		$("#profile").toggleClass("expanded");
 		$("#contacts").toggleClass("expanded");
