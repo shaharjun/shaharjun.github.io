@@ -34,9 +34,16 @@ User=function(){
 IndividualChatMessage=function(){
  this.chatMessageId=0;
  this.chatMessageText="";
- this.createdOn="";
+ this.createdOn=new Date();
  this.ChatStatus=0;
  this.starred=false;
  this.creator=new User();
  this.receiver=new User(); 
+ this.setMessage=function(chatMessageText,createdOn,creator,receiver){
+   this.chatMessageId=++currentMessageId;
+   this.chatMessageText=chatMessageText;
+   this.createdOn=createdOn;
+   this.creator=creator;
+   this.receiver=receiver;
+ }
 }

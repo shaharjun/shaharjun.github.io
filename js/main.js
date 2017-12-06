@@ -16,14 +16,17 @@ function sendChat(){
 	var html = "<li class='replies'>"
 	+ "<img src='images/profile.png' alt='' />"
 	+"<p>" +message + "</p></li>";
+	var receivedMessage = "<li class='sent'>"
+	+ "<img src='images/profile.png' alt='' />"
+	+"<p> Acknowledged" + "</p></li>";
         var isValid=isValidMessage(message);
         if(isValid){
 	$('.messages ul').append(html);
+        $('.messages ul').append(receivedMessage);
         }
         
 	$('#chatBox').val(' ');
-       
-}
+ }
 function currentContact( str){
 $('.content p').html(str);
 

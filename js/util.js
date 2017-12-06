@@ -2,7 +2,7 @@ function validatePassword(){
 	$("#password").on('input', function(){
 		var password = $("#password").val();
 		$("#password").addClass("invalid");
-		if(password.length > 6){
+		if(password.length >= 6){
 			$("#password").removeClass("invalid");
 		}
 	});
