@@ -1,7 +1,5 @@
 function isValidMessage(message) {
-	var i = 0,
-	messageLength = message.length,
-	isValid = true;
+	var i = 0, messageLength = message.length, isValid = true;
 	for (i = 0; i < messageLength; i++) {
 		if (message[i] != ' ')
 			break;
@@ -13,58 +11,77 @@ function isValidMessage(message) {
 	return isValid;
 }
 
-function sendChat() {
+function sendChat(index) {
 	var message = $('#chatBox').val();
-	var html = "<li class='replies'>" +
-	"<img src='images/profile.png' alt='' />" +
-	"<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
+        var message1="acknowledged";
+	var html = "<li class='replies'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
+	var receivedMessage = "<li class='sent'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + message1 + "</p></li>";
 	var isValid = isValidMessage(message);
 	if (isValid) {
 		$('.messages ul').append(html);
+		$('.messages ul').append(receivedMessage);
+                storeChat(index,message,0);
+                storeChat(index,message1,1);
 	}
 	$('#chatBox').val(' ');
 }
+
 function logout() {
 	window.location.href = "login.html";
 	localStorage.removeItem("pratChatToken");
 }
+
 function showContactProfile() {
-	$('#cprof').css('z-index','300');
-	$('#chat').css('position','absolute');
-	$('#chat').css('z-index',-1);
+	$('#cprof').css('z-index', '300');
+	$('#chat').css('position', 'absolute');
+	$('#chat').css('z-index', -1);
 }
 function backHome() {
-	$('#cprof').css('z-index','-1');
-	$('#chat').css('position','relative');
-	$('#chat').css('z-index',300);
+	$('#cprof').css('z-index', '-1');
+	$('#chat').css('position', 'relative');
+	$('#chat').css('z-index', 300);
 }
-function currentContact( str){
+function currentContact(str) {
 	$('.content p').html(str);
+	$('.contact-profile').css("visibility","visible");
+        $('.message-input').css("visibility","visible");
+        
 }
-$(document).ready(function() {
-	$(window).on('keydown', function(e) {
+$(document).ready(function () {
+         var currentContactIndex=0;
+  
+  $('#sb').click(function(){
+    sendChat(currentContactIndex);
+      }
+	$(window).on('keydown', function (e) {
 		if (e.which == 13) {
-			sendChat();
+			sendChat(currentContactIndex);
 			return false;
-		}});
-	if("pratChatToken" in localStorage){
+		}
+	});
+
+	if ("pratChatToken" in localStorage) {
 		console.log("Access Allowed");
 	}
-	else{
+	else {
 		console.log("Access Denied, redirecting to Login");
 		window.location.href = "login.html";
 	}
 	$('.contact').click(function(){
 		var str=$('p',this).html();
+    currentContactIndex=$(this).index();
+    console.log(currentContactIndex);
 		currentContact(str);
+    getChatMessages(currentContactIndex);
 	});
-	$(".expand-button").click(function() {
+	$(".expand-button").click(function () {
 		$("#profile").toggleClass("expanded");
 		$("#contacts").toggleClass("expanded");
 	});
-//	$('.contact').click(function() {
-//	$('.messages ul').empty();
-//	});
 	$('#logout-button').click(function(){
 		localStorage.removeItem("pratChatToken");
 		window.location.href="login.html";
@@ -95,3 +112,52 @@ $(document).ready(function() {
 		$("#status-options").removeClass("active");
 	});
 });
+
+function storeChat(currentContactIndex,message,messageType){
+   var messageData={
+   'contactIndex':0,
+   'messageText':"",
+   'messageType':0
+  }
+   var messages=localStorage.getItem("messages");
+   messageData.contactIndex=currentContactIndex;
+   messageData.messageText=message;
+   messageData.messageType=messageType;
+   if(messages==null){
+    messages=[];
+    console.log(messages);
+    messages.push(messageData);
+    messages=JSON.stringify(messages);
+    localStorage.setItem("messages",messages);
+}
+   else{
+     var messagesArray=[];
+     messagesArray=localStorage.getItem("messages");
+     messagesArray=JSON.parse(messagesArray);
+     messagesArray.push(messageData);
+     messagesArray=JSON.stringify(messagesArray);
+     localStorage.setItem("messages",messagesArray);
+   }
+}
+function getMessages(index){
+    var messages=localStorage.getItem("messages");
+  if(messages!=null){
+    var messagesArray=[];
+     messagesArray=localStorage.getItem("messages");
+     messagesArray=JSON.parse(messageArray);
+     var allMessages="";
+    for(var i=0;i<messagesArray.length;i++){
+      if(messagesArray[i].contactIndex==index && messagesArray[i].messageType==0){
+        	 allMessages += "<li class='replies'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+      }
+      else if(messagesArray[i].contactIndex==index){
+           allMessages += "<li class='sent'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+      }
+    }
+    $('.messages ul').html(allMessages);
+  }
+}
