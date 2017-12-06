@@ -20,8 +20,8 @@ function sendChat() {
     if (isValid) {
         $('.messages ul').append(html);
     }
-}
     $('#chatBox').val(' ');
+}
 
     function showContactProfile() {
         $('#cprof').css('z-index','300');
