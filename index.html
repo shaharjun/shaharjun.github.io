@@ -5,6 +5,7 @@
 <meta charset='UTF-8'>
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <link rel="stylsheet" href='css/bootstrap.min.css'>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 <link href = "css/materialize.css" rel='stylesheet'>
@@ -12,6 +13,13 @@
 <link rel='stylesheet prefetch'
 	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
 <link rel='stylesheet' href='css/chatStyle.css'>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script type="text/javascript" src = "test.js"></script>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"  media="screen,projection"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body id="mainBody">
 	<div id="frame">
@@ -86,7 +94,7 @@
 					<i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
 						contact</span>
 				</button>
-				<button id="settings">
+				<button id="settings" onclick="random()" id="remider" href="#addreminder" class="modal-trigger">
 					<i class="fa fa-bell" aria-hidden="true"></i> <span>Reminder</span>
 				</button>
 				<button id="addGroup">
@@ -134,7 +142,40 @@
 			</div>
 		</div>
 	</div>
+	<div id="addreminder" class="modal">
+		<div class="modal-content">
+		 <div class="rowreminder">
+    <form class="col s12">
+      <div class="rowreminder">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+          <label for="icon_prefix2">Enter Message</label>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+		   <div class="input-field col s6">
+			<i class="material-icons prefix">access_time</i>
+			<input type="text" class="datepicker">
+			 <label for="icon_prefix2">Enter Date</label>
+	    </div>
+	     <div class="input-field col s6">
+          <i class="material-icons prefix">contacts</i>
+			<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+          <label for="icon_prefix2">Add Contact</label>
+			<div id = "searchContactResult">
+				<ul id="searchContactResultList">
+				</ul>			
+			</div>
+		</div>
+		<div class = "modal-footer">
+			<a href="#!" class="modal-action modal-close waves-effect btn-flat">Close</a>		
+		</div>
+	</div>
 	<script src='js/plugins/jquery-2.2.4.min.js'></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 	<script src='js/main.js'></script>
 </body>
 </html>
