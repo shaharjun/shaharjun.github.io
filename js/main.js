@@ -56,7 +56,7 @@ $(document).ready(function () {
   
   $('#sb').click(function(){
     sendChat(currentContactIndex);
-      }
+      });
 	$(window).on('keydown', function (e) {
 		if (e.which == 13) {
 			sendChat(currentContactIndex);
