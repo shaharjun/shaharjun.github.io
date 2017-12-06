@@ -10,6 +10,12 @@ function sendChat(){
 
 $(document).ready(function() {
 
+	$(window).on('keydown', function(e) {
+		if (e.which == 13) {
+		  sendChat();
+		  return false;
+		}});
+
 	if("pratChatToken" in localStorage){
 		console.log("Access Allowed");
 	}
