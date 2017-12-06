@@ -113,13 +113,22 @@ $(document).ready(function () {
 		$("#status-options").removeClass("active");
 	});
 });
-messageData={
-'contactIndex':0,
-'message':"",
-'messageType':0
-}
+
 function storeChat(currentContactIndex,message,messageType){
+   messageData={
+   'contactIndex':0,
+   'messageText':"",
+   'messageType':0
+  }
    messages=localStorage.getItem("messages");
-   if(messages==null)
+   messageData.contactIndex=currentContactIndex;
+   messageData.messageText=message;
+   messageData.messageType=messageType;
+   if(messages==null){
+    messages=[];
     console.log(messages);
+    messages.push(messageData);
+    messages=JSON.stringify(messages);
+    localStorage.setItem("messages",messages);
+}
 }
