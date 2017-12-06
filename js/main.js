@@ -23,10 +23,18 @@ function sendChat(){
 
 	$('#chatBox').val(' ');
 
+function showContactProfile() {
+	$('#cprof').css('z-index','300');
+	$('#chat').css('position','absolute');
+	$('#chat').css('z-index',-1);
+}
+function backHome() {
+	$('#cprof').css('z-index','-1');
+	$('#chat').css('position','relative');
+	$('#chat').css('z-index',300);
 }
 function currentContact( str){
 	$('.content p').html(str);
-
 }
 $(document).ready(function() {
 
