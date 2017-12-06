@@ -1,13 +1,29 @@
 
-function sendChat(){
-	var html = "<li class='replies'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+"<p style=\"word-wrap: break-word\">" +$('#chatBox').val() + "</p></li>";
-	$('.messages ul').append(html);
-	$('#chatBox').val(' ');
+function isValidMessage(message){
+var i=0,messageLength=message.length,isValid=true;
+        for(i=0;i<messageLength;i++){
+              if(message[i]!=' ')
+                break;
+        }
+console.log(messageLength);
+if(i>=messageLength){
+	isValid=false;
+        }
+return isValid;
 }
-
-
+function sendChat(){
+        var message=$('#chatBox').val();
+	var html = "<li class='replies'>"
+	+ "<img src='images/profile.png' alt='' />"
+	+"<p>" +message + "</p></li>";
+        var isValid=isValidMessage(message);
+        if(isValid){
+	$('.messages ul').append(html);
+        }
+        
+	$('#chatBox').val(' ');
+       
+}
 $(document).ready(function() {
 
 	if("pratChatToken" in localStorage){
