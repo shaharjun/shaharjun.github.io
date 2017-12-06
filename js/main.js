@@ -13,7 +13,7 @@ function isValidMessage(message) {
 
 function sendChat(index) {
 	var message = $('#chatBox').val();
-        var message1="acknowledged";
+	var message1="acknowledged";
 	var html = "<li class='replies'>"
 		+ "<img src='images/profile.png' alt='' />"
 		+ "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
@@ -24,8 +24,8 @@ function sendChat(index) {
 	if (isValid) {
 		$('.messages ul').append(html);
 		$('.messages ul').append(receivedMessage);
-                storeChat(index,message,0);
-                storeChat(index,message1,1);
+		storeChat(index,message,0);
+		storeChat(index,message1,1);
 	}
 	$('#chatBox').val(' ');
 }
@@ -48,15 +48,15 @@ function backHome() {
 function currentContact(str) {
 	$('.content p').html(str);
 	$('.contact-profile').css("visibility","visible");
-        $('.message-input').css("visibility","visible");
-        
+	$('.message-input').css("visibility","visible");
+
 }
 $(document).ready(function () {
-         var currentContactIndex=0;
-  
-  $('#sb').click(function(){
-    sendChat(currentContactIndex);
-      });
+	var currentContactIndex=0;
+
+	$('#sb').click(function(){
+		sendChat(currentContactIndex);
+	});
 	$(window).on('keydown', function (e) {
 		if (e.which == 13) {
 			sendChat(currentContactIndex);
@@ -73,10 +73,10 @@ $(document).ready(function () {
 	}
 	$('.contact').click(function(){
 		var str=$('p',this).html();
-    currentContactIndex=$(this).index();
-    console.log(currentContactIndex);
+		currentContactIndex=$(this).index();
+		console.log(currentContactIndex);
 		currentContact(str);
-    getChatMessages(currentContactIndex);
+		getChatMessages(currentContactIndex);
 	});
 	$(".expand-button").click(function () {
 		$("#profile").toggleClass("expanded");
@@ -114,50 +114,50 @@ $(document).ready(function () {
 });
 
 function storeChat(currentContactIndex,message,messageType){
-   var messageData={
-   'contactIndex':0,
-   'messageText':"",
-   'messageType':0
-  }
-   var messages=localStorage.getItem("messages");
-   messageData.contactIndex=currentContactIndex;
-   messageData.messageText=message;
-   messageData.messageType=messageType;
-   if(messages==null){
-    messages=[];
-    console.log(messages);
-    messages.push(messageData);
-    messages=JSON.stringify(messages);
-    localStorage.setItem("messages",messages);
+	var messageData={
+			'contactIndex':0,
+			'messageText':"",
+			'messageType':0
+	}
+	var messages=localStorage.getItem("messages");
+	messageData.contactIndex=currentContactIndex;
+	messageData.messageText=message;
+	messageData.messageType=messageType;
+	if(messages==null){
+		messages=[];
+		console.log(messages);
+		messages.push(messageData);
+		messages=JSON.stringify(messages);
+		localStorage.setItem("messages",messages);
+	}
+	else{
+		var messagesArray=[];
+		messagesArray=localStorage.getItem("messages");
+		messagesArray=JSON.parse(messagesArray);
+		messagesArray.push(messageData);
+		messagesArray=JSON.stringify(messagesArray);
+		localStorage.setItem("messages",messagesArray);
+	}
 }
-   else{
-     var messagesArray=[];
-     messagesArray=localStorage.getItem("messages");
-     messagesArray=JSON.parse(messagesArray);
-     messagesArray.push(messageData);
-     messagesArray=JSON.stringify(messagesArray);
-     localStorage.setItem("messages",messagesArray);
-   }
-}
-function getMessages(index){
-    var messages=localStorage.getItem("messages");
-  if(messages!=null){
-    var messagesArray=[];
-     messagesArray=localStorage.getItem("messages");
-     messagesArray=JSON.parse(messageArray);
-     var allMessages="";
-    for(var i=0;i<messagesArray.length;i++){
-      if(messagesArray[i].contactIndex==index && messagesArray[i].messageType==0){
-        	 allMessages += "<li class='replies'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
-      }
-      else if(messagesArray[i].contactIndex==index){
-           allMessages += "<li class='sent'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
-      }
-    }
-    $('.messages ul').html(allMessages);
-  }
+function getChatMessages(index){
+	var messages=localStorage.getItem("messages");
+	if(messages!=null){
+		var messagesArray=[];
+		messagesArray=localStorage.getItem("messages");
+		messagesArray=JSON.parse(messageArray);
+		var allMessages="";
+		for(var i=0;i<messagesArray.length;i++){
+			if(messagesArray[i].contactIndex==index && messagesArray[i].messageType==0){
+				allMessages += "<li class='replies'>"
+					+ "<img src='images/profile.png' alt='' />"
+					+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+			}
+			else if(messagesArray[i].contactIndex==index){
+				allMessages += "<li class='sent'>"
+					+ "<img src='images/profile.png' alt='' />"
+					+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+			}
+		}
+		$('.messages ul').html(allMessages);
+	}
 }
