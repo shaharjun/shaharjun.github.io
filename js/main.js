@@ -53,9 +53,13 @@ function currentContact(str) {
 }
 $(document).ready(function () {
          var currentContactIndex=0;
+  
+  $('#sb').click(function(){
+    sendChat(currentContactIndex);
+      }
 	$(window).on('keydown', function (e) {
 		if (e.which == 13) {
-			sendChat();
+			sendChat(currentContactIndex);
 			return false;
 		}
 	});
@@ -67,30 +71,25 @@ $(document).ready(function () {
 		console.log("Access Denied, redirecting to Login");
 		window.location.href = "login.html";
 	}
-	$('.contact').click(function () {
-		console.log($(this).index());
-		var str = $('p', this).html();
+	$('.contact').click(function(){
+		var str=$('p',this).html();
+    currentContactIndex=$(this).index();
+    console.log(currentContactIndex);
 		currentContact(str);
+    getChatMessages(currentContactIndex);
 	});
 	$(".expand-button").click(function () {
 		$("#profile").toggleClass("expanded");
 		$("#contacts").toggleClass("expanded");
 	});
-	$('.contact').click(function () {
-
-		$('.messages ul').empty();
-	});
-
-	$('#logout-button').click(function () {
+	$('#logout-button').click(function(){
 		localStorage.removeItem("pratChatToken");
-		window.location.href = "login.html";
+		window.location.href="login.html";
 	});
-
-	$("#profile-img").click(function () {
+	$("#profile-img").click(function() {
 		$("#status-options").toggleClass("active");
 	});
-
-	$("#status-options ul li").click(function () {
+	$("#status-options ul li").click(function() {
 		$("#profile-img").removeClass();
 		$("#status-online").removeClass("active");
 		$("#status-away").removeClass("active");
@@ -115,12 +114,12 @@ $(document).ready(function () {
 });
 
 function storeChat(currentContactIndex,message,messageType){
-   messageData={
+   var messageData={
    'contactIndex':0,
    'messageText':"",
    'messageType':0
   }
-   messages=localStorage.getItem("messages");
+   var messages=localStorage.getItem("messages");
    messageData.contactIndex=currentContactIndex;
    messageData.messageText=message;
    messageData.messageType=messageType;
@@ -131,4 +130,34 @@ function storeChat(currentContactIndex,message,messageType){
     messages=JSON.stringify(messages);
     localStorage.setItem("messages",messages);
 }
+   else{
+     var messagesArray=[];
+     messagesArray=localStorage.getItem("messages");
+     messagesArray=JSON.parse(messagesArray);
+     messagesArray.push(messageData);
+     messagesArray=JSON.stringify(messagesArray);
+     localStorage.setItem("messages",messagesArray);
+   }
+}
+function getMessages(index){
+    var messages=localStorage.getItem("messages");
+  if(messages!=null){
+    var messagesArray=[];
+     messagesArray=localStorage.getItem("messages");
+     messagesArray=JSON.parse(messageArray);
+     var allMessages="";
+    for(var i=0;i<messagesArray.length;i++){
+      if(messagesArray[i].contactIndex==index && messagesArray[i].messageType==0){
+        	 allMessages += "<li class='replies'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+      }
+      else if(messagesArray[i].contactIndex==index){
+           allMessages += "<li class='sent'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+      }
+    }
+    $('.messages ul').html(allMessages);
+  }
 }
