@@ -30,7 +30,10 @@ function logout() {
 function random(){
 	$('#addreminder').modal();
 }
-
+function searchContact(){
+	var text = $("#searchText").val();
+	console.log(text);
+}
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -111,4 +114,6 @@ $(document).ready(function () {
 
 		$("#status-options").removeClass("active");
 	});
+	
+	$('.modal').modal();
 });

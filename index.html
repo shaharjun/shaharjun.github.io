@@ -5,21 +5,27 @@
 <meta charset='UTF-8'>
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <link rel="stylsheet" href='css/bootstrap.min.css'>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
-<link href = "css/materialize.css" rel='stylesheet'>
+<link href="css/materialize.css" rel='stylesheet'>
 <link rel='stylesheet prefetch' href='css/reset.min.css'>
 <link rel='stylesheet prefetch'
 	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
 <link rel='stylesheet' href='css/chatStyle.css'>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-<script type="text/javascript" src = "test.js"></script>
-      <!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"  media="screen,projection"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script type="text/javascript" src="test.js"></script>
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+	media="screen,projection" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 </head>
 <body id="mainBody">
 	<div id="frame">
@@ -41,7 +47,9 @@
 								<p>Busy</p></li>
 							<li id="status-offline"><span class="status-circle"></span>
 								<p>Offline</p></li>
-							<li onclick="logout()" id="logout"><i id="logout-button" class="fa fa-sign-out" aria-hidden="true"></i></span><p>Logout</p></li>
+							<li onclick="logout()" id="logout"><i id="logout-button"
+								class="fa fa-sign-out" aria-hidden="true"></i></span>
+								<p>Logout</p></li>
 						</ul>
 					</div>
 					<div id="expanded">
@@ -55,7 +63,8 @@
 			</div>
 			<div id="search">
 				<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-				<input type="text" style="width:100%" class="browser-default" placeholder="Search contacts..." />
+				<input type="text" style="width: 100%" class="browser-default"
+					placeholder="Search contacts..." />
 			</div>
 			<div id="contacts">
 				&nbsp
@@ -90,11 +99,13 @@
 				</ul>
 			</div>
 			<div id="bottom-bar">
-				<button id="addcontact">
+				<button id="addcontact" href="#addContactModal"
+					class="modal-trigger">
 					<i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
 						contact</span>
 				</button>
-				<button id="settings" onclick="random()" id="remider" href="#addreminder" class="modal-trigger">
+				<button id="settings" onclick="random()" id="remider"
+					href="#addreminder" class="modal-trigger">
 					<i class="fa fa-bell" aria-hidden="true"></i> <span>Reminder</span>
 				</button>
 				<button id="addGroup">
@@ -107,34 +118,37 @@
 				</button>
 			</div>
 		</div>
-		<div  id="cprof" style="position:absolute;z-index:-1" class="content">
+		<div id="cprof" style="position: absolute; z-index: -1"
+			class="content">
 			<div class="card" id="pcard">
 				<div class="card-image">
-				  
-				  <span class="card-title">Card Title</span>
+
+					<span class="card-title">Card Title</span>
 				</div>
 				<div class="card-content">
-				  <p>I am a very simple card. I am good at containing small bits of information.
-				  I am convenient because I require little markup to use effectively.</p>
+					<p>I am a very simple card. I am good at containing small bits
+						of information. I am convenient because I require little markup to
+						use effectively.</p>
 				</div>
 				<div class="card-action">
-				  <input type="button" value="Go Back" onclick="backHome()">
+					<input type="button" value="Go Back" onclick="backHome()">
 				</div>
 			</div>
 		</div>
-		<div id="chat" class="content" style="z-index:1">
+		<div id="chat" class="content" style="z-index: 1">
 			<div class="contact-profile">
 				<img src="images/profile.png" onclick="showContactProfile()" alt="" />
 				<p>Team Mate</p>
 			</div>
 			<div class="messages">
 				<ul>
-				
+
 				</ul>
 			</div>
 			<div class="message-input">
-				<div class="wrap" style="display:flex">
-					<input id='chatBox' type="text" class="browser-default" style ="width:100%" placeholder="Write your message..." />
+				<div class="wrap" style="display: flex">
+					<input id='chatBox' type="text" class="browser-default"
+						style="width: 100%" placeholder="Write your message..." />
 					<button class="submit" id="sb" onClick='sendChat()'>
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>
 					</button>
@@ -144,38 +158,57 @@
 	</div>
 	<div id="addreminder" class="modal">
 		<div class="modal-content">
-		 <div class="rowreminder">
-    <form class="col s12">
-      <div class="rowreminder">
-        <div class="input-field col s6">
-          <i class="material-icons prefix">mode_edit</i>
-          <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-          <label for="icon_prefix2">Enter Message</label>
-        </div>
-      </div>
-      
-    </form>
-  </div>
-		   <div class="input-field col s6">
-			<i class="material-icons prefix">access_time</i>
-			<input type="text" class="datepicker">
-			 <label for="icon_prefix2">Enter Date</label>
-	    </div>
-	     <div class="input-field col s6">
-          <i class="material-icons prefix">contacts</i>
-			<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-          <label for="icon_prefix2">Add Contact</label>
-			<div id = "searchContactResult">
-				<ul id="searchContactResultList">
-				</ul>			
+			<div class="rowreminder">
+				<form class="col s12">
+					<div class="rowreminder">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">mode_edit</i>
+							<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+							<label for="icon_prefix2">Enter Message</label>
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<div class="input-field col s6">
+				<i class="material-icons prefix">access_time</i> <input type="text"
+					class="datepicker"> <label for="icon_prefix2">Enter
+					Date</label>
+			</div>
+			<div class="input-field col s6">
+				<i class="material-icons prefix">contacts</i>
+				<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+				<label for="icon_prefix2">Add Contact</label>
+				<div id="searchContactResult">
+					<ul id="searchContactResultList">
+					</ul>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-action modal-close waves-effect btn-flat">Close</a>
 			</div>
 		</div>
-		<div class = "modal-footer">
-			<a href="#!" class="modal-action modal-close waves-effect btn-flat">Close</a>		
+	</div>
+	<div id="addContactModal" class="modal">
+		<div class="modal-content">
+			<input type="text" id="searchText"
+				placeholder="Search by name, e-mail id" /> <a
+				class="waves-effect waves-light btn" onclick="searchContact()"><i
+				class="material-icons left">search</i>Search</a>
+			<div id="searchContactResult">
+				<ul id="searchContactResultList">
+				</ul>
+			</div>
+
+		</div>
+		<div class="modal-footer">
+			<a href="#!"
+				class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
 		</div>
 	</div>
 	<script src='js/plugins/jquery-2.2.4.min.js'></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 	<script src='js/main.js'></script>
 </body>
 </html>
