@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylsheet" href='css/bootstrap.min.css'>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
+<link href = "css/materialize.css" rel='stylesheet'>
 <link rel='stylesheet prefetch' href='css/reset.min.css'>
 <link rel='stylesheet prefetch'
 	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
@@ -20,7 +21,6 @@
 					<img id="profile-img" src="images/profile.png" class="online"
 						alt="" />
 					<p>Arjun Shah</p>
-                                        <div></div>
 					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 					<div id="status-options">
 						<ul>
@@ -33,6 +33,7 @@
 								<p>Busy</p></li>
 							<li id="status-offline"><span class="status-circle"></span>
 								<p>Offline</p></li>
+							<li onclick="logout()" id="logout"><i id="logout-button" class="fa fa-sign-out" aria-hidden="true"></i></span><p>Logout</p></li>
 						</ul>
 					</div>
 					<div id="expanded">
@@ -40,15 +41,13 @@
 							<li>Name : Arjun Shah</li>
 							<li>Email : arjunshah248@gmail.com</li>
 							<li>Phone : 1234567890</li>
-							<a id="logout-button"><li><i class="fa fa-sign-out"
-									aria-hidden="true"></i> Logout</li></a>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div id="search">
 				<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-				<input type="text" placeholder="Search contacts..." />
+				<input type="text" style="width:100%" class="browser-default" placeholder="Search contacts..." />
 			</div>
 			<div id="contacts">
 				&nbsp
@@ -60,14 +59,13 @@
 				</div>
 				&nbsp
 				<ul>
-
 					<li class="contact">
 						<div class="wrap">
 							<span class="contact-status"></span> <img
 								src="images/profile.png" alt="" />
 							<div class="meta">
 								<p class="name">Nagarpalika</p>
-
+								<!-- <p class="preview">Mike, this isn't over.</p> -->
 							</div>
 						</div>
 					</li>
@@ -77,7 +75,7 @@
 								src="images/profile.png" alt="" />
 							<div class="meta">
 								<p class="name">Kamlesh</p>
-
+								<!-- <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p> -->
 							</div>
 						</div>
 					</li>
@@ -101,10 +99,25 @@
 				</button>
 			</div>
 		</div>
-		<div class="content">
+		<div  id="cprof" style="position:absolute;z-index:-1" class="content">
+			<div class="card" id="pcard">
+				<div class="card-image">
+				  
+				  <span class="card-title">Card Title</span>
+				</div>
+				<div class="card-content">
+				  <p>I am a very simple card. I am good at containing small bits of information.
+				  I am convenient because I require little markup to use effectively.</p>
+				</div>
+				<div class="card-action">
+				  <input type="button" value="Go Back" onclick="backHome()">
+				</div>
+			</div>
+		</div>
+		<div id="chat" class="content" style="z-index:1">
 			<div class="contact-profile">
-				<img src="images/profile.png" alt="" />
-				<p>Nagarpalika</p>
+				<img src="images/profile.png" onclick="showContactProfile()" alt="" />
+				<p>Team Mate</p>
 			</div>
 			<div class="messages">
 				<ul>
@@ -112,8 +125,8 @@
 				</ul>
 			</div>
 			<div class="message-input">
-				<div class="wrap">
-					<input id='chatBox' type="text" placeholder="Write your message..." />
+				<div class="wrap" style="display:flex">
+					<input id='chatBox' type="text" class="browser-default" style ="width:100%" placeholder="Write your message..." />
 					<button class="submit" id="sb" onClick='sendChat()'>
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>
 					</button>
@@ -123,6 +136,6 @@
 	</div>
 	<script src='js/plugins/jquery-2.2.4.min.js'></script>
 	<script src='js/main.js'></script>
-       
 </body>
 </html>
+

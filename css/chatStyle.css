@@ -830,3 +830,9 @@
 .row {
     display: flex;
 }
+.message-input{
+    visibility:hidden;
+}
+.contact-profile{
+    visibility:hidden;
+}
