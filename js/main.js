@@ -53,11 +53,6 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-function showContactProfile() {
-    $('#cprof').css('z-index', '300');
-    $('#chat').css('position', 'absolute');
-    $('#chat').css('z-index', -1);
-}
 
 function backHome() {
     $('#cprof').css('z-index', '-1');
@@ -66,10 +61,17 @@ function backHome() {
 }
 
 function currentContact(str) {
-    $('.content p').html(str);
+    $('#chat p').html(str);
     $('.contact-profile').css("visibility", "visible");
     $('.message-input').css("visibility", "visible");
+    $('#userNameValue').html(str);
+    //further code needs to be added here to change email id and phone 
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
+    $('.contact-profile').click(function(){
+        $('#cprof').css('z-index', '300');
+        $('#chat').css('position', 'absolute');
+        $('#chat').css('z-index', -1);
+    });
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
