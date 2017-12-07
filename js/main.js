@@ -36,7 +36,21 @@ function logout() {
     window.location.href = "login.html";
     localStorage.removeItem("pratChatToken");
 }
-
+function random(){
+	$('#addreminder').modal();
+}
+function searchContact(){
+	var text = $("#searchText").val();
+	console.log(text);
+}
+$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
 function showContactProfile() {
     $('#cprof').css('z-index', '300');
     $('#chat').css('position', 'absolute');
@@ -114,6 +128,8 @@ $(document).ready(function() {
 
         $("#status-options").removeClass("active");
     });
+	$('.modal').modal();
+
 });
 
 function storeChat(currentContactIndex, message, messageType) {
