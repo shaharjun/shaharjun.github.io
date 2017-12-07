@@ -852,6 +852,8 @@
 #pcard{
     height: 100%;
     width:100%;
+    overflow: hidden;
+    margin-top: 0;
 }
 #logout-button{
     position: absolute;
