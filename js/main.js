@@ -29,7 +29,6 @@ function sendChat(index) {
 	}
 	$('#chatBox').val(' ');
 }
-
 function logout() {
 	window.location.href = "login.html";
 	localStorage.removeItem("pratChatToken");
@@ -69,8 +68,10 @@ $(document).ready(function () {
 	}
 	$('.contact').click(function () {
 		console.log($(this).index());
+                var index=$(this).index();
 		var str = $('p', this).html();
 		currentContact(str);
+                getContactChats(index);
 	});
 	$(".expand-button").click(function () {
 		$("#profile").toggleClass("expanded");
@@ -130,5 +131,34 @@ function storeChat(currentContactIndex,message,messageType){
     messages.push(messageData);
     messages=JSON.stringify(messages);
     localStorage.setItem("messages",messages);
+    }
+   else{
+    messagesArray=[];
+    messagesArray=localStorage.getItem("messages");
+    messagesArray=JSON.parse(messagesArray);
+    messagesArray.push(messageData);
+    messagesArray=JSON.stringify(messagesArray);
+    localStorage.setItem("messages",messagesArray);
+   }
 }
+
+function getContactChats(index){
+    messagesArray=[];
+    messagesArray=localStorage.getItem("messages");
+    if(messagesArray!=null){
+     messagesArray=JSON.parse(messagesArray);
+     for(i=0;i<messagesArray.length;i++){
+        var html="";
+        if(messagesArray[i].messageType==0 && messagesArray[i].contactIndex==index){
+           html += "<li class='replies'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+        }
+        else if(messagesArray[i].contactIndex==index){
+           html += "<li class='sent'>"
+		+ "<img src='images/profile.png' alt='' />"
+		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+        }
+     }
+    }
 }
