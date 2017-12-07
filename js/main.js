@@ -66,13 +66,22 @@ function backHome() {
 
 
 function currentContact(str) {
-    $('.content p').html(str);
+    $('#chat p').html(str);
     $('.contact-profile').css("visibility", "visible");
     $('.message-input').css("visibility", "visible");
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
+    var userName="";
+    userName=localStorage.getItem("pratChatFullName");
+    email=localStorage.getItem("pratChatEmail");
+    phoneNo=localStorage.getItem("pratChatPhone");
+    $("#profile > div > p").html(userName);
+    $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
+    $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
+    $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
+   
 
     $('#sb').click(function() {
         sendChat(currentContactIndex);
@@ -211,5 +220,8 @@ function getChatMessages(index) {
         $('.messages ul').html(allMessages);
 
     }
+}
+//Utkarsha start
+function getAllContacts(){
 }
 
