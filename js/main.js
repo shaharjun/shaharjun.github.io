@@ -47,37 +47,7 @@ function backHome() {
     $('#chat').css('position', 'relative');
     $('#chat').css('z-index', 300);
 }
-<<<<<<< HEAD
-$(document).ready(function () {
-         var currentContactIndex=0;
-	$(window).on('keydown', function (e) {
-		if (e.which == 13) {
-			sendChat();
-			return false;
-		}
-	});
 
-	if ("pratChatToken" in localStorage) {
-		console.log("Access Allowed");
-	}
-	else {
-		console.log("Access Denied, redirecting to Login");
-		window.location.href = "login.html";
-	}
-	$('.contact').click(function () {
-		console.log($(this).index());
-                var index=$(this).index();
-		var str = $('p', this).html();
-		currentContact(str);
-                getContactChats(index);
-	});
-	$(".expand-button").click(function () {
-		$("#profile").toggleClass("expanded");
-		$("#contacts").toggleClass("expanded");
-	});
-	$('.contact').click(function () {
-=======
->>>>>>> dbfb225f1c775842fc9a6be20ba5ecf1f2216123
 
 function currentContact(str) {
     $('.content p').html(str);
@@ -146,33 +116,7 @@ $(document).ready(function() {
     });
 });
 
-<<<<<<< HEAD
-function storeChat(currentContactIndex,message,messageType){
-   messageData={
-   'contactIndex':0,
-   'messageText':"",
-   'messageType':0
-  }
-   messages=localStorage.getItem("messages");
-   messageData.contactIndex=currentContactIndex;
-   messageData.messageText=message;
-   messageData.messageType=messageType;
-   if(messages==null){
-    messages=[];
-    console.log(messages);
-    messages.push(messageData);
-    messages=JSON.stringify(messages);
-    localStorage.setItem("messages",messages);
-    }
-   else{
-    messagesArray=[];
-    messagesArray=localStorage.getItem("messages");
-    messagesArray=JSON.parse(messagesArray);
-    messagesArray.push(messageData);
-    messagesArray=JSON.stringify(messagesArray);
-    localStorage.setItem("messages",messagesArray);
-   }
-}
+
 
 function getContactChats(index){
     messagesArray=[];
@@ -192,7 +136,8 @@ function getContactChats(index){
 		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
         }
      }
-=======
+   }
+}
 function storeChat(currentContactIndex, message, messageType) {
     var messageData = {
         'contactIndex': 0,
@@ -225,6 +170,7 @@ function getChatMessages(index) {
         var messagesArray = [];
         messagesArray = localStorage.getItem("messages");
         messagesArray = JSON.parse(messagesArray);
+	console.log(messagesArray);
         var allMessages = "";
         for (var i = 0; i < messagesArray.length; i++) {
             if (messagesArray[i].contactIndex == index && messagesArray[i].messageType == 0) {
@@ -238,6 +184,7 @@ function getChatMessages(index) {
             }
         }
         $('.messages ul').html(allMessages);
->>>>>>> dbfb225f1c775842fc9a6be20ba5ecf1f2216123
+
     }
 }
+
