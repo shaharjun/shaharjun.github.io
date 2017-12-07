@@ -3,33 +3,35 @@
  */
 $(document).ready(function(){
 	$("#register-button").click(function(){
-		var formComplete = true;
+		formComplete = true;
 		var fullname = $("#fullname").val();
 		var phone = $("#phone").val();
 		var email = $("#email").val();
 		var password = $("#password").val();
-		if(email == ""){
+		if(email === ""){
 			Materialize.toast("Enter email", 1000);
 			formComplete = false;
 		}
-		else if(fullname == ""){
+		else if(fullname === ""){
 			Materialize.toast("Enter full name", 1000);
 			formComplete = false;
 		}
-		else if(phone == ""){
+		else if(phone === ""){
 			Materialize.toast("Enter phone", 1000);
 			formComplete = false;
 		}
-		else if(password == ""){
+		else if(password === ""){
 			Materialize.toast("Enter password", 1000);
 			formComplete = false;
 		}
 		else{
 			if(formComplete){
-				var emailToCheck = localStorage.getItem("pratChatEmail");
-				if(email == emailToCheck){
-					Materialize.toast("User already registered", 4000);
-				}
+                if (localStorage.getItem("username") !== null) {
+                    var emailToCheck = localStorage.getItem("pratChatEmail");
+                    if(email === emailToCheck){
+                        Materialize.toast("User already registered", 4000);
+                    }
+                }
 				else{
 					localStorage.setItem("pratChatEmail", email);
 					localStorage.setItem("pratChatPassword", password);
