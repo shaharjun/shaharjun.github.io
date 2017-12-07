@@ -16,12 +16,13 @@ function isValidMessage(message) {
 function sendChat(index) {
     var message = $('#chatBox').val();
     var message1 = "acknowledged";
+    var star = "<i style='color: burlywood;' onclick='storeStarMsg(message)' class='fa fa-star starmsg' aria-hidden='true'></i>"
     var html = "<li class='replies'>" +
         "<img src='images/profile.png' alt='' />" +
         "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
     var receivedMessage = "<li class='sent'>" +
         "<img src='images/profile.png' alt='' />" +
-        "<p style=\"word-wrap: break-word;\">" + message1 + "</p></li>";
+        "<p style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
         $('.messages ul').append(html);
@@ -32,6 +33,9 @@ function sendChat(index) {
     $('#chatBox').val(' ');
     //scroll to bottom
     scrollToBottom("messages");
+}
+function storeStarMsg(){
+    $('.starmsg').attr('style', 'color:gold');
 }
 function logout() {
     window.location.href = "login.html";
@@ -52,11 +56,6 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-function showContactProfile() {
-    $('#cprof').css('z-index', '300');
-    $('#chat').css('position', 'absolute');
-    $('#chat').css('z-index', -1);
-}
 
 function backHome() {
     $('#cprof').css('z-index', '-1');
@@ -64,24 +63,21 @@ function backHome() {
     $('#chat').css('z-index', 300);
 }
 
-
 function currentContact(str) {
     $('#chat p').html(str);
     $('.contact-profile').css("visibility", "visible");
     $('.message-input').css("visibility", "visible");
+    $('#userNameValue').html(str);
+    //further code needs to be added here to change email id and phone 
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
+    $('.contact-profile').click(function(){
+        $('#cprof').css('z-index', '300');
+        $('#chat').css('position', 'absolute');
+        $('#chat').css('z-index', -1);
+    });
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
-    var userName="";
-    userName=localStorage.getItem("pratChatFullName");
-    email=localStorage.getItem("pratChatEmail");
-    phoneNo=localStorage.getItem("pratChatPhone");
-    $("#profile > div > p").html(userName);
-    $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
-    $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
-    $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
-   
 
     $('#sb').click(function() {
         sendChat(currentContactIndex);
@@ -143,34 +139,11 @@ $(document).ready(function() {
 
 });
 
-
-
-function getContactChats(index){
-    messagesArray=[];
-    messagesArray=localStorage.getItem("messages");
-    if(messagesArray!=null){
-     messagesArray=JSON.parse(messagesArray);
-     for(i=0;i<messagesArray.length;i++){
-        var html="";
-        if(messagesArray[i].messageType==0 && messagesArray[i].contactIndex==index){
-           html += "<li class='replies'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
-        }
-        else if(messagesArray[i].contactIndex==index){
-           html += "<li class='sent'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
-        }
-     }
-   }
-}
 // scroll to bottom
 function scrollToBottom(id){
     var div = document.getElementById(id);
     div.scrollTop = div.scrollHeight - div.clientHeight;
 }
-
 
 function storeChat(currentContactIndex, message, messageType) {
     var messageData = {
@@ -204,7 +177,6 @@ function getChatMessages(index) {
         var messagesArray = [];
         messagesArray = localStorage.getItem("messages");
         messagesArray = JSON.parse(messagesArray);
-	console.log(messagesArray);
         var allMessages = "";
         for (var i = 0; i < messagesArray.length; i++) {
             if (messagesArray[i].contactIndex == index && messagesArray[i].messageType == 0) {
@@ -218,7 +190,6 @@ function getChatMessages(index) {
             }
         }
         $('.messages ul').html(allMessages);
-
     }
 }
 //Utkarsha start
