@@ -17,7 +17,6 @@
 <link rel='stylesheet' href='css/chatStyle.css'>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-
 <!--Import Google Icon Font-->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
@@ -35,7 +34,7 @@
 				<div class="wrap">
 					<img id="profile-img" src="images/profile.png" class="online"
 						alt="" />
-					<p></p>
+					<p>Arjun Shah</p>
 					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 					<div id="status-options">
 						<ul>
@@ -64,14 +63,19 @@
 			</div>
 
 			<div class="wrap">
+				<div align="left" class="starred"><!-- class name kept same with starred, may need to change -->
+					&nbsp&nbsp&nbsp<i class="fa fa-user" aria-hidden="true"></i><span>&nbsp&nbspMy Profile</span>
+				</div>
+			</div>
+
+			<div class="wrap">
 				<div align="left" class="starred">
-					&nbsp&nbsp&nbsp<i style="color: gold;" class="fa fa-star"
-						aria-hidden="true"></i>&nbsp&nbspStarred Messages
+					&nbsp&nbsp&nbsp<i style="color: gold;" class="fa fa-star" aria-hidden="true"></i><span>&nbsp&nbspStarred Messages</span>
 				</div>
 			</div>
 
 			<div id="search">
-				<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+				<label><i class="fa fa-search" aria-hidden="true"></i></label>
 				<input type="text" style="width: 100%" class="browser-default"
 					placeholder="Search contacts..." />
 			</div>
@@ -83,8 +87,7 @@
 							<span class="contact-status"></span> <img
 								src="images/profile.png" alt="" />
 							<div class="meta">
-								<p class="name">Nagarpalika</p>
-								<!-- <p class="preview">Mike, this isn't over.</p> -->
+								<p class="name">Rajat Tripathi</p>
 							</div>
 						</div>
 					</li>
@@ -93,8 +96,7 @@
 							<span class="contact-status"></span> <img
 								src="images/profile.png" alt="" />
 							<div class="meta">
-								<p class="name">Kamlesh</p>
-								<!-- <p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p> -->
+								<p class="name">Riya Tilwani</p>
 							</div>
 						</div>
 					</li>
@@ -140,15 +142,15 @@
 					<!-- Card Profile content -->
 					<div class="card-content">
 						<div id="userName">
-							<p>Rohan Adhyapak</p>
+							<p id="userNameValue">userName</p>
 						</div>
 						<div id="userEmail">
 							<p class="cardLabel">Email</p>
-							<p>rohan.adhyapak@gmail.com</p>
+							<p id="userEmailValue">kamlesh@gmail.com</p>
 						</div>
 						<div id="userPhone">
 							<p class="cardLabel">Phone No.</p>
-							<p>9676433245</p>
+							<p id="userPhoneValue">9676433245</p>
 						</div>
 					</div>
 				</div>
@@ -156,7 +158,7 @@
 		</div>
 		<div id="chat" class="content" style="z-index: 1">
 			<div class="contact-profile">
-				<img src="images/profile.png" onclick="showContactProfile()" alt="" />
+				<img src="images/profile.png" alt="" />
 				<p>Team Mate</p>
 			</div>
 			<div id="messages" class="messages">
@@ -204,16 +206,14 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="modal-action modal-close waves-effect btn-flat">Close</a>
+				<a href="#!" style="background:#32465a;color:white;" class="modal-action modal-close btn-flat">Close</a>
 			</div>
 		</div>
 	</div>
 	<div id="addContactModal" class="modal">
 		<div class="modal-content">
 			<input type="text" id="searchText"
-				placeholder="Search by name, e-mail id" /> <a
-				class="waves-effect waves-light btn" onclick="searchContact()"><i
-				class="material-icons left">search</i>Search</a>
+				placeholder="Search by name, e-mail id" />
 			<div id="searchContactResult">
 				<ul id="searchContactResultList">
 				</ul>
@@ -221,8 +221,8 @@
 
 		</div>
 		<div class="modal-footer">
-			<a href="#!"
-				class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+			<a href="#!" style="background:#32465a;color:white;"
+				class="modal-action modal-close btn-flat">Close</a>
 		</div>
 	</div>
 	<script src='js/plugins/jquery-2.2.4.min.js'></script>
@@ -231,4 +231,3 @@
 	<script src='js/main.js'></script>
 </body>
 </html>
-
