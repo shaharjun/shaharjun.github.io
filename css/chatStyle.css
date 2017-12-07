@@ -339,6 +339,20 @@
     background: #435f7a;
 }
 
+#frame #sidepanel .wrap .starred {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    border-top: 1px solid #32465a;
+    border-bottom: 1px solid #32465a;
+    padding: 8px;
+    cursor: pointer;
+}
+
+#frame #sidepanel .wrap .starred:active {
+    background: #32465a;
+}
+
 #frame #sidepanel #search {
     border-top: 1px solid #32465a;
     border-bottom: 1px solid #32465a;
@@ -622,6 +636,7 @@
     border-radius: 50%;
     float: left;
     margin: 9px 12px 0 9px;
+    cursor:pointer;
 }
 
 #frame .content .contact-profile p {
@@ -716,7 +731,8 @@
 
 @media screen and (min-width: 735px) {
     #frame .content .messages ul li p {
-        max-width: 300px;
+        max-width: 50%;
+        word-wrap: break-word;
     }
 }
 
@@ -831,6 +847,7 @@
 }
 #cprof {
     display: inline-block;
+    background-color: white;
 }
 #pcard{
     height: 100%;
@@ -842,4 +859,45 @@
     height: 10px;
     border-radius: 50%;
     margin: 5px 0 0 0;
+}
+.message-input{
+    visibility:hidden;
+}
+.contact-profile{
+    visibility:hidden;
+}
+.card-image{
+    max-height:250px;
+    max-width:250px;
+    margin:auto;
+    position: relative;
+}
+.display-pic{
+}
+.card{
+    margin-top: 0;
+    background-color: white;
+}
+.cardLabel{
+    font-size: 22px;
+    padding-top: 2%;
+    color:green !important;
+
+}
+.card-content{
+    padding:0 !important;
+    text-align: center;
+}
+#userName p{
+    font-size: 40px;
+}
+.card-content p{
+    padding-top: 5px;
+}
+.wrappie{
+    height:50%;
+    width:50%;
+}
+.exit-card{
+    margin-bottom: 37px;
 }

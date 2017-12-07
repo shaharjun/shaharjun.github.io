@@ -1,31 +1,40 @@
 function isValidMessage(message) {
-	var i = 0, messageLength = message.length, isValid = true;
-	for (i = 0; i < messageLength; i++) {
-		if (message[i] != ' ')
-			break;
-	}
-	console.log(messageLength);
-	if (i >= messageLength) {
-		isValid = false;
-	}
-	return isValid;
+    var i = 0,
+        messageLength = message.length,
+        isValid = true;
+    for (i = 0; i < messageLength; i++) {
+        if (message[i] != ' ')
+            break;
+    }
+    console.log(messageLength);
+    if (i >= messageLength) {
+        isValid = false;
+    }
+    return isValid;
 }
 
-function sendChat() {
-	var message = $('#chatBox').val();
-	var html = "<li class='replies'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
-	var isValid = isValidMessage(message);
-	if (isValid) {
-		$('.messages ul').append(html);
-	}
-	$('#chatBox').val(' ');
+function sendChat(index) {
+    var message = $('#chatBox').val();
+    var message1 = "acknowledged";
+    var html = "<li class='replies'>" +
+        "<img src='images/profile.png' alt='' />" +
+        "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
+    var receivedMessage = "<li class='sent'>" +
+        "<img src='images/profile.png' alt='' />" +
+        "<p style=\"word-wrap: break-word;\">" + message1 + "</p></li>";
+    var isValid = isValidMessage(message);
+    if (isValid) {
+        $('.messages ul').append(html);
+        $('.messages ul').append(receivedMessage);
+        storeChat(index, message, 0);
+        storeChat(index, message1, 1);
+    }
+    $('#chatBox').val(' ');
 }
 
 function logout() {
-	window.location.href = "login.html";
-	localStorage.removeItem("pratChatToken");
+    window.location.href = "login.html";
+    localStorage.removeItem("pratChatToken");
 }
 function random(){
 	$('#addreminder').modal();
@@ -43,77 +52,130 @@ $('.datepicker').pickadate({
     closeOnSelect: false // Close upon selecting a date,
   });
 function showContactProfile() {
-	$('#cprof').css('z-index', '300');
-	$('#chat').css('position', 'absolute');
-	$('#chat').css('z-index', -1);
+    $('#cprof').css('z-index', '300');
+    $('#chat').css('position', 'absolute');
+    $('#chat').css('z-index', -1);
 }
+
 function backHome() {
-	$('#cprof').css('z-index', '-1');
-	$('#chat').css('position', 'relative');
-	$('#chat').css('z-index', 300);
+    $('#cprof').css('z-index', '-1');
+    $('#chat').css('position', 'relative');
+    $('#chat').css('z-index', 300);
 }
+
 function currentContact(str) {
-	$('.content p').html(str);
+    $('.content p').html(str);
+    $('.contact-profile').css("visibility", "visible");
+    $('.message-input').css("visibility", "visible");
+
 }
-$(document).ready(function () {
+$(document).ready(function() {
+    var currentContactIndex = 0;
 
-	$(window).on('keydown', function (e) {
-		if (e.which == 13) {
-			sendChat();
-			return false;
-		}
-	});
+    $('#sb').click(function() {
+        sendChat(currentContactIndex);
+    });
+    $(window).on('keydown', function(e) {
+        if (e.which == 13) {
+            sendChat(currentContactIndex);
+            return false;
+        }
+    });
 
-	if ("pratChatToken" in localStorage) {
-		console.log("Access Allowed");
-	}
-	else {
-		console.log("Access Denied, redirecting to Login");
-		window.location.href = "login.html";
-	}
-	$('.contact').click(function () {
-		var str = $('p', this).html();
-		currentContact(str);
-	});
-	$(".expand-button").click(function () {
-		$("#profile").toggleClass("expanded");
-		$("#contacts").toggleClass("expanded");
-	});
-	$('.contact').click(function () {
-		$('.messages ul').empty();
-	});
+    if ("pratChatToken" in localStorage) {
+        console.log("Access Allowed");
+    } else {
+        console.log("Access Denied, redirecting to Login");
+        window.location.href = "login.html";
+    }
+    $('.contact').click(function() {
+        var str = $('p', this).html();
+        currentContactIndex = $(this).index();
+        console.log(currentContactIndex);
+        currentContact(str);
+        getChatMessages(currentContactIndex);
+    });
+    $(".expand-button").click(function() {
+        $("#profile").toggleClass("expanded");
+        $("#contacts").toggleClass("expanded");
+    });
+    $('#logout-button').click(function() {
+        localStorage.removeItem("pratChatToken");
+        window.location.href = "login.html";
+    });
+    $("#profile-img").click(function() {
+        $("#status-options").toggleClass("active");
+    });
+    $("#status-options ul li").click(function() {
+        $("#profile-img").removeClass();
+        $("#status-online").removeClass("active");
+        $("#status-away").removeClass("active");
+        $("#status-busy").removeClass("active");
+        $("#status-offline").removeClass("active");
+        $(this).addClass("active");
 
-	$('#logout-button').click(function () {
-		localStorage.removeItem("pratChatToken");
-		window.location.href = "login.html";
-	});
+        if ($("#status-online").hasClass("active")) {
+            $("#profile-img").addClass("online");
+        } else if ($("#status-away").hasClass("active")) {
+            $("#profile-img").addClass("away");
+        } else if ($("#status-busy").hasClass("active")) {
+            $("#profile-img").addClass("busy");
+        } else if ($("#status-offline").hasClass("active")) {
+            $("#profile-img").addClass("offline");
+        } else {
+            $("#profile-img").removeClass();
+        };
 
-	$("#profile-img").click(function () {
-		$("#status-options").toggleClass("active");
-	});
-
-	$("#status-options ul li").click(function () {
-		$("#profile-img").removeClass();
-		$("#status-online").removeClass("active");
-		$("#status-away").removeClass("active");
-		$("#status-busy").removeClass("active");
-		$("#status-offline").removeClass("active");
-		$(this).addClass("active");
-
-		if ($("#status-online").hasClass("active")) {
-			$("#profile-img").addClass("online");
-		} else if ($("#status-away").hasClass("active")) {
-			$("#profile-img").addClass("away");
-		} else if ($("#status-busy").hasClass("active")) {
-			$("#profile-img").addClass("busy");
-		} else if ($("#status-offline").hasClass("active")) {
-			$("#profile-img").addClass("offline");
-		} else {
-			$("#profile-img").removeClass();
-		};
-
-		$("#status-options").removeClass("active");
-	});
-	
+        $("#status-options").removeClass("active");
+    });
 	$('.modal').modal();
+
 });
+
+function storeChat(currentContactIndex, message, messageType) {
+    var messageData = {
+        'contactIndex': 0,
+        'messageText': "",
+        'messageType': 0
+    }
+    var messages = localStorage.getItem("messages");
+    messageData.contactIndex = currentContactIndex;
+    messageData.messageText = message;
+    messageData.messageType = messageType;
+    if (messages == null) {
+        messages = [];
+        console.log(messages);
+        messages.push(messageData);
+        messages = JSON.stringify(messages);
+        localStorage.setItem("messages", messages);
+    } else {
+        var messagesArray = [];
+        messagesArray = localStorage.getItem("messages");
+        messagesArray = JSON.parse(messagesArray);
+        messagesArray.push(messageData);
+        messagesArray = JSON.stringify(messagesArray);
+        localStorage.setItem("messages", messagesArray);
+    }
+}
+
+function getChatMessages(index) {
+    var messages = localStorage.getItem("messages");
+    if (messages != null) {
+        var messagesArray = [];
+        messagesArray = localStorage.getItem("messages");
+        messagesArray = JSON.parse(messagesArray);
+        var allMessages = "";
+        for (var i = 0; i < messagesArray.length; i++) {
+            if (messagesArray[i].contactIndex == index && messagesArray[i].messageType == 0) {
+                allMessages += "<li class='replies'>" +
+                    "<img src='images/profile.png' alt='' />" +
+                    "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+            } else if (messagesArray[i].contactIndex == index) {
+                allMessages += "<li class='sent'>" +
+                    "<img src='images/profile.png' alt='' />" +
+                    "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+            }
+        }
+        $('.messages ul').html(allMessages);
+    }
+}
