@@ -16,12 +16,13 @@ function isValidMessage(message) {
 function sendChat(index) {
     var message = $('#chatBox').val();
     var message1 = "acknowledged";
+    var star = "<i style='color: burlywood;' onclick='storeStarMsg(message)' class='fa fa-star starmsg' aria-hidden='true'></i>"
     var html = "<li class='replies'>" +
         "<img src='images/profile.png' alt='' />" +
         "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
     var receivedMessage = "<li class='sent'>" +
         "<img src='images/profile.png' alt='' />" +
-        "<p style=\"word-wrap: break-word;\">" + message1 + "</p></li>";
+        "<p style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
         $('.messages ul').append(html);
@@ -33,7 +34,9 @@ function sendChat(index) {
     //scroll to bottom
     scrollToBottom("messages");
 }
-
+function storeStarMsg(){
+    $('.starmsg').attr('style', 'color:gold');
+}
 function logout() {
     window.location.href = "login.html";
     localStorage.removeItem("pratChatToken");
