@@ -64,7 +64,8 @@ function currentContact(str) {
     $('#chat p').html(str);
     $('.contact-profile').css("visibility", "visible");
     $('.message-input').css("visibility", "visible");
-    $('#userName > p:eq(0)').html(str);
+    $('#userNameValue').html(str);
+    //further code needs to be added here to change email id and phone 
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
     $('.contact-profile').click(function(){
         $('#cprof').css('z-index', '300');
