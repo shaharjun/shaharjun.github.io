@@ -30,6 +30,8 @@ function sendChat(index) {
         storeChat(index, message1, 1);
     }
     $('#chatBox').val(' ');
+    //scroll to bottom
+    scrollToBottom("messages");
 }
 
 function logout() {
@@ -53,7 +55,7 @@ function currentContact(str) {
     $('.content p').html(str);
     $('.contact-profile').css("visibility", "visible");
     $('.message-input').css("visibility", "visible");
-
+    window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
@@ -115,6 +117,12 @@ $(document).ready(function() {
         $("#status-options").removeClass("active");
     });
 });
+
+// scroll to bottom
+function scrollToBottom(id){
+    var div = document.getElementById(id);
+    div.scrollTop = div.scrollHeight - div.clientHeight;
+}
 
 function storeChat(currentContactIndex, message, messageType) {
     var messageData = {
