@@ -2,10 +2,12 @@
  * 
  */
 $(document).ready(function(){
-	if("pratChatEmail" === undefined){
+	if(localStorage.getItem("pratChatEmail") === undefined){
 		$("#email").val("");
 	}
-	if("pratChatToken" in localStorage || "isRegistered" in localStorage){
+    if (localStorage.getItem("pratChatToken") !== null) {
+    }
+	if(localStorage.getItem("pratChatToken") !== null || localStorage.getItem("isRegistered") !== null){
 		console.log("token already exists");
 		console.log(localStorage.getItem("pratChatEmail"));
 		$("#email").val(localStorage.getItem("pratChatEmail"));
@@ -18,13 +20,13 @@ $(document).ready(function(){
 		var password = $("#password").val();
 		console.log(email);
 		console.log(password);
-		if(email == ""){
+		if(email === ""){
 			Materialize.toast("Enter email", 1000);
 		}
-		else if(password == ""){
+		else if(password === ""){
 			Materialize.toast("Enter password", 1000);
 		}
-		else if(localStorage.getItem("pratChatEmail")== email && localStorage.getItem("pratChatPassword")==password){
+		else if(localStorage.getItem("pratChatEmail")=== email && localStorage.getItem("pratChatPassword")===password){
 			localStorage.setItem("pratChatToken",email.hashCode());
 			window.location.href = "index.html";
 		}

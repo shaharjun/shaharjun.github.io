@@ -16,12 +16,13 @@ function isValidMessage(message) {
 function sendChat(index) {
     var message = $('#chatBox').val();
     var message1 = "acknowledged";
+    var star = "<i style='color: burlywood;' onclick='storeStarMsg(message)' class='fa fa-star starmsg' aria-hidden='true'></i>"
     var html = "<li class='replies'>" +
         "<img src='images/profile.png' alt='' />" +
         "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
     var receivedMessage = "<li class='sent'>" +
         "<img src='images/profile.png' alt='' />" +
-        "<p style=\"word-wrap: break-word;\">" + message1 + "</p></li>";
+        "<p style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
         $('.messages ul').append(html);
@@ -33,6 +34,12 @@ function sendChat(index) {
     //scroll to bottom
     scrollToBottom("messages");
 }
+<<<<<<< HEAD
+=======
+function storeStarMsg(){
+    $('.starmsg').attr('style', 'color:gold');
+}
+>>>>>>> 1797947b491d6c3f1bab8e593f25946d846f65cc
 function logout() {
     window.location.href = "login.html";
     localStorage.removeItem("pratChatToken");
@@ -52,11 +59,6 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-function showContactProfile() {
-    $('#cprof').css('z-index', '300');
-    $('#chat').css('position', 'absolute');
-    $('#chat').css('z-index', -1);
-}
 
 function backHome() {
     $('#cprof').css('z-index', '-1');
@@ -69,7 +71,14 @@ function currentContact(str) {
     $('#chat p').html(str);
     $('.contact-profile').css("visibility", "visible");
     $('.message-input').css("visibility", "visible");
+    $('#userNameValue').html(str);
+    //further code needs to be added here to change email id and phone 
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
+    $('.contact-profile').click(function(){
+        $('#cprof').css('z-index', '300');
+        $('#chat').css('position', 'absolute');
+        $('#chat').css('z-index', -1);
+    });
 }
 $(document).ready(function() {
     var currentContactIndex = 0;

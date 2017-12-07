@@ -352,6 +352,18 @@
 #frame #sidepanel .wrap .starred:active {
     background: #32465a;
 }
+@media screen and (max-width:735px) {
+    #frame .wrap .starred {
+        float:none;
+        font-size: 1.4em;
+        left:-6px;
+    }
+}
+@media screen and (max-width:735px){
+    #frame .wrap .starred span {
+        display: none;
+    }
+}
 
 #frame #sidepanel #search {
     border-top: 1px solid #32465a;
@@ -852,6 +864,8 @@
 #pcard{
     height: 100%;
     width:100%;
+    overflow: hidden;
+    margin-top: 0;
 }
 #logout-button{
     position: absolute;
@@ -885,7 +899,6 @@
 
 }
 .card-content{
-    padding:0 !important;
     text-align: center;
 }
 #userName p{
