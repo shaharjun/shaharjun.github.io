@@ -81,8 +81,8 @@ $(document).ready(function() {
     $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
     $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
     $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
-   
-
+    var allContacts=getAllContacts();
+    displayAllContacts(allContacts);
     $('#sb').click(function() {
         sendChat(currentContactIndex);
     });
@@ -221,7 +221,7 @@ function getChatMessages(index) {
 
     }
 }
-//Utkarsha start
 function getAllContacts(){
+  
 }
 
