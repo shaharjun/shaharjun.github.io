@@ -449,6 +449,10 @@
     cursor: pointer;
 }
 
+#contacts {
+	padding-bottom: 128px;
+}
+
 @media screen and (max-width: 735px) {
     #frame #sidepanel #contacts ul li.contact {
         padding: 6px 0 46px 8px;
