@@ -207,3 +207,7 @@ function getChatMessages(index) {
         $('.messages ul').html(allMessages);
     }
 }
+//Utkarsha start
+function getAllContacts(){
+}
+
