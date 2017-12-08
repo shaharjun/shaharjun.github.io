@@ -34,12 +34,9 @@ function sendChat(index) {
     //scroll to bottom
     scrollToBottom("messages");
 }
-<<<<<<< HEAD
-=======
 function storeStarMsg(){
     $('.starmsg').attr('style', 'color:gold');
 }
->>>>>>> 1797947b491d6c3f1bab8e593f25946d846f65cc
 function logout() {
     window.location.href = "login.html";
     localStorage.removeItem("pratChatToken");
@@ -59,7 +56,11 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-
+function showContactProfile() {
+    $('#cprof').css('z-index', '300');
+    $('#chat').css('position', 'absolute');
+    $('#chat').css('z-index', -1);
+}
 function backHome() {
     $('#cprof').css('z-index', '-1');
     $('#chat').css('position', 'relative');
@@ -233,4 +234,5 @@ function getChatMessages(index) {
 function getAllContacts(){
   
 }
-
+function displayAllContacts(){
+}
