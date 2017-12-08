@@ -82,7 +82,6 @@ function currentContact(str) {
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
-<<<<<<< HEAD
     var userName="";
     userName=localStorage.getItem("pratChatFullName");
     email=localStorage.getItem("pratChatEmail");
@@ -93,9 +92,7 @@ $(document).ready(function() {
     $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
     var allContacts=getAllContacts();
     displayAllContacts(allContacts);
-=======
 
->>>>>>> 6282ca8f1a8c6832ffb614cc9ae6a1108810797e
     $('#sb').click(function() {
         sendChat(currentContactIndex);
     });
