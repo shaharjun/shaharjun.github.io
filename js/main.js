@@ -16,12 +16,13 @@ function isValidMessage(message) {
 function sendChat(index) {
     var message = $('#chatBox').val();
     var message1 = "acknowledged";
+    var star = "<i style='color: burlywood;' onclick='storeStarMsg(message)' class='fa fa-star starmsg' aria-hidden='true'></i>"
     var html = "<li class='replies'>" +
         "<img src='images/profile.png' alt='' />" +
         "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
     var receivedMessage = "<li class='sent'>" +
         "<img src='images/profile.png' alt='' />" +
-        "<p style=\"word-wrap: break-word;\">" + message1 + "</p></li>";
+        "<p style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
         $('.messages ul').append(html);
@@ -33,7 +34,9 @@ function sendChat(index) {
     //scroll to bottom
     scrollToBottom("messages");
 }
-
+function storeStarMsg(){
+    $('.starmsg').attr('style', 'color:gold');
+}
 function logout() {
     window.location.href = "login.html";
     localStorage.removeItem("pratChatToken");
@@ -53,11 +56,15 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-
+function showContactProfile() {
+    $('#cprof').css('z-index', '300');
+    $('#chat').css('position', 'absolute');
+    $('#chat').css('z-index', -1);
+}
 function backHome() {
     $('#cprof').css('z-index', '-1');
     $('#chat').css('position', 'relative');
-    $('#chat').css('z-index', 300);
+    $('#chat').css('z-index', '300');
 }
 
 function currentContact(str) {
@@ -75,6 +82,16 @@ function currentContact(str) {
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
+    var userName="";
+    userName=localStorage.getItem("pratChatFullName");
+    email=localStorage.getItem("pratChatEmail");
+    phoneNo=localStorage.getItem("pratChatPhone");
+    $("#profile > div > p").html(userName);
+    $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
+    $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
+    $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
+    var allContacts=getAllContacts();
+    displayAllContacts(allContacts);
 
     $('#sb').click(function() {
         sendChat(currentContactIndex);
@@ -188,4 +205,9 @@ function getChatMessages(index) {
         }
         $('.messages ul').html(allMessages);
     }
+}
+function getAllContacts(){
+  
+}
+function displayAllContacts(){
 }
