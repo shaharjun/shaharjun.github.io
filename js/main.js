@@ -60,7 +60,7 @@ $('.datepicker').pickadate({
 function backHome() {
     $('#cprof').css('z-index', '-1');
     $('#chat').css('position', 'relative');
-    $('#chat').css('z-index', 300);
+    $('#chat').css('z-index', '300');
 }
 
 function currentContact(str) {
