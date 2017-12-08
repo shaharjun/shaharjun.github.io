@@ -53,11 +53,15 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-
+function showContactProfile() {
+    $('#cprof').css('z-index', '300');
+    $('#chat').css('position', 'absolute');
+    $('#chat').css('z-index', -1);
+}
 function backHome() {
     $('#cprof').css('z-index', '-1');
     $('#chat').css('position', 'relative');
-    $('#chat').css('z-index', 300);
+    $('#chat').css('z-index', '300');
 }
 
 function currentContact(str) {
@@ -75,6 +79,16 @@ function currentContact(str) {
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
+    var userName="";
+    userName=localStorage.getItem("pratChatFullName");
+    email=localStorage.getItem("pratChatEmail");
+    phoneNo=localStorage.getItem("pratChatPhone");
+    $("#profile > div > p").html(userName);
+    $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
+    $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
+    $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
+    var allContacts=getAllContacts();
+    displayAllContacts(allContacts);
 
     $('#sb').click(function() {
         sendChat(currentContactIndex);
@@ -204,7 +218,6 @@ function storeStarMsg(text) {
     starredMessage.to = 'recevier';
     starredMessage.messageText = text;
     var store = localStorage.getItem('starredMessages');
-    console.log(store);
     if(store == null) {
         store = [];
         store.push(starredMessage);
@@ -217,6 +230,11 @@ function storeStarMsg(text) {
         starArray = JSON.parse(starArray);
         starArray.push(starredMessage);
         starArray = JSON.stringify(starArray);
-        localStorage.setItem("messages", starArray);
+        localStorage.setItem("starredMessages", starArray);
     }
+}
+function getAllContacts(){
+  
+}
+function displayAllContacts(){
 }
