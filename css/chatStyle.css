@@ -914,6 +914,11 @@
 .exit-card{
     margin-top: 25px;
 }
+#viewQuestions{
+	padding-left: 30%;
+	padding-right: 30%;
+
+
 #stardisplay {
     display: inline-block;
 }
@@ -926,4 +931,5 @@
 }
 .starmsg {
     visibility:hidden;
+r
 }
