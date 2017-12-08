@@ -140,7 +140,6 @@ $(document).ready(function() {
         $("#status-options").removeClass("active");
     });
     $('.modal').modal();
-
 });
 
 // scroll to bottom
