@@ -70,7 +70,7 @@
 			</div>
 
 			<div class="wrap">
-				<div align="left" class="starred">
+				<div align="left" class="starred" onclick="showStarred()">
 					&nbsp&nbsp&nbsp<i style="color: gold;" class="fa fa-star" aria-hidden="true"></i><span>&nbsp&nbspStarred Messages</span>
 				</div>
 			</div>
@@ -162,6 +162,29 @@
 				</div>
 			</div>
 		</div>
+		<div id="stardisplay" style="position: absolute; z-index: -1"
+		class="content ">
+		<div class="card " id="pcard">
+
+			<div id="wrappie">
+
+				<!-- Exit button -->
+				<div class="exit-card">
+					<a class="btn-flat"
+						onclick="backHome()"><i class="material-icons">close</i></a>
+				</div>
+				<!-- display starred -->
+				<div id="messages" class="messages">
+					<ul>
+						<li class='sent'><img src='images/profile.png' alt='' />
+							<p style="word-wrap: break-word;">Dare not forget my birthday- 10th July<br><br>
+								<span style="float:right; color: darkgray; font-size: 1em">Julia Roberts</span></p></li>
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+	</div>
 		<div id="chat" class="content" style="z-index: 1">
 			<div class="contact-profile">
 
