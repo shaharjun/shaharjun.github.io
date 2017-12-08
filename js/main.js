@@ -25,8 +25,8 @@ function sendChat(index) {
         "<p  onclick='showStar()' style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
-        $('.messages ul').append(html);
-        $('.messages ul').append(receivedMessage);
+        $('#messages ul').append(html);
+        $('#messages ul').append(receivedMessage);
         storeChat(index, message, 0);
         storeChat(index, message1, 1);
     }
@@ -197,7 +197,7 @@ function getChatMessages(index) {
                     "<p onclick='showStar()' style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p>"+ star + "</li>";
             }
         }
-        $('.messages ul').html(allMessages);
+        $('#messages ul').html(allMessages);
     }
 }
 function makeGold(){
@@ -279,19 +279,7 @@ function setContacts(){
 }
 function showStarred(){
     $('#stardisplay').css('z-index', '400');
-}
-function getStarred() {
-    var starMsg = localStorage.getItem("starredMessages");
-    if (starMsg != null) {
-        var messagesArray = [];
-        messagesArray = localStorage.getItem("starredMessages");
-        messagesArray = JSON.parse(messagesArray);
-    }
-    var allMessages = "";
-    for(var i = 0; i<messagesArray.length; i++){
-        allMessages += "" + messagesArray[i].messageText +"";
-    }
-    $('.messages ul').html(allMessages);
+    displayStarred();
 }
 function displayStarred(){
     var messages = localStorage.getItem("starredMessages");
@@ -311,7 +299,7 @@ function displayStarred(){
             from + 
             "</span></p></li>";
             }
-        $('.messages ul').html(allMessages);
+        $('#starmessages ul').html(allMessages);
     }
 }
 
