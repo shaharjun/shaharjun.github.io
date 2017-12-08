@@ -67,7 +67,6 @@ function backHome() {
     $('#chat').css('z-index', '300');
 }
 
-
 function currentContact(str) {
     $('#chat p').html(str);
     $('.contact-profile').css("visibility", "visible");
@@ -83,6 +82,7 @@ function currentContact(str) {
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
+<<<<<<< HEAD
     var userName="";
     userName=localStorage.getItem("pratChatFullName");
     email=localStorage.getItem("pratChatEmail");
@@ -93,6 +93,9 @@ $(document).ready(function() {
     $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
     var allContacts=getAllContacts();
     displayAllContacts(allContacts);
+=======
+
+>>>>>>> 6282ca8f1a8c6832ffb614cc9ae6a1108810797e
     $('#sb').click(function() {
         sendChat(currentContactIndex);
     });
@@ -153,34 +156,11 @@ $(document).ready(function() {
 
 });
 
-
-
-function getContactChats(index){
-    messagesArray=[];
-    messagesArray=localStorage.getItem("messages");
-    if(messagesArray!=null){
-     messagesArray=JSON.parse(messagesArray);
-     for(i=0;i<messagesArray.length;i++){
-        var html="";
-        if(messagesArray[i].messageType==0 && messagesArray[i].contactIndex==index){
-           html += "<li class='replies'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
-        }
-        else if(messagesArray[i].contactIndex==index){
-           html += "<li class='sent'>"
-		+ "<img src='images/profile.png' alt='' />"
-		+ "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
-        }
-     }
-   }
-}
 // scroll to bottom
 function scrollToBottom(id){
     var div = document.getElementById(id);
     div.scrollTop = div.scrollHeight - div.clientHeight;
 }
-
 
 function storeChat(currentContactIndex, message, messageType) {
     var messageData = {
@@ -214,7 +194,6 @@ function getChatMessages(index) {
         var messagesArray = [];
         messagesArray = localStorage.getItem("messages");
         messagesArray = JSON.parse(messagesArray);
-	console.log(messagesArray);
         var allMessages = "";
         for (var i = 0; i < messagesArray.length; i++) {
             if (messagesArray[i].contactIndex == index && messagesArray[i].messageType == 0) {
@@ -228,7 +207,6 @@ function getChatMessages(index) {
             }
         }
         $('.messages ul').html(allMessages);
-
     }
 }
 function getAllContacts(){
