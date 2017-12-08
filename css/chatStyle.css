@@ -917,8 +917,7 @@
 #viewQuestions{
 	padding-left: 30%;
 	padding-right: 30%;
-
-
+}
 #stardisplay {
     display: inline-block;
 }
@@ -931,5 +930,7 @@
 }
 .starmsg {
     visibility:hidden;
-r
+}
+#starmessages {
+    overflow-y:auto;
 }
