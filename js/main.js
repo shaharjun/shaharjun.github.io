@@ -56,7 +56,11 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-
+function showContactProfile() {
+    $('#cprof').css('z-index', '300');
+    $('#chat').css('position', 'absolute');
+    $('#chat').css('z-index', -1);
+}
 function backHome() {
     $('#cprof').css('z-index', '-1');
     $('#chat').css('position', 'relative');
@@ -78,6 +82,16 @@ function currentContact(str) {
 }
 $(document).ready(function() {
     var currentContactIndex = 0;
+    var userName="";
+    userName=localStorage.getItem("pratChatFullName");
+    email=localStorage.getItem("pratChatEmail");
+    phoneNo=localStorage.getItem("pratChatPhone");
+    $("#profile > div > p").html(userName);
+    $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
+    $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
+    $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
+    var allContacts=getAllContacts();
+    displayAllContacts(allContacts);
 
     $('#sb').click(function() {
         sendChat(currentContactIndex);
@@ -207,7 +221,8 @@ function getChatMessages(index) {
         $('.messages ul').html(allMessages);
     }
 }
-//Utkarsha start
 function getAllContacts(){
+  
 }
-
+function displayAllContacts(){
+}
