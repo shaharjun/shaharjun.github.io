@@ -47,7 +47,7 @@
 							<li id="status-offline"><span class="status-circle"></span>
 								<p>Offline</p></li>
 							<li onclick="logout()" id="logout"><i id="logout-button"
-								class="fa fa-sign-out" aria-hidden="true"></i></span>
+								class="fa fa-sign-out" aria-hidden="true"></i>
 								<p>Logout</p></li>
 						</ul>
 					</div>
@@ -63,8 +63,9 @@
 				</div>
 			</div>
 
-			<div class="wrap">
-				<div align="left" class="starred"><!-- class name kept same with starred, may need to change -->
+			<div class="wrap" id="myProfileOuterDiv">
+				<div align="left" class="starred" id="myProfileInnerDiv">
+					<!-- class name kept same with starred, may need to change, Id has been added to differentiate -->
 					&nbsp&nbsp&nbsp<i class="fa fa-user" aria-hidden="true"></i><span>&nbsp&nbspMy Profile</span>
 				</div>
 			</div>
