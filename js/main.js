@@ -65,6 +65,7 @@ function backHome() {
     $('#cprof').css('z-index', '-1');
     $('#chat').css('position', 'relative');
     $('#chat').css('z-index', '300');
+    $('#stardisplay').css('z-index', '-1');
 }
 
 function currentContact(str) {
@@ -211,3 +212,41 @@ function getAllContacts(){
 }
 function displayAllContacts(){
 }
+function showStarred(){
+    $('#stardisplay').css('z-index', '400');
+}
+function getStarred() {
+    var starMsg = localStorage.getItem("starredMessages");
+    if (starMsg != null) {
+        var messagesArray = [];
+        messagesArray = localStorage.getItem("starredMessages");
+        messagesArray = JSON.parse(messagesArray);
+    }
+    var allMessages = "";
+    for(var i = 0; i<messagesArray.length; i++){
+        allMessages += "" + messagesArray[i].messageText +"";
+    }
+    $('.messages ul').html(allMessages);
+}
+function displayStarred(){
+    var messages = localStorage.getItem("starredMessages");
+    if (messages != null) {
+        var messagesArray = [];
+        messagesArray = localStorage.getItem("starredMessages");
+        messagesArray = JSON.parse(messagesArray);
+        var allMessages = "";
+        for (var i = 0; i < messagesArray.length; i++) {
+            var from = messagesArray[i].from;
+            var msg = messagesArray[i].messageText;
+            msg = msg.replace(/[0-9]/g, '');
+            allMessages += "<li class='sent'><img src='images/profile.png' alt='' />" +
+            "<p style='word-wrap: break-word;'>" +
+            msg + 
+            "<br><br><span style='float:right; color: darkgray; font-size: 1em'>" +
+            from + 
+            "</span></p></li>";
+            }
+        $('.messages ul').html(allMessages);
+    }
+}
+
