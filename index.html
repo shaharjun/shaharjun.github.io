@@ -55,13 +55,13 @@
 				</div>
 			</div>
 
-			<div class="wrap">
-				<div align="left" class="starred"><!-- class name kept same with starred, may need to change -->
+			<div class="wrap" id="myProfileOuterDiv">
+				<div align="left" class="starred" id="myProfileInnerDiv"><!-- class name kept same with starred, may need to change -->
 					&nbsp&nbsp&nbsp<i class="fa fa-user" aria-hidden="true"></i><span>&nbsp&nbspMy Profile</span>
 				</div>
 			</div>
 
-			<div class="wrap">
+			<div class="wrap" id="starredMsgsDiv">
 				<div align="left" class="starred">
 					&nbsp&nbsp&nbsp<i style="color: gold;" class="fa fa-star" aria-hidden="true"></i><span>&nbsp&nbspStarred Messages</span>
 				</div>
@@ -115,7 +115,86 @@
 				</button>
 			</div>
 		</div>
-		<div id="cprof" style="position: absolute; z-index: -1"
+
+
+		<!-- my profile page -->
+		<div id="uprof" style="position: absolute; z-index: -10"
+		class="content ">
+			<div class="card " id="pcard">
+
+				<div id="wrappie">
+
+					<!-- Exit button -->
+					<div class="exit-card">
+						<a class="btn-flat"
+							onclick="backHomeFromMyProfile()"><i class="material-icons">close</i></a>
+							<a class="btn-flat"
+								onclick="showEditMyProfile()"><i class="material-icons">edit</i></a>
+					</div>
+
+					<!-- Card Profile image -->
+					<div class="card-image">
+						<img src="images/profile.png" class="display-pic">
+					</div>
+
+					<!-- Card Profile content -->
+					<div class="card-content">
+						<div id="userName">
+							<p>User Profile</p>
+							<p id="userNameValue">userName</p>
+						</div>
+						<div id="userEmail">
+							<p class="cardLabel">Email</p>
+							<p id="userEmailValue">kamlesh@gmail.com</p>
+						</div>
+						<div id="userPhone">
+							<p class="cardLabel">Phone No.</p>
+							<p id="userPhoneValue">9676433245</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Edit profile page -->
+		<div id="eprof" style="position: absolute; z-index: -10"
+		class="content ">
+			<div class="card " id="pcard">
+
+				<div id="wrappie">
+
+					<!-- Exit button -->
+					<div class="exit-card">
+						<a class="btn-flat"
+							onclick="backHomeFromMyProfile()"><i class="material-icons">close</i></a>
+					</div>
+
+					<!-- Card Profile image -->
+					<div class="card-image">
+						<img src="images/profile.png" class="display-pic">
+					</div>
+
+					<!-- Card Profile content -->
+					<div class="card-content">
+						<div id="userName">
+							<p>EDIT PROFILE</p>
+							<p id="userNameValue">userName</p>
+						</div>
+						<div id="userEmail">
+							<p class="cardLabel">Email</p>
+							<p id="userEmailValue">kamlesh@gmail.com</p>
+						</div>
+						<div id="userPhone">
+							<p class="cardLabel">Phone No.</p>
+							<p id="userPhoneValue">9676433245</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contact profile page -->
+		<div id="cprof" style="position: absolute; z-index: -10"
 			class="content ">
 			<div class="card " id="pcard">
 
@@ -124,7 +203,7 @@
 					<!-- Exit button -->
 					<div class="exit-card">
 						<a class="btn-flat"
-							onclick="backHome()"><i class="material-icons">close</i></a>
+							onclick="backHomeFromContactProfile()"><i class="material-icons">close</i></a>
 					</div>
 
 					<!-- Card Profile image -->
@@ -149,10 +228,17 @@
 				</div>
 			</div>
 		</div>
-		<div id="chat" class="content" style="z-index: 1">
+			
+		<!-- Background page -->
+		<div id="background" class="content" style="position: absolute; z-index: 2">
+			<p>background</p>
+		</div>
+
+		<!--Contact Chat page -->
+		<div id="chat" class="content" style="z-index: -10">
 			<div class="contact-profile">
 
-				<img src="images/profile.png" onclick="showContactProfile()" alt="" />
+				<img src="images/profile.png" alt="" />
 				<p></p>
 
 				

@@ -53,30 +53,46 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-function showContactProfile() {
-    $('#cprof').css('z-index', '300');
-    $('#chat').css('position', 'absolute');
-    $('#chat').css('z-index', -1);
-}
-function backHome() {
-    $('#cprof').css('z-index', '-1');
-    $('#chat').css('position', 'relative');
-    $('#chat').css('z-index', '300');
+function backHomeFromContactProfile() {
+    bringToTop($("#chat"));
+} 
+function backHomeFromMyProfile(){
+    bringToTop($("#background"));
 }
 
 function currentContact(str) {
     $('#chat p').html(str);
-    $('.contact-profile').css("visibility", "visible");
-    $('.message-input').css("visibility", "visible");
-    $('#userNameValue').html(str);
+    $('#cprof #userNameValue').html(str);
+    /* $("#chat").css('z-index',10); */
+    bringToTop($("#chat"));
+    $("#background").css('z-index', -10);
     //further code needs to be added here to change email id and phone 
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
     $('.contact-profile').click(function(){
-        $('#cprof').css('z-index', '300');
+        /* $('#cprof').css('z-index', 10);
         $('#chat').css('position', 'absolute');
-        $('#chat').css('z-index', -1);
+        $('#chat').css('z-index', -10); */
+        bringToTop($("#cprof"));
     });
 }
+
+function showEditMyProfile(){
+    console.log("Show edit my profile");
+    bringToTop($("#eprof"));
+}
+
+function bringToTop(object){
+    console.log("bringToTop() Called");
+    var divs = ['#cprof', '#background', '#chat' , '#uprof', '#eprof', '#starredMsgs'];
+
+    for(var i =0; i < divs.length; i++){
+        $(divs[i]).css('z-index', -10);
+    }
+    object.css('z-index',300);
+}
+
+
+
 $(document).ready(function() {
     var currentContactIndex = 0;
     var userName="";
@@ -140,6 +156,10 @@ $(document).ready(function() {
         $("#status-options").removeClass("active");
     });
     $('.modal').modal();
+
+    $("#myProfileOuterDiv").click(function(){
+        bringToTop($("#uprof"));
+    });
 });
 
 // scroll to bottom
