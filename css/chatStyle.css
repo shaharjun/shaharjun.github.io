@@ -924,3 +924,6 @@
     max-width: 500px;
     line-height: 130%;
 }
+.starmsg {
+    visibility:hidden;
+}
