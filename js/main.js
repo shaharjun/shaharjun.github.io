@@ -16,13 +16,13 @@ function isValidMessage(message) {
 function sendChat(index) {
     var message = $('#chatBox').val();
     var message1 = "acknowledged";
-    var star = "<i style='color: burlywood;' onclick='storeStarMsg(message)' class='fa fa-star starmsg' aria-hidden='true'></i>"
+    var star = "<i onclick='makeGold()' style='color: burlywood' class='fa fa-star starmsg' aria-hidden='true'></i>"
     var html = "<li class='replies'>" +
         "<img src='images/profile.png' alt='' />" +
         "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
     var receivedMessage = "<li class='sent'>" +
         "<img src='images/profile.png' alt='' />" +
-        "<p style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
+        "<p  onclick='showStar()' style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
         $('.messages ul').append(html);
@@ -33,9 +33,6 @@ function sendChat(index) {
     $('#chatBox').val(' ');
     //scroll to bottom
     scrollToBottom("messages");
-}
-function storeStarMsg(){
-    $('.starmsg').attr('style', 'color:gold');
 }
 function logout() {
     window.location.href = "login.html";
@@ -65,6 +62,7 @@ function backHome() {
     $('#cprof').css('z-index', '-1');
     $('#chat').css('position', 'relative');
     $('#chat').css('z-index', '300');
+    $('#stardisplay').css('z-index', '-1');
 }
 
 function currentContact(str) {
@@ -98,7 +96,6 @@ $(document).ready(function() {
     $('#sb').click(function() {
         sendChat(currentContactIndex);
     });
-
     if ("pratChatToken" in localStorage) {
         console.log("Access Allowed");
     } else {
@@ -145,7 +142,7 @@ $(document).ready(function() {
 
         $("#status-options").removeClass("active");
     });
-	$('.modal').modal();
+    $('.modal').modal();
 
 });
 
@@ -183,6 +180,7 @@ function storeChat(currentContactIndex, message, messageType) {
 
 function getChatMessages(index) {
     var messages = localStorage.getItem("messages");
+    var star = "<i onClick='makeGold()' style='color: burlywood' class='fa fa-star starmsg' aria-hidden='true'></i>"
     if (messages != null) {
         var messagesArray = [];
         messagesArray = localStorage.getItem("messages");
@@ -196,10 +194,46 @@ function getChatMessages(index) {
             } else if (messagesArray[i].contactIndex == index) {
                 allMessages += "<li class='sent'>" +
                     "<img src='images/profile.png' alt='' />" +
-                    "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
+                    "<p onclick='showStar()' style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p>"+ star + "</li>";
             }
         }
         $('.messages ul').html(allMessages);
+    }
+}
+function makeGold(){
+    $(event.currentTarget).css('color','gold');
+    var ind = $(event.currentTarget).parent().index();
+    var text = $(event.currentTarget).parent().children('p').text() + ind;
+    storeStarMsg(text);
+}
+function showStar() {
+    var str = $(event.currentTarget).text();
+    var star = $(event.currentTarget).parent().children('i');
+    $(star).css('visibility','visible');
+}
+function storeStarMsg(text) {
+    var starredMessage = {
+        'from': ' ',
+        'messageText': ' ',
+        'to':  ' '
+    }
+    starredMessage.from = 'sender';
+    starredMessage.to = 'recevier';
+    starredMessage.messageText = text;
+    var store = localStorage.getItem('starredMessages');
+    if(store == null) {
+        store = [];
+        store.push(starredMessage);
+        store = JSON.stringify(store);
+        localStorage.setItem('starredMessages',store);
+    }
+    else {
+        var starArray = [];
+        starArray = localStorage.getItem("starredMessages");
+        starArray = JSON.parse(starArray);
+        starArray.push(starredMessage);
+        starArray = JSON.stringify(starArray);
+        localStorage.setItem("starredMessages", starArray);
     }
 }
 function getAllContacts(){
@@ -243,3 +277,41 @@ function setContacts(){
  console.log(contactsList);
  localStorage.setItem("chatContacts",contactsList);
 }
+function showStarred(){
+    $('#stardisplay').css('z-index', '400');
+}
+function getStarred() {
+    var starMsg = localStorage.getItem("starredMessages");
+    if (starMsg != null) {
+        var messagesArray = [];
+        messagesArray = localStorage.getItem("starredMessages");
+        messagesArray = JSON.parse(messagesArray);
+    }
+    var allMessages = "";
+    for(var i = 0; i<messagesArray.length; i++){
+        allMessages += "" + messagesArray[i].messageText +"";
+    }
+    $('.messages ul').html(allMessages);
+}
+function displayStarred(){
+    var messages = localStorage.getItem("starredMessages");
+    if (messages != null) {
+        var messagesArray = [];
+        messagesArray = localStorage.getItem("starredMessages");
+        messagesArray = JSON.parse(messagesArray);
+        var allMessages = "";
+        for (var i = 0; i < messagesArray.length; i++) {
+            var from = messagesArray[i].from;
+            var msg = messagesArray[i].messageText;
+            msg = msg.replace(/[0-9]/g, '');
+            allMessages += "<li class='sent'><img src='images/profile.png' alt='' />" +
+            "<p style='word-wrap: break-word;'>" +
+            msg + 
+            "<br><br><span style='float:right; color: darkgray; font-size: 1em'>" +
+            from + 
+            "</span></p></li>";
+            }
+        $('.messages ul').html(allMessages);
+    }
+}
+
