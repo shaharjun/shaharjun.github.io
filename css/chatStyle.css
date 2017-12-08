@@ -914,3 +914,6 @@
 .exit-card{
     margin-top: 25px;
 }
+.starmsg {
+    visibility:hidden;
+}
