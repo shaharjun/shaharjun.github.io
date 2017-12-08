@@ -141,22 +141,6 @@ $(document).ready(function() {
         $("#status-options").removeClass("active");
     });
     $('.modal').modal();
-
-    $('#myProfileOuterDiv').click(function(){
-        //currently getting values form localStorage
-        var myEmail = localStorage.getItem("pratChatEmail");
-        var myName = localStorage.getItem("pratChatFullName");
-        var myPhone = localStorage.getItem("pratChatPhone");
-        
-        $("#userNameValue").html(myName);
-        $("#userEmailValue").html(myEmail);
-        $('#userPhoneValue').html(myPhone);
-
-        $('#cprof').css('z-index', '300');
-        $('#chat').css('position', 'absolute');
-        $('#chat').css('z-index', -1);
-    })
-
 });
 
 // scroll to bottom
