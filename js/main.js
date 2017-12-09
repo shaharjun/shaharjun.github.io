@@ -298,7 +298,7 @@ function storeStarMsg(msgObj) {
         'chatStatus': '',
         'chatType': ''
     };
-    starredMessage = msgObj;
+    starredMessage.chatMessageText = msgObj;
     starredMessage.starred = true;
     var store = localStorage.getItem('starredMessages');
     if (store == null) {
@@ -415,7 +415,7 @@ function displayStarred() {
         for (var i = 0; i < messagesArray.length; i++) {
             var from = messagesArray[i].creator;
             var msg = messagesArray[i].chatMessageText;
-            msg = msg.replace(/[0-9]/g, '');
+            msg.replace(/[0-9]/g, '');
             allMessages += "<li class='sent'><img src='images/profile.png' alt='' />" +
                 "<p style='word-wrap: break-word;'>" +
                 msg +
