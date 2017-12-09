@@ -449,6 +449,10 @@
     cursor: pointer;
 }
 
+#contacts {
+	padding-bottom: 128px;
+}
+
 @media screen and (max-width: 735px) {
     #frame #sidepanel #contacts ul li.contact {
         padding: 6px 0 46px 8px;
@@ -857,7 +861,7 @@
 .row {
     display: flex;
 }
-#cprof {
+#cprof, #uprof, #background, #eprof, #starredMsgs {
     display: inline-block;
     background-color: white;
 }
@@ -874,19 +878,11 @@
     border-radius: 50%;
     margin: 5px 0 0 0;
 }
-.message-input{
-    visibility:hidden;
-}
-.contact-profile{
-    visibility:hidden;
-}
 .card-image{
     max-height:250px;
     max-width:250px;
     margin:auto;
     position: relative;
-}
-.display-pic{
 }
 .card{
     margin-top: 0;
@@ -917,8 +913,7 @@
 #viewQuestions{
 	padding-left: 30%;
 	padding-right: 30%;
-
-
+}
 #stardisplay {
     display: inline-block;
 }
@@ -931,5 +926,7 @@
 }
 .starmsg {
     visibility:hidden;
-r
+}
+#starmessages {
+    overflow-y:auto;
 }

@@ -25,8 +25,8 @@ function sendChat(index) {
         "<p  onclick='showStar()' style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
-        $('.messages ul').append(html);
-        $('.messages ul').append(receivedMessage);
+        $('#messages ul').append(html);
+        $('#messages ul').append(receivedMessage);
         storeChat(index, message, 0);
         storeChat(index, message1, 1);
     }
@@ -53,42 +53,45 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-function showContactProfile() {
-    $('#cprof').css('z-index', '300');
-    $('#chat').css('position', 'absolute');
-    $('#chat').css('z-index', -1);
-}
-function backHome() {
-    $('#cprof').css('z-index', '-1');
-    $('#chat').css('position', 'relative');
-    $('#chat').css('z-index', '300');
-    $('#stardisplay').css('z-index', '-1');
-}
 
 function currentContact(str) {
     $('#chat p').html(str);
-    $('.contact-profile').css("visibility", "visible");
-    $('.message-input').css("visibility", "visible");
-    $('#userNameValue').html(str);
+    $('#cprof #userNameValue').html(str);
+    /* $("#chat").css('z-index',10); */
+    bringToTop($("#chat"));
+    $("#background").css('z-index', -10);
     //further code needs to be added here to change email id and phone 
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
     $('.contact-profile').click(function(){
-        $('#cprof').css('z-index', '300');
+        /* $('#cprof').css('z-index', 10);
         $('#chat').css('position', 'absolute');
-        $('#chat').css('z-index', -1);
+        $('#chat').css('z-index', -10); */
+        bringToTop($("#cprof"));
     });
 }
+
 $(document).ready(function() {
     var currentContactIndex = 0;
     var userName="";
     userName=localStorage.getItem("pratChatFullName");
     email=localStorage.getItem("pratChatEmail");
     phoneNo=localStorage.getItem("pratChatPhone");
+
+    //set uprof and eprof values
+    $("#uprof #userNameValue").html(userName);
+    $("#uprof #userEmailValue").html(email);
+    $("#uprof #userPhoneValue").html(phoneNo);
+    $("#eprof #userNameValue").html(userName);
+    $("#eprof #userEmailValue").html(email);
+    $("#eprof #userPhoneValue").html(phoneNo);
+
     $("#profile > div > p").html(userName);
     $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
     $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
     $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
-    var allContacts=getAllContacts();
+    setContacts();
+    var allContacts=[]
+    allContacts=getAllContacts();
     displayAllContacts(allContacts);
 
     $('#sb').click(function() {
@@ -141,6 +144,10 @@ $(document).ready(function() {
         $("#status-options").removeClass("active");
     });
     $('.modal').modal();
+
+    $("#myProfileOuterDiv").click(function(){
+        bringToTop($("#uprof"));
+    });
 });
 
 // scroll to bottom
@@ -194,7 +201,7 @@ function getChatMessages(index) {
                     "<p onclick='showStar()' style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p>"+ star + "</li>";
             }
         }
-        $('.messages ul').html(allMessages);
+        $('#messages ul').html(allMessages);
     }
 }
 function makeGold(){
@@ -234,26 +241,51 @@ function storeStarMsg(text) {
     }
 }
 function getAllContacts(){
-  
+  allContacts=localStorage.getItem("chatContacts");
+  if(allContacts!=null){
+    var allContactsList=[];
+    allContactsList=JSON.parse(allContacts);
+    return allContactsList;
+  } 
+  return null;
 }
-function displayAllContacts(){
+
+function displayAllContacts(allContacts){
+  if(allContacts!=null){
+     var allContactsString="";
+     for(var i=0;i<allContacts.length;i++){
+       allContactsString+= '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
+			   +'<div class="meta"><p class="name">'+allContacts[i].fullName+'</p></div></div></li>';
+     }
+  }
+  $('#contacts > ul').html(allContactsString);
+}
+
+function setContacts(){
+  var contactsList=[];
+  localStorage.setItem("pratChatId",0);
+  for(var i=1;i<110;i++){
+  var contact={'fullName':"",
+               'email':"",
+               'id':0,
+               'phoneNo':0};
+    contact.fullName="Contact_"+i;
+    contact.email="Contact_"+i+"@gmail.com";
+    contact.id=i;
+    contact.phoneNo=9818102770+i;
+    contactsList.push(contact);
+    console.log(contact);
+    console.log(contactsList);
+ }          
+ contactsList=JSON.stringify(contactsList);
+ console.log(contactsList);
+ localStorage.setItem("chatContacts",contactsList);
 }
 function showStarred(){
-    $('#stardisplay').css('z-index', '400');
+    bringToTop($('#stardisplay'));
+    displayStarred();
 }
-function getStarred() {
-    var starMsg = localStorage.getItem("starredMessages");
-    if (starMsg != null) {
-        var messagesArray = [];
-        messagesArray = localStorage.getItem("starredMessages");
-        messagesArray = JSON.parse(messagesArray);
-    }
-    var allMessages = "";
-    for(var i = 0; i<messagesArray.length; i++){
-        allMessages += "" + messagesArray[i].messageText +"";
-    }
-    $('.messages ul').html(allMessages);
-}
+
 function displayStarred(){
     var messages = localStorage.getItem("starredMessages");
     if (messages != null) {
@@ -272,7 +304,26 @@ function displayStarred(){
             from + 
             "</span></p></li>";
             }
-        $('.messages ul').html(allMessages);
+        $('#starmessages ul').html(allMessages);
     }
 }
+function showEditMyProfile(){
+    console.log("Show edit my profile");
+    bringToTop($("#eprof"));
+}
 
+function bringToTop(object){
+    console.log("bringToTop() Called");
+    var divs = ['#cprof', '#background', '#chat' , '#uprof', '#eprof', '#stardisplay'];
+
+    for(var i =0; i < divs.length; i++){
+        $(divs[i]).css('z-index', -10);
+    }
+    object.css('z-index',300);
+}
+function backHomeFromContactProfile() {
+    bringToTop($("#chat"));
+} 
+function backHomeFromMyProfile(){
+    bringToTop($("#background"));
+}
