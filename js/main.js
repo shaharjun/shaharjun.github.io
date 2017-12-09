@@ -58,7 +58,7 @@ function backHomeFromContactProfile() {
 } 
 function backHomeFromMyProfile(){
     bringToTop($("#background"));
-
+}
 
 function currentContact(str) {
     $('#chat p').html(str);
@@ -83,7 +83,7 @@ function showEditMyProfile(){
 
 function bringToTop(object){
     console.log("bringToTop() Called");
-    var divs = ['#cprof', '#background', '#chat' , '#uprof', '#eprof', '#starredMsgs'];
+    var divs = ['#cprof', '#background', '#chat' , '#uprof', '#eprof', '#stardisplay'];
 
     for(var i =0; i < divs.length; i++){
         $(divs[i]).css('z-index', -10);
@@ -296,7 +296,7 @@ function setContacts(){
  localStorage.setItem("chatContacts",contactsList);
 }
 function showStarred(){
-    $('#stardisplay').css('z-index', '400');
+    bringToTop($('#stardisplay'));
     displayStarred();
 }
 
@@ -320,4 +320,4 @@ function displayStarred(){
             }
         $('#starmessages ul').html(allMessages);
     }
-}}
+}
