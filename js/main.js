@@ -119,7 +119,7 @@ $(document).ready(function () {
         window.location.href = "login.html";
     });
     $("#profile-img").click(function () {
-        $("#status-options").toggleClass("active");
+        $("#status-options").addClass("active");
     });
     $("#status-options ul li").click(function () {
         $("#profile-img").removeClass();
@@ -148,6 +148,11 @@ $(document).ready(function () {
     $("#myProfileOuterDiv").click(function () {
         bringToTop($("#uprof"));
     });
+    $(document).bind("mouseup touchend", function(e){
+        if (e.target.id != "profile-img"){
+            $("#status-options").removeClass("active");
+        }
+      });
 });
 
 // scroll to bottom
