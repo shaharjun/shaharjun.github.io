@@ -2,15 +2,14 @@
  * 
  */
 $(document).ready(function(){
-	if(localStorage.getItem("pratChatEmail") === undefined){
+	var user = JSON.parse(localStorage.getItem("thisUser"));
+	if(user === null){
 		$("#email").val("");
 	}
-    if (localStorage.getItem("pratChatToken") !== null) {
-    }
-	if(localStorage.getItem("pratChatToken") !== null || localStorage.getItem("isRegistered") !== null){
+	if(localStorage.getItem("sessionId") !== null || localStorage.getItem("isRegistered") !== null){
 		console.log("token already exists");
-		console.log(localStorage.getItem("pratChatEmail"));
-		$("#email").val(localStorage.getItem("pratChatEmail"));
+		console.log(user.emailId);
+		$("#email").val(user.emailId);
 	}
 	else{
 		console.log("token does not exist");
@@ -26,8 +25,8 @@ $(document).ready(function(){
 		else if(password === ""){
 			Materialize.toast("Enter password", 1000);
 		}
-		else if(localStorage.getItem("pratChatEmail")=== email && localStorage.getItem("pratChatPassword")===password){
-			localStorage.setItem("pratChatToken",email.hashCode());
+		else if(user.emailId=== email && user.password===password){
+			localStorage.setItem("sessionId",email.hashCode());
 			window.location.href = "index.html";
 		}
 		else{

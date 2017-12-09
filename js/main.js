@@ -14,21 +14,46 @@ function isValidMessage(message) {
 }
 
 function sendChat(index) {
-    var message = $('#chatBox').val();
-    var message1 = "acknowledged";
+
+    var sentMessage ={
+        'creator':'',
+        'receiver':'',
+        'chatMessageId':0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex': 0,
+        'chatMessageText': '',
+        'messageType': 0,
+        'chatStatus': '',
+        'chatType':''
+    }; 
+    sentMessage.chatMessageText = $('#chatBox').val();
+    var receivedMessage = {
+        'creator':'',
+        'receiver':'',
+        'chatMessageId':0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex': 0,
+        'chatMessageText': '',
+        'messageType': 1,
+        'chatStatus': '',
+        'chatType':''
+    };
+    receivedMessage.chatMessageText = 'hmm';
     var star = "<i onclick='makeGold()' style='color: burlywood' class='fa fa-star starmsg' aria-hidden='true'></i>"
     var html = "<li class='replies'>" +
         "<img src='images/profile.png' alt='' />" +
-        "<p style=\"word-wrap: break-word;\">" + message + "</p></li>";
-    var receivedMessage = "<li class='sent'>" +
+        "<p style=\"word-wrap: break-word;\">" + sentMessage.chatMessageText + "</p></li>";
+    var rcMessage = "<li class='sent'>" +
         "<img src='images/profile.png' alt='' />" +
-        "<p  onclick='showStar()' style=\"word-wrap: break-word;\">" + message1 + "</p>" + star + "</li>";
-    var isValid = isValidMessage(message);
+        "<p  onclick='showStar()' style=\"word-wrap: break-word;\">" + receivedMessage.chatMessageText + "</p>" + star + "</li>";
+    var isValid = isValidMessage(sentMessage.chatMessageText);
     if (isValid) {
         $('#messages ul').append(html);
-        $('#messages ul').append(receivedMessage);
-        storeChat(index, message, 0);
-        storeChat(index, message1, 1);
+        $('#messages ul').append(rcMessage);
+        storeChat(index, sentMessage);
+        storeChat(index, receivedMessage);
     }
     $('#chatBox').val(' ');
     //scroll to bottom
@@ -36,7 +61,7 @@ function sendChat(index) {
 }
 function logout() {
     window.location.href = "login.html";
-    localStorage.removeItem("pratChatToken");
+    localStorage.removeItem("sessionId");
 }
 function random() {
     $('#addreminder').modal();
@@ -72,10 +97,20 @@ function currentContact(str) {
 
 $(document).ready(function () {
     var currentContactIndex = 0;
-    var userName = "";
-    userName = localStorage.getItem("pratChatFullName");
-    email = localStorage.getItem("pratChatEmail");
-    phoneNo = localStorage.getItem("pratChatPhone");
+    var user = {
+        'fullName': '',
+        'emailId': '',
+        'userId': 0,
+        'password' :'',
+        'phoneNo': 0,
+        'profilePictureURL' : '',
+        'chatContacts' : [] 
+    };
+    // ab honga dangal
+    user = JSON.parse(localStorage.getItem("thisUser"));
+    userName = user.fullName;
+    email = user.emailId;
+    phoneNo = user.phoneNo;
 
     //set uprof and eprof values
     $("#uprof #userNameValue").html(userName);
@@ -97,7 +132,7 @@ $(document).ready(function () {
     $('#sb').click(function () {
         sendChat(currentContactIndex);
     });
-    if ("pratChatToken" in localStorage) {
+    if ("sessionId" in localStorage) {
         console.log("Access Allowed");
     } else {
         console.log("Access Denied, redirecting to Login");
@@ -115,7 +150,7 @@ $(document).ready(function () {
         $("#contacts").toggleClass("expanded");
     });
     $('#logout-button').click(function () {
-        localStorage.removeItem("pratChatToken");
+        localStorage.removeItem("sessionId");
         window.location.href = "login.html";
     });
     $("#profile-img").click(function () {
@@ -161,18 +196,26 @@ function scrollToBottom(id) {
     div.scrollTop = div.scrollHeight - div.clientHeight;
 }
 
-function storeChat(currentContactIndex, message, messageType) {
+function storeChat(currentContactIndex, message) {
     var messageData = {
+        'creator':'',
+        'receiver':'',
+        'chatMessageId':0,
+        'createdOn': new Date(),
+        'starred': false,
         'contactIndex': 0,
-        'messageText': "",
-        'messageType': 0
-    }
+        'chatMessageText': '',
+        'messageType': 0,
+        'chatStatus': '',
+        'chatType':''
+    };
+    console.log(message);
     var numItem = $('#contacts > ul > li.contact.request').length;
     currentContactIndex = currentContactIndex - numItem;
     var messages = localStorage.getItem("messages");
     messageData.contactIndex = currentContactIndex;
-    messageData.messageText = message;
-    messageData.messageType = messageType;
+    messageData.messageText = message.chatMessageText;
+    messageData.messageType = message.messageType;
     if (messages == null) {
         messages = [];
         messages.push(messageData);
@@ -190,14 +233,14 @@ function storeChat(currentContactIndex, message, messageType) {
 
 function getChatMessages(index) {
     var numItem = $('#contacts > ul > li.contact.request').length;
-    var allMessages = "";
+    var allMessages = " ";
     console.log(numItem);
     if (numItem != 0 && index < numItem) {
         var rq = localStorage.getItem("requests");
         rq = JSON.parse(rq);
         var item = rq[index];
         var msg = '<li class="sent"><img src="images/profile.png" alt="">' +
-            '<p>' + item.sender + ' wants to connect with you</p>' +
+            '<p>' + item.creator + ' wants to connect with you</p>' +
             '&nbsp<i onClick="approveRequest(' + index + ')" style="font-size:2em;color:seagreen" class="fa fa-check-circle" aria-hidden="true"></i>' +
             '&nbsp&nbsp<i onClick="removeRequest(' + index + ')" style="font-size:2em;color:indianred" class="fa fa-times" aria-hidden="true"></i></li>';
         $('#messages ul').html(msg);
@@ -215,15 +258,15 @@ function getChatMessages(index) {
                 if (messagesArray[i].contactIndex == index && messagesArray[i].messageType == 0) {
                     allMessages += "<li class='replies'>" +
                         "<img src='images/profile.png' alt='' />" +
-                        "<p style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p></li>";
-                } else if (messagesArray[i].contactIndex == index) {
+                        "<p style=\"word-wrap: break-word;\">" + messagesArray[i].chatMessageText + "</p></li>";
+                } else if (messagesArray[i].contactIndex == index && messagesArray[i].messageType == 1) {
                     allMessages += "<li class='sent'>" +
                         "<img src='images/profile.png' alt='' />" +
-                        "<p onclick='showStar()' style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p>" + star + "</li>";
+                        "<p onclick='showStar()' style=\"word-wrap: break-word;\">" + messagesArray[i].chatMessageText + "</p>" + star + "</li>";
                 }
             }
-            $('#messages ul').html(allMessages);
         }
+        $('#messages ul').html(allMessages);
     }
 }
 function makeGold() {
@@ -237,15 +280,21 @@ function showStar() {
     var star = $(event.currentTarget).parent().children('i');
     $(star).css('visibility', 'visible');
 }
-function storeStarMsg(text) {
+function storeStarMsg(msgObj) {
     var starredMessage = {
-        'from': ' ',
-        'messageText': ' ',
-        'to': ' '
-    }
-    starredMessage.from = 'sender';
-    starredMessage.to = 'recevier';
-    starredMessage.messageText = text;
+        'creator':'',
+        'receiver':'',
+        'chatMessageId':0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex': 0,
+        'chatMessageText': '',
+        'messageType': 0,
+        'chatStatus': '',
+        'chatType':''
+    };
+    starredMessage = msgObj;
+    starredMessage.starred = true;
     var store = localStorage.getItem('starredMessages');
     if (store == null) {
         store = [];
@@ -276,12 +325,28 @@ function displayAllContacts(allContacts) {
     var allContactsString = "";
     var store = localStorage.getItem("requests");
     var request = {
-        'sender': 'boss',
-        'messageType': 2
+        'creator':'Arjun',
+        'receiver':'Rajat',
+        'chatMessageId':0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex': 0,
+        'chatMessageText': '',
+        'messageType': 2,
+        'chatStatus': '',
+        'chatType':''
     }
     var request2 = {
-        'sender': 'senior',
-        'messageType': 2
+        'creator':'Utkarsha',
+        'receiver':'Rajat',
+        'chatMessageId':0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex': 0,
+        'chatMessageText': '',
+        'messageType': 2,
+        'chatStatus': '',
+        'chatType':''
     };
     store = JSON.parse(store);
     if (store == null || store.length == 0) {
@@ -295,7 +360,7 @@ function displayAllContacts(allContacts) {
     store = JSON.parse(store);
     for (var i = 0; i < store.length; i++) {
         allContactsString += '<li class="contact request"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
-            + '<div class="meta"><p class="name">' + store[i].sender + '</p></div></div></li>';
+            + '<div class="meta"><p class="name">' + store[i].creator + '</p></div></div></li>';
     }
 if (allContacts != null) {
     for (var i = 0; i < allContacts.length; i++) {
@@ -308,18 +373,20 @@ $('#contacts > ul').html(allContactsString);
 
 function setContacts() {
     var contactsList = [];
-    localStorage.setItem("pratChatId", 0);
     if(!localStorage.getItem("chatContacts")) {
     for (var i = 1; i < 110; i++) {
         var contact = {
-            'fullName': "",
-            'email': "",
-            'id': 0,
-            'phoneNo': 0
+            'fullName': '',
+            'emailId': '',
+            'userId': 0,
+            'password' :'',
+            'phoneNo': 0,
+            'profilePictureURL' : '',
+            'chatContacts' : [] 
         };
         contact.fullName = "Contact_" + i;
-        contact.email = "Contact_" + i + "@gmail.com";
-        contact.id = i;
+        contact.emailId = "Contact_" + i + "@gmail.com";
+        contact.userId = i;
         contact.phoneNo = 9818102770 + i;
         contactsList.push(contact);
     }
@@ -340,8 +407,8 @@ function displayStarred() {
         messagesArray = JSON.parse(messagesArray);
         var allMessages = "";
         for (var i = 0; i < messagesArray.length; i++) {
-            var from = messagesArray[i].from;
-            var msg = messagesArray[i].messageText;
+            var from = messagesArray[i].creator;
+            var msg = messagesArray[i].chatMessageText;
             msg = msg.replace(/[0-9]/g, '');
             allMessages += "<li class='sent'><img src='images/profile.png' alt='' />" +
                 "<p style='word-wrap: break-word;'>" +
@@ -387,23 +454,26 @@ function removeRequest(index) {
 function approveRequest(index) {
     var store = localStorage.getItem("requests");
     store = JSON.parse(store);
-    var name = store[index].sender;
+    var name = store[index].creator;
     store.splice(index,1);
     console.log('length' + store.length);
     store = JSON.stringify(store);
     localStorage.setItem("requests", store);
     var contact = {
-        fullName : '',
-        email : ' ',
-        id : 0,
-        phoneNo : 0
+        'fullName': '',
+        'emailId': '',
+        'userId': 0,
+        'password' :'',
+        'phoneNo': 0,
+        'profilePictureURL' : '',
+        'chatContacts' : [] 
     }
     contact.fullName = name;
-    contact.email = 'some@mail.com';
+    contact.emailId = 'some@mail.com';
     contact.phoneNo = 779121212;
     var contacts = localStorage.getItem("chatContacts");
     contacts = JSON.parse(contacts);
-    contact.id = contacts.length +1;
+    contact.userId = contacts.length +1;
     contacts.push(contact);
     contacts = JSON.stringify(contacts);
     localStorage.setItem("chatContacts",contacts);
