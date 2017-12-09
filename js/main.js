@@ -311,8 +311,8 @@ function displayStarred() {
 function sendremainderChat(index) {
     var message = $('#remaindermessage').val();
     var reminderDate = $('#remainderdate').val();
-    // console.log(reminderDate);
-    //  alert(reminderDate.slice(-17))
+
+
     var reminderContact = $('#remindercontact').val();
     var isValid = isValidMessage(message);
     if (isValid) {
@@ -343,7 +343,6 @@ function storereminder(currentContactIndex, message, reminderDate, reminderConta
     } else {
         var remindermessagesArray = [];
         remindermessagesArray = localStorage.getItem("remindermessages");
-        console.log(messageData);
         remindermessagesArray = JSON.parse(remindermessagesArray);
         remindermessagesArray.push(messageData);
         remindermessagesArray = JSON.stringify(remindermessagesArray);
@@ -356,11 +355,9 @@ function getremainderChat(index) {
     if (messages != null) {
         var remindermessagesArray = [];
         remindermessagesArray = localStorage.getItem("remindermessages");
-        console.log(remindermessagesArray);
         remindermessagesArray = JSON.parse(remindermessagesArray);
         var allMessages = "";
         var d = new Date();
-        console.log(d);
         var dd = d.getDate();
         var mm = d.getMonth() + 1; //January is 0!
 
@@ -373,9 +370,7 @@ function getremainderChat(index) {
         }
         var today = dd + '-' + mm + '-' + yyyy;
         var datestring = dd + '-' + mm + '-' + yyyy;
-        console.log(datestring);
         for (var i = 0; i < remindermessagesArray.length; i++) {
-            console.log(remindermessagesArray[i].reminderDate);
             if (datestring === remindermessagesArray[i].reminderDate && remindermessagesArray[i].contactIndex == 0 && remindermessagesArray[i].messageType == 0) {
                 allMessages += "<li class='replies'>" +
                     "<img src='images/profile.png' alt='' />" +
