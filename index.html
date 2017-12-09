@@ -93,9 +93,9 @@
 						contact</span>
 				</button>
 				<button id="settings" onclick="random()" id="remider"
-					href="#addreminder" class="modal-trigger">
-					<i class="fa fa-bell" aria-hidden="true"></i> <span>Reminder</span>
-				</button>
+				href="#addreminder" class="modal-trigger">
+				<i class="fa fa-bell" aria-hidden="true"></i> <span>Reminder</span>
+			</button>
 				<button id="addGroup">
 					<i class="fa fa-users" aria-hidden="true"></i><span>Create
 						Group</span>
@@ -193,40 +193,42 @@
 		</div>
 	</div>
 	<div id="addreminder" class="modal">
-		<div class="modal-content">
-			<div class="rowreminder">
-				<form class="col s12">
-					<div class="rowreminder">
-						<div class="input-field col s6">
-							<i class="material-icons prefix">mode_edit</i>
-							<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-							<label for="icon_prefix2">Enter Message</label>
+			<div class="modal-content">
+				<div class="rowreminder">
+					<form class="col s12">
+						<div class="rowreminder">
+							<div class="input-field col s6">
+								<i class="material-icons prefix">mode_edit</i>	
+								<textarea id="remaindermessage" class="materialize-textarea"></textarea>
+								<label for="icon_prefix2">Enter Message</label>
+							</div>
 						</div>
-					</div>
-
-				</form>
-			</div>
-			<div class="input-field col s6">
-				<i class="material-icons prefix">access_time</i> <input type="text"
-					class="datepicker"> <label for="icon_prefix2">Enter
-					Date</label>
-			</div>
-			<div class="input-field col s6">
-				<i class="material-icons prefix">contacts</i>
-				<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-				<label for="icon_prefix2">Add Contact</label>
-				<div id="searchContactResult">
-					<ul id="searchContactResultList">
-					</ul>
+	
+					</form>
 				</div>
+				<div class="input-field col s6">
+					<i class="material-icons prefix">perm_contact_calendar</i> 
+					<input type="text"id="remainderdate"
+						class="datepicker"> <label for="icon_prefix2">Enter
+						Date</label>
+				</div>
+				<div class="input-field col s6">
+					<i class="material-icons prefix">contacts</i>
+					<textarea id="remindercontact" class="materialize-textarea"></textarea>
+					<label for="icon_prefix2">Add Contact</label>
+					<div id="searchContactResult">
+						<ul id="searchContactResultList">
+						</ul>
+					</div>
+				</div>
+				<div class="modal-footer">
+				<a href="#!" style="background:#32465a;color:white;"
+					class="modal-action modal-close btn-flat" id="addrem" onClick='sendremainderChat()'>Add Reminder</a>
+				<a href="#!" style="background:#32465a;color:white;"
+					class="modal-action modal-close btn-flat">Close</a>
 			</div>
-			<div class="modal-footer">
-
-				<a href="#!" style="background:#32465a;color:white;" class="modal-action modal-close btn-flat">Close</a>
-
 			</div>
 		</div>
-	</div>
 	<div id="addContactModal" class="modal">
 		<div class="modal-content">
 			<input type="text" id="searchText"
