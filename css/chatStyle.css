@@ -449,6 +449,10 @@
     cursor: pointer;
 }
 
+#contacts {
+	padding-bottom: 128px;
+}
+
 @media screen and (max-width: 735px) {
     #frame #sidepanel #contacts ul li.contact {
         padding: 6px 0 46px 8px;
@@ -906,6 +910,23 @@
 .exit-card{
     margin-top: 25px;
 }
+#viewQuestions{
+	padding-left: 30%;
+	padding-right: 30%;
+}
+#stardisplay {
+    display: inline-block;
+}
+.stardisplay ul li p {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 500px;
+    line-height: 130%;
+}
 .starmsg {
     visibility:hidden;
+}
+#starmessages {
+    overflow-y:auto;
 }

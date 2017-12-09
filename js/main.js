@@ -25,8 +25,8 @@ function sendChat(index) {
         "<p  onclick='showStar()' style=\"word-wrap: break-word;\">" + message1 + "</p>"+star+"</li>";
     var isValid = isValidMessage(message);
     if (isValid) {
-        $('.messages ul').append(html);
-        $('.messages ul').append(receivedMessage);
+        $('#messages ul').append(html);
+        $('#messages ul').append(receivedMessage);
         storeChat(index, message, 0);
         storeChat(index, message1, 1);
     }
@@ -58,7 +58,7 @@ function backHomeFromContactProfile() {
 } 
 function backHomeFromMyProfile(){
     bringToTop($("#background"));
-}
+
 
 function currentContact(str) {
     $('#chat p').html(str);
@@ -103,7 +103,9 @@ $(document).ready(function() {
     $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
     $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
     $('#expanded > ul > li:nth-child(3)').html("Phone : "+phoneNo);
-    var allContacts=getAllContacts();
+    setContacts();
+    var allContacts=[]
+    allContacts=getAllContacts();
     displayAllContacts(allContacts);
 
     $('#sb').click(function() {
@@ -213,7 +215,7 @@ function getChatMessages(index) {
                     "<p onclick='showStar()' style=\"word-wrap: break-word;\">" + messagesArray[i].messageText + "</p>"+ star + "</li>";
             }
         }
-        $('.messages ul').html(allMessages);
+        $('#messages ul').html(allMessages);
     }
 }
 function makeGold(){
@@ -253,7 +255,69 @@ function storeStarMsg(text) {
     }
 }
 function getAllContacts(){
-  
+  allContacts=localStorage.getItem("chatContacts");
+  if(allContacts!=null){
+    var allContactsList=[];
+    allContactsList=JSON.parse(allContacts);
+    return allContactsList;
+  } 
+  return null;
 }
-function displayAllContacts(){
+
+function displayAllContacts(allContacts){
+  if(allContacts!=null){
+     var allContactsString="";
+     for(var i=0;i<allContacts.length;i++){
+       allContactsString+= '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
+			   +'<div class="meta"><p class="name">'+allContacts[i].fullName+'</p></div></div></li>';
+     }
+  }
+  $('#contacts > ul').html(allContactsString);
 }
+
+function setContacts(){
+  var contactsList=[];
+  localStorage.setItem("pratChatId",0);
+  for(var i=1;i<110;i++){
+  var contact={'fullName':"",
+               'email':"",
+               'id':0,
+               'phoneNo':0};
+    contact.fullName="Contact_"+i;
+    contact.email="Contact_"+i+"@gmail.com";
+    contact.id=i;
+    contact.phoneNo=9818102770+i;
+    contactsList.push(contact);
+    console.log(contact);
+    console.log(contactsList);
+ }          
+ contactsList=JSON.stringify(contactsList);
+ console.log(contactsList);
+ localStorage.setItem("chatContacts",contactsList);
+}
+function showStarred(){
+    $('#stardisplay').css('z-index', '400');
+    displayStarred();
+}
+
+function displayStarred(){
+    var messages = localStorage.getItem("starredMessages");
+    if (messages != null) {
+        var messagesArray = [];
+        messagesArray = localStorage.getItem("starredMessages");
+        messagesArray = JSON.parse(messagesArray);
+        var allMessages = "";
+        for (var i = 0; i < messagesArray.length; i++) {
+            var from = messagesArray[i].from;
+            var msg = messagesArray[i].messageText;
+            msg = msg.replace(/[0-9]/g, '');
+            allMessages += "<li class='sent'><img src='images/profile.png' alt='' />" +
+            "<p style='word-wrap: break-word;'>" +
+            msg + 
+            "<br><br><span style='float:right; color: darkgray; font-size: 1em'>" +
+            from + 
+            "</span></p></li>";
+            }
+        $('#starmessages ul').html(allMessages);
+    }
+}}
