@@ -53,37 +53,38 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-function showContactProfile() {
-    $('#cprof').css('z-index', '300');
-    $('#chat').css('position', 'absolute');
-    $('#chat').css('z-index', -1);
-}
-function backHome() {
-    $('#cprof').css('z-index', '-1');
-    $('#chat').css('position', 'relative');
-    $('#chat').css('z-index', '300');
-    $('#stardisplay').css('z-index', '-1');
-}
 
 function currentContact(str) {
     $('#chat p').html(str);
-    $('.contact-profile').css("visibility", "visible");
-    $('.message-input').css("visibility", "visible");
-    $('#userNameValue').html(str);
+    $('#cprof #userNameValue').html(str);
+    /* $("#chat").css('z-index',10); */
+    bringToTop($("#chat"));
+    $("#background").css('z-index', -10);
     //further code needs to be added here to change email id and phone 
     window.setTimeout(function(){ scrollToBottom("messages"); }, 1);
     $('.contact-profile').click(function(){
-        $('#cprof').css('z-index', '300');
+        /* $('#cprof').css('z-index', 10);
         $('#chat').css('position', 'absolute');
-        $('#chat').css('z-index', -1);
+        $('#chat').css('z-index', -10); */
+        bringToTop($("#cprof"));
     });
 }
+
 $(document).ready(function() {
     var currentContactIndex = 0;
     var userName="";
     userName=localStorage.getItem("pratChatFullName");
     email=localStorage.getItem("pratChatEmail");
     phoneNo=localStorage.getItem("pratChatPhone");
+
+    //set uprof and eprof values
+    $("#uprof #userNameValue").html(userName);
+    $("#uprof #userEmailValue").html(email);
+    $("#uprof #userPhoneValue").html(phoneNo);
+    $("#eprof #userNameValue").html(userName);
+    $("#eprof #userEmailValue").html(email);
+    $("#eprof #userPhoneValue").html(phoneNo);
+
     $("#profile > div > p").html(userName);
     $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
     $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
@@ -144,6 +145,9 @@ $(document).ready(function() {
     });
     $('.modal').modal();
 
+    $("#myProfileOuterDiv").click(function(){
+        bringToTop($("#uprof"));
+    });
 });
 
 // scroll to bottom
@@ -278,9 +282,10 @@ function setContacts(){
  localStorage.setItem("chatContacts",contactsList);
 }
 function showStarred(){
-    $('#stardisplay').css('z-index', '400');
+    bringToTop($('#stardisplay'));
     displayStarred();
 }
+
 function displayStarred(){
     var messages = localStorage.getItem("starredMessages");
     if (messages != null) {
@@ -302,4 +307,23 @@ function displayStarred(){
         $('#starmessages ul').html(allMessages);
     }
 }
+function showEditMyProfile(){
+    console.log("Show edit my profile");
+    bringToTop($("#eprof"));
+}
 
+function bringToTop(object){
+    console.log("bringToTop() Called");
+    var divs = ['#cprof', '#background', '#chat' , '#uprof', '#eprof', '#stardisplay'];
+
+    for(var i =0; i < divs.length; i++){
+        $(divs[i]).css('z-index', -10);
+    }
+    object.css('z-index',300);
+}
+function backHomeFromContactProfile() {
+    bringToTop($("#chat"));
+} 
+function backHomeFromMyProfile(){
+    bringToTop($("#background"));
+}
