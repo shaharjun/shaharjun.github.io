@@ -39,11 +39,11 @@ function logout() {
     localStorage.removeItem("pratChatToken");
 }
 function random() {
-    $('#addreminder').modal();
+	$('#addreminder').modal();
 }
 function searchContact() {
-    var text = $("#searchText").val();
-    console.log(text);
+	var text = $("#searchText").val();
+	console.log(text);
 }
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -53,7 +53,7 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: true, // Close upon selecting a date,
     format: 'dd-mm-yyyy'
-});
+  });
 function showContactProfile() {
     $('#cprof').css('z-index', '300');
     $('#chat').css('position', 'absolute');
@@ -110,7 +110,7 @@ $(document).ready(function () {
         currentContact(str);
         openreminder();
         getChatMessages(currentContactIndex);
-
+       
 
     });
     $(".expand-button").click(function () {
@@ -213,23 +213,23 @@ function makeGold() {
 function showStar() {
     var str = $(event.currentTarget).text();
     var star = $(event.currentTarget).parent().children('i');
-    $(star).css('visibility', 'visible');
+    $(star).css('visibility','visible');
 }
 function storeStarMsg(text) {
     var starredMessage = {
         'from': ' ',
         'messageText': ' ',
-        'to': ' '
+        'to':  ' '
     }
     starredMessage.from = 'sender';
     starredMessage.to = 'recevier';
     starredMessage.messageText = text;
     var store = localStorage.getItem('starredMessages');
-    if (store == null) {
+    if(store == null) {
         store = [];
         store.push(starredMessage);
         store = JSON.stringify(store);
-        localStorage.setItem('starredMessages', store);
+        localStorage.setItem('starredMessages',store);
     }
     else {
         var starArray = [];
@@ -240,54 +240,52 @@ function storeStarMsg(text) {
         localStorage.setItem("starredMessages", starArray);
     }
 }
-function getAllContacts() {
-    allContacts = localStorage.getItem("chatContacts");
-    if (allContacts != null) {
-        var allContactsList = [];
-        allContactsList = JSON.parse(allContacts);
-        return allContactsList;
-    }
-    return null;
+function getAllContacts(){
+  allContacts=localStorage.getItem("chatContacts");
+  if(allContacts!=null){
+    var allContactsList=[];
+    allContactsList=JSON.parse(allContacts);
+    return allContactsList;
+  } 
+  return null;
 }
 
-function displayAllContacts(allContacts) {
-    if (allContacts != null) {
-        var allContactsString = "";
-        for (var i = 0; i < allContacts.length; i++) {
-            allContactsString += '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
-                + '<div class="meta"><p class="name">' + allContacts[i].fullName + '</p></div></div></li>';
-        }
-    }
-    $('#contacts > ul').html(allContactsString);
+function displayAllContacts(allContacts){
+  if(allContacts!=null){
+     var allContactsString="";
+     for(var i=0;i<allContacts.length;i++){
+       allContactsString+= '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
+			   +'<div class="meta"><p class="name">'+allContacts[i].fullName+'</p></div></div></li>';
+     }
+  }
+  $('#contacts > ul').html(allContactsString);
 }
 
-function setContacts() {
-    var contactsList = [];
-    localStorage.setItem("pratChatId", 0);
-    for (var i = 1; i < 110; i++) {
-        var contact = {
-            'fullName': "",
-            'email': "",
-            'id': 0,
-            'phoneNo': 0
-        };
-        contact.fullName = "Contact_" + i;
-        contact.email = "Contact_" + i + "@gmail.com";
-        contact.id = i;
-        contact.phoneNo = 9818102770 + i;
-        contactsList.push(contact);
-        console.log(contact);
-        console.log(contactsList);
-    }
-    contactsList = JSON.stringify(contactsList);
+function setContacts(){
+  var contactsList=[];
+  localStorage.setItem("pratChatId",0);
+  for(var i=1;i<110;i++){
+  var contact={'fullName':"",
+               'email':"",
+               'id':0,
+               'phoneNo':0};
+    contact.fullName="Contact_"+i;
+    contact.email="Contact_"+i+"@gmail.com";
+    contact.id=i;
+    contact.phoneNo=9818102770+i;
+    contactsList.push(contact);
+    console.log(contact);
     console.log(contactsList);
-    localStorage.setItem("chatContacts", contactsList);
+ }          
+ contactsList=JSON.stringify(contactsList);
+ console.log(contactsList);
+ localStorage.setItem("chatContacts",contactsList);
 }
-function showStarred() {
+function showStarred(){
     $('#stardisplay').css('z-index', '400');
     displayStarred();
 }
-function displayStarred() {
+function displayStarred(){
     var messages = localStorage.getItem("starredMessages");
     if (messages != null) {
         var messagesArray = [];
@@ -299,29 +297,30 @@ function displayStarred() {
             var msg = messagesArray[i].messageText;
             msg = msg.replace(/[0-9]/g, '');
             allMessages += "<li class='sent'><img src='images/profile.png' alt='' />" +
-                "<p style='word-wrap: break-word;'>" +
-                msg +
-                "<br><br><span style='float:right; color: darkgray; font-size: 1em'>" +
-                from +
-                "</span></p></li>";
-        }
+            "<p style='word-wrap: break-word;'>" +
+            msg + 
+            "<br><br><span style='float:right; color: darkgray; font-size: 1em'>" +
+            from + 
+            "</span></p></li>";
+            }
         $('#starmessages ul').html(allMessages);
     }
 }
 function sendremainderChat(index) {
     var message = $('#remaindermessage').val();
     var reminderDate = $('#remainderdate').val();
-
-
-    var reminderContact = $('#remindercontact').val();
+   // console.log(reminderDate);
+  //  alert(reminderDate.slice(-17))
+    var reminderContact= $('#remindercontact').val();
     var isValid = isValidMessage(message);
     if (isValid) {
-        storereminder(index, message, reminderDate, reminderContact, 0);
-
+        storereminder(index, message, reminderDate,reminderContact,0);
+       
     }
+   // scrollToBottom("messages");
 }
 
-function storereminder(currentContactIndex, message, reminderDate, reminderContact, messageType) {
+function storereminder(currentContactIndex, message, reminderDate,reminderContact,messageType) {
     var messageData = {
         'contactIndex': 0,
         'messageText': "",
@@ -330,11 +329,13 @@ function storereminder(currentContactIndex, message, reminderDate, reminderConta
         'messageType': 0
     }
     var remindermessages = localStorage.getItem("remindermessages");
+//    messageData.contactIndex = currentContactIndex;
+console.log(reminderDate);
     messageData.messageText = message;
     messageData.reminderDate = reminderDate;
     messageData.reminderContact = reminderContact;
-    messageData.messageType = messageType;
-
+    messageData.messageType=messageType;
+   
     if (remindermessages == null) {
         remindermessages = [];
         remindermessages.push(messageData);
@@ -343,6 +344,7 @@ function storereminder(currentContactIndex, message, reminderDate, reminderConta
     } else {
         var remindermessagesArray = [];
         remindermessagesArray = localStorage.getItem("remindermessages");
+        console.log(messageData);
         remindermessagesArray = JSON.parse(remindermessagesArray);
         remindermessagesArray.push(messageData);
         remindermessagesArray = JSON.stringify(remindermessagesArray);
@@ -352,40 +354,65 @@ function storereminder(currentContactIndex, message, reminderDate, reminderConta
 
 function getremainderChat(index) {
     var messages = localStorage.getItem("remindermessages");
+   
+   // console.log(index);
     if (messages != null) {
         var remindermessagesArray = [];
         remindermessagesArray = localStorage.getItem("remindermessages");
+        console.log(remindermessagesArray);
         remindermessagesArray = JSON.parse(remindermessagesArray);
+      
         var allMessages = "";
+        var sent = 0;
+        //setInterval(function () {    
         var d = new Date();
-        var dd = d.getDate();
-        var mm = d.getMonth() + 1; //January is 0!
-
-        var yyyy = d.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '-' + mm + '-' + yyyy;
-        var datestring = dd + '-' + mm + '-' + yyyy;
+            console.log(d);
+            var dd = d.getDate();
+            var mm = d.getMonth()+1; //January is 0!
+            
+            var yyyy = d.getFullYear();
+            if(dd<10){
+                dd='0'+dd;
+            } 
+            if(mm<10){
+                mm='0'+mm;
+            } 
+            var today = dd+'-'+mm+'-'+yyyy;
+           // document.getElementById("DATE").value = today;
+        var datestring = dd+'-'+mm+'-'+yyyy;
+            console.log(datestring);
+          /*  console.log(d)
+        if ( && sent === 0) {
+                  getremainderChat(0);
+                  sent = 1;
+            } */
+        //var date = new Date();
+       // if (date.getDate()=== 8 && sent === 0 ) {
         for (var i = 0; i < remindermessagesArray.length; i++) {
+            //console.ld.getDate() >= 9og(remindermessagesArray[i]);
+            console.log(remindermessagesArray[i].reminderDate);
             if (datestring === remindermessagesArray[i].reminderDate && remindermessagesArray[i].contactIndex == 0 && remindermessagesArray[i].messageType == 0) {
+             //   var str = $('p', '0').html();
+               // currentContactIndex = $('0').index();
+               // console.log(currentContactIndex);
+               // currentContact(str);
                 allMessages += "<li class='replies'>" +
                     "<img src='images/profile.png' alt='' />" +
                     "<p style=\"word-wrap: break-word;\">" + remindermessagesArray[i].messageText + "</p></li>";
-                storeChat(remindermessagesArray[i].contactIndex, remindermessagesArray[i].messageText, 0);
-                remindermessagesArray[i].messageType = 1;
-            }
-
+                    storeChat(remindermessagesArray[i].contactIndex, remindermessagesArray[i].messageText, 0);
+                    remindermessagesArray[i].messageType = 1;
+            } 
+            
+           
+           //delete (remindermessagesArray[i]);
         }
-        remindermessagesArray = JSON.stringify(remindermessagesArray);
-        localStorage.setItem("remindermessages", remindermessagesArray);
+      remindermessagesArray = JSON.stringify(remindermessagesArray);
+      localStorage.setItem("remindermessages", remindermessagesArray);
+       // console.log(allMessages);
         $('.messages ul').html(allMessages);
     }
 }
-function openreminder() {
+function openreminder(){
     getremainderChat(0);
-
+   
 }
