@@ -71,6 +71,7 @@ function currentContact(str) {
 }
 
 $(document).ready(function() {
+    var database = firebase.database();
     var currentContactIndex = 0;
     var userName="";
     userName=localStorage.getItem("pratChatFullName");
