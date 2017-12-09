@@ -53,12 +53,6 @@ $('.datepicker').pickadate({
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-function backHomeFromContactProfile() {
-    bringToTop($("#chat"));
-} 
-function backHomeFromMyProfile(){
-    bringToTop($("#background"));
-}
 
 function currentContact(str) {
     $('#chat p').html(str);
@@ -76,29 +70,21 @@ function currentContact(str) {
     });
 }
 
-function showEditMyProfile(){
-    console.log("Show edit my profile");
-    bringToTop($("#eprof"));
-}
-
-function bringToTop(object){
-    console.log("bringToTop() Called");
-    var divs = ['#cprof', '#background', '#chat' , '#uprof', '#eprof', '#stardisplay'];
-
-    for(var i =0; i < divs.length; i++){
-        $(divs[i]).css('z-index', -10);
-    }
-    object.css('z-index',300);
-}
-
-
-
 $(document).ready(function() {
     var currentContactIndex = 0;
     var userName="";
     userName=localStorage.getItem("pratChatFullName");
     email=localStorage.getItem("pratChatEmail");
     phoneNo=localStorage.getItem("pratChatPhone");
+
+    //set uprof and eprof values
+    $("#uprof #userNameValue").html(userName);
+    $("#uprof #userEmailValue").html(email);
+    $("#uprof #userPhoneValue").html(phoneNo);
+    $("#eprof #userNameValue").html(userName);
+    $("#eprof #userEmailValue").html(email);
+    $("#eprof #userPhoneValue").html(phoneNo);
+
     $("#profile > div > p").html(userName);
     $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
     $('#expanded > ul > li:nth-child(2)').html("Email : "+email);
@@ -320,4 +306,24 @@ function displayStarred(){
             }
         $('#starmessages ul').html(allMessages);
     }
+}
+function showEditMyProfile(){
+    console.log("Show edit my profile");
+    bringToTop($("#eprof"));
+}
+
+function bringToTop(object){
+    console.log("bringToTop() Called");
+    var divs = ['#cprof', '#background', '#chat' , '#uprof', '#eprof', '#stardisplay'];
+
+    for(var i =0; i < divs.length; i++){
+        $(divs[i]).css('z-index', -10);
+    }
+    object.css('z-index',300);
+}
+function backHomeFromContactProfile() {
+    bringToTop($("#chat"));
+} 
+function backHomeFromMyProfile(){
+    bringToTop($("#background"));
 }

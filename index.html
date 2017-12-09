@@ -133,7 +133,6 @@
 					<!-- Card Profile content -->
 					<div class="card-content">
 						<div id="userName">
-							<p>User Profile</p>
 							<p id="userNameValue">userName</p>
 						</div>
 						<div id="userEmail">
@@ -244,40 +243,39 @@
 				
 			</div>
 		</div>
+	</div>
+
+	<!-- Background page -->
+	<div id="background" class="content" style="position: absolute; z-index: 300;background:#E6EAEA"></div>
+	
+	<!--Contact Chat page -->
+	<div id="chat" class="content" style="z-index: -10">
+		<div class="contact-profile">
+
+			<img src="images/profile.png" alt="" />
+			<p></p>
+
 			
-		<!-- Background page -->
-		<div id="background" class="content" style="position: absolute; z-index: 300">
-			<p>background</p>
+
 		</div>
+		<div id="messages" class="messages">
+			<ul>
 
-		<!--Contact Chat page -->
-		<div id="chat" class="content" style="z-index: -10">
-			<div class="contact-profile">
+			</ul>
+		</div>
+		<div class="message-input">
+			<div class="wrap" style="display: flex">
+				<input id='chatBox' type="text" class="browser-default"
+					style="width: 100%" placeholder="Write your message..." />
 
-				<img src="images/profile.png" alt="" />
-				<p></p>
+				<button class="submit" id="sb" >
 
-				
-
-			</div>
-			<div id="messages" class="messages">
-				<ul>
-
-				</ul>
-			</div>
-			<div class="message-input">
-				<div class="wrap" style="display: flex">
-					<input id='chatBox' type="text" class="browser-default"
-						style="width: 100%" placeholder="Write your message..." />
-
-					<button class="submit" id="sb" >
-
-						<i class="fa fa-paper-plane" aria-hidden="true"></i>
-					</button>
-				</div>
+					<i class="fa fa-paper-plane" aria-hidden="true"></i>
+				</button>
 			</div>
 		</div>
 	</div>
+
 	<div id="addreminder" class="modal">
 		<div class="modal-content">
 			<div class="rowreminder">
