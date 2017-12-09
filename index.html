@@ -24,7 +24,15 @@
 	media="screen,projection" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
-	<script src='js/main.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+<script src='js/plugins/jquery-2.2.4.min.js'></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src='js/main.js'></script>
+<script src='js/poll.js'></script>
+<link rel="stylesheet" href="css/croppie.css" />
+<script src="js/croppie.js"></script>
 </head>
 <body id="mainBody">
 	<div id="frame">
@@ -162,23 +170,29 @@
 
 					<!-- Card Profile image -->
 					<div class="card-image">
-						<img src="images/profile.png" class="display-pic">
+							<img src="" id="upload-demo"/>
+							<br>
+							<input type='file' onchange="readURL(this);"  accept="image/*"/>
 					</div>
+					<br>
 
 					<!-- Card Profile content -->
-					<div class="card-content">
-						<div id="userName">
-							<p>EDIT PROFILE</p>
-							<p id="userNameValue">userName</p>
+					<div class="card-content" style="margin-top: 150px;">
+						<div id="userName" class="input-field">
+							<p class="cardLabel">Full Name</p>
+							<input id="userNameValue" type="text">
 						</div>
-						<div id="userEmail">
+						<div id="userEmail" class="input-field">
 							<p class="cardLabel">Email</p>
-							<p id="userEmailValue">kamlesh@gmail.com</p>
+							<input id="userEmailValue" type="email" class="validate">
 						</div>
-						<div id="userPhone">
+						<div id="userPhone" class="input-field">
 							<p class="cardLabel">Phone No.</p>
-							<p id="userPhoneValue">9676433245</p>
+							<input id="phone" type="text" class="validate">
 						</div>
+					</div>
+					<div class="card-action">
+						<a href="#">Update Profile</a>
 					</div>
 				</div>
 			</div>
@@ -382,10 +396,37 @@
 	
 	</div> 
 
-	<script src='js/plugins/jquery-2.2.4.min.js'></script>
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-	
-	<script src='js/poll.js'></script>
+	<script>
+
+$('#upload-demo').croppie({
+    enableExif: true,
+    viewport: {
+        width: 200,
+        height: 200,
+        type: 'circle'
+    },
+    url: 'images/profile.png',
+    boundary: {
+        width: 250,
+        height: 250
+    }
+});
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#upload-demo').croppie('bind', {
+                url: e.target.result
+            });
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+} 
+
+
+</script>
 </body>
 </html>

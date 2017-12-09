@@ -81,9 +81,9 @@ $(document).ready(function() {
     $("#uprof #userNameValue").html(userName);
     $("#uprof #userEmailValue").html(email);
     $("#uprof #userPhoneValue").html(phoneNo);
-    $("#eprof #userNameValue").html(userName);
-    $("#eprof #userEmailValue").html(email);
-    $("#eprof #userPhoneValue").html(phoneNo);
+    $("#eprof #userNameValue").attr('value', userName);
+    $("#eprof #userEmailValue").attr('value', email);
+    $("#eprof #phone").attr('value', phoneNo);
 
     $("#profile > div > p").html(userName);
     $('#expanded > ul > li:nth-child(1)').html("Name : "+ userName);
