@@ -15,30 +15,30 @@ function isValidMessage(message) {
 
 function sendChat(index) {
 
-    var sentMessage ={
-        'creator':'',
-        'receiver':'',
-        'chatMessageId':0,
+    var sentMessage = {
+        'creator': '',
+        'receiver': '',
+        'chatMessageId': 0,
         'createdOn': new Date(),
         'starred': false,
         'contactIndex': 0,
         'chatMessageText': '',
         'messageType': 0,
         'chatStatus': '',
-        'chatType':''
-    }; 
+        'chatType': ''
+    };
     sentMessage.chatMessageText = $('#chatBox').val();
     var receivedMessage = {
-        'creator':'',
-        'receiver':'',
-        'chatMessageId':0,
+        'creator': '',
+        'receiver': '',
+        'chatMessageId': 0,
         'createdOn': new Date(),
         'starred': false,
         'contactIndex': 0,
         'chatMessageText': '',
         'messageType': 1,
         'chatStatus': '',
-        'chatType':''
+        'chatType': ''
     };
     receivedMessage.chatMessageText = 'hmm';
     var star = "<i onclick='makeGold()' style='color: burlywood' class='fa fa-star starmsg' aria-hidden='true'></i>"
@@ -59,13 +59,16 @@ function sendChat(index) {
     //scroll to bottom
     scrollToBottom("messages");
 }
+
 function logout() {
     window.location.href = "login.html";
     localStorage.removeItem("sessionId");
 }
+
 function random() {
     $('#addreminder').modal();
 }
+
 function searchContact() {
     var text = $("#searchText").val();
     console.log(text);
@@ -86,8 +89,8 @@ function currentContact(str) {
     bringToTop($("#chat"));
     $("#background").css('z-index', -10);
     //further code needs to be added here to change email id and phone 
-    window.setTimeout(function () { scrollToBottom("messages"); }, 1);
-    $('.contact-profile').click(function () {
+    window.setTimeout(function() { scrollToBottom("messages"); }, 1);
+    $('.contact-profile').click(function() {
         /* $('#cprof').css('z-index', 10);
         $('#chat').css('position', 'absolute');
         $('#chat').css('z-index', -10); */
@@ -95,16 +98,16 @@ function currentContact(str) {
     });
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
     var currentContactIndex = 0;
     var user = {
         'fullName': '',
         'emailId': '',
         'userId': 0,
-        'password' :'',
+        'password': '',
         'phoneNo': 0,
-        'profilePictureURL' : '',
-        'chatContacts' : [] 
+        'profilePictureURL': '',
+        'chatContacts': []
     };
     // ab honga dangal
     user = JSON.parse(localStorage.getItem("thisUser"));
@@ -129,7 +132,7 @@ $(document).ready(function () {
     allContacts = getAllContacts();
     displayAllContacts(allContacts);
 
-    $('#sb').click(function () {
+    $('#sb').click(function() {
         sendChat(currentContactIndex);
     });
     if ("sessionId" in localStorage) {
@@ -138,25 +141,25 @@ $(document).ready(function () {
         console.log("Access Denied, redirecting to Login");
         window.location.href = "login.html";
     }
-     $('.contact').click(function () {
-         var str = $('p', this).html();
-         currentContactIndex = $(this).index();
-         console.log(currentContactIndex);
-         currentContact(str);
-         getChatMessages(currentContactIndex);
-     });
-    $(".expand-button").click(function () {
+    $('.contact').click(function() {
+        var str = $('p', this).html();
+        currentContactIndex = $(this).index();
+        console.log(currentContactIndex);
+        currentContact(str);
+        getChatMessages(currentContactIndex);
+    });
+    $(".expand-button").click(function() {
         $("#profile").toggleClass("expanded");
         $("#contacts").toggleClass("expanded");
     });
-    $('#logout-button').click(function () {
+    $('#logout-button').click(function() {
         localStorage.removeItem("sessionId");
         window.location.href = "login.html";
     });
-    $("#profile-img").click(function () {
+    $("#profile-img").click(function() {
         $("#status-options").addClass("active");
     });
-    $("#status-options ul li").click(function () {
+    $("#status-options ul li").click(function() {
         $("#profile-img").removeClass();
         $("#status-online").removeClass("active");
         $("#status-away").removeClass("active");
@@ -180,14 +183,14 @@ $(document).ready(function () {
     });
     $('.modal').modal();
 
-    $("#myProfileOuterDiv").click(function () {
+    $("#myProfileOuterDiv").click(function() {
         bringToTop($("#uprof"));
     });
-    $(document).bind("mouseup touchend", function(e){
-        if (e.target.id != "profile-img"){
+    $(document).bind("mouseup touchend", function(e) {
+        if (e.target.id != "profile-img") {
             $("#status-options").removeClass("active");
         }
-      });
+    });
 });
 
 // scroll to bottom
@@ -198,23 +201,22 @@ function scrollToBottom(id) {
 
 function storeChat(currentContactIndex, message) {
     var messageData = {
-        'creator':'',
-        'receiver':'',
-        'chatMessageId':0,
+        'creator': '',
+        'receiver': '',
+        'chatMessageId': 0,
         'createdOn': new Date(),
         'starred': false,
         'contactIndex': 0,
         'chatMessageText': '',
         'messageType': 0,
         'chatStatus': '',
-        'chatType':''
+        'chatType': ''
     };
-    console.log(message);
     var numItem = $('#contacts > ul > li.contact.request').length;
     currentContactIndex = currentContactIndex - numItem;
     var messages = localStorage.getItem("messages");
     messageData.contactIndex = currentContactIndex;
-    messageData.messageText = message.chatMessageText;
+    messageData.chatMessageText = message.chatMessageText;
     messageData.messageType = message.messageType;
     if (messages == null) {
         messages = [];
@@ -269,29 +271,32 @@ function getChatMessages(index) {
         $('#messages ul').html(allMessages);
     }
 }
+
 function makeGold() {
     $(event.currentTarget).css('color', 'gold');
     var ind = $(event.currentTarget).parent().index();
     var text = $(event.currentTarget).parent().children('p').text() + ind;
     storeStarMsg(text);
 }
+
 function showStar() {
     var str = $(event.currentTarget).text();
     var star = $(event.currentTarget).parent().children('i');
     $(star).css('visibility', 'visible');
 }
+
 function storeStarMsg(msgObj) {
     var starredMessage = {
-        'creator':'',
-        'receiver':'',
-        'chatMessageId':0,
+        'creator': '',
+        'receiver': '',
+        'chatMessageId': 0,
         'createdOn': new Date(),
         'starred': false,
         'contactIndex': 0,
         'chatMessageText': '',
         'messageType': 0,
         'chatStatus': '',
-        'chatType':''
+        'chatType': ''
     };
     starredMessage = msgObj;
     starredMessage.starred = true;
@@ -301,8 +306,7 @@ function storeStarMsg(msgObj) {
         store.push(starredMessage);
         store = JSON.stringify(store);
         localStorage.setItem('starredMessages', store);
-    }
-    else {
+    } else {
         var starArray = [];
         starArray = localStorage.getItem("starredMessages");
         starArray = JSON.parse(starArray);
@@ -311,6 +315,7 @@ function storeStarMsg(msgObj) {
         localStorage.setItem("starredMessages", starArray);
     }
 }
+
 function getAllContacts() {
     allContacts = localStorage.getItem("chatContacts");
     if (allContacts != null) {
@@ -325,28 +330,28 @@ function displayAllContacts(allContacts) {
     var allContactsString = "";
     var store = localStorage.getItem("requests");
     var request = {
-        'creator':'Arjun',
-        'receiver':'Rajat',
-        'chatMessageId':0,
+        'creator': 'Arjun',
+        'receiver': 'Rajat',
+        'chatMessageId': 0,
         'createdOn': new Date(),
         'starred': false,
         'contactIndex': 0,
         'chatMessageText': '',
         'messageType': 2,
         'chatStatus': '',
-        'chatType':''
+        'chatType': ''
     }
     var request2 = {
-        'creator':'Utkarsha',
-        'receiver':'Rajat',
-        'chatMessageId':0,
+        'creator': 'Utkarsha',
+        'receiver': 'Rajat',
+        'chatMessageId': 0,
         'createdOn': new Date(),
         'starred': false,
         'contactIndex': 0,
         'chatMessageText': '',
         'messageType': 2,
         'chatStatus': '',
-        'chatType':''
+        'chatType': ''
     };
     store = JSON.parse(store);
     if (store == null || store.length == 0) {
@@ -359,41 +364,42 @@ function displayAllContacts(allContacts) {
     store = localStorage.getItem("requests");
     store = JSON.parse(store);
     for (var i = 0; i < store.length; i++) {
-        allContactsString += '<li class="contact request"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
-            + '<div class="meta"><p class="name">' + store[i].creator + '</p></div></div></li>';
+        allContactsString += '<li class="contact request"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+            '<div class="meta"><p class="name">' + store[i].creator + '</p></div></div></li>';
     }
-if (allContacts != null) {
-    for (var i = 0; i < allContacts.length; i++) {
-        allContactsString += '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
-            + '<div class="meta"><p class="name">' + allContacts[i].fullName + '</p></div></div></li>';
+    if (allContacts != null) {
+        for (var i = 0; i < allContacts.length; i++) {
+            allContactsString += '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+                '<div class="meta"><p class="name">' + allContacts[i].fullName + '</p></div></div></li>';
+        }
     }
-}
-$('#contacts > ul').html(allContactsString);
+    $('#contacts > ul').html(allContactsString);
 }
 
 function setContacts() {
     var contactsList = [];
-    if(!localStorage.getItem("chatContacts")) {
-    for (var i = 1; i < 110; i++) {
-        var contact = {
-            'fullName': '',
-            'emailId': '',
-            'userId': 0,
-            'password' :'',
-            'phoneNo': 0,
-            'profilePictureURL' : '',
-            'chatContacts' : [] 
-        };
-        contact.fullName = "Contact_" + i;
-        contact.emailId = "Contact_" + i + "@gmail.com";
-        contact.userId = i;
-        contact.phoneNo = 9818102770 + i;
-        contactsList.push(contact);
-    }
-    contactsList = JSON.stringify(contactsList);
-    localStorage.setItem("chatContacts", contactsList);
+    if (!localStorage.getItem("chatContacts")) {
+        for (var i = 1; i < 110; i++) {
+            var contact = {
+                'fullName': '',
+                'emailId': '',
+                'userId': 0,
+                'password': '',
+                'phoneNo': 0,
+                'profilePictureURL': '',
+                'chatContacts': []
+            };
+            contact.fullName = "Contact_" + i;
+            contact.emailId = "Contact_" + i + "@gmail.com";
+            contact.userId = i;
+            contact.phoneNo = 9818102770 + i;
+            contactsList.push(contact);
+        }
+        contactsList = JSON.stringify(contactsList);
+        localStorage.setItem("chatContacts", contactsList);
     }
 }
+
 function showStarred() {
     bringToTop($('#stardisplay'));
     displayStarred();
@@ -420,6 +426,7 @@ function displayStarred() {
         $('#starmessages ul').html(allMessages);
     }
 }
+
 function showEditMyProfile() {
     console.log("Show edit my profile");
     bringToTop($("#eprof"));
@@ -434,28 +441,32 @@ function bringToTop(object) {
     }
     object.css('z-index', 300);
 }
+
 function backHomeFromContactProfile() {
     bringToTop($("#chat"));
 }
+
 function backHomeFromMyProfile() {
     bringToTop($("#background"));
 }
+
 function removeRequest(index) {
     var store = localStorage.getItem("requests");
     store = JSON.parse(store);
-    store.splice(index,1);
+    store.splice(index, 1);
     console.log('length' + store.length);
     store = JSON.stringify(store);
     localStorage.setItem("requests", store);
-    var el =$('#contacts > ul > li').eq(index)
+    var el = $('#contacts > ul > li').eq(index)
     el.remove();
     bringToTop($('#background'));
 }
+
 function approveRequest(index) {
     var store = localStorage.getItem("requests");
     store = JSON.parse(store);
     var name = store[index].creator;
-    store.splice(index,1);
+    store.splice(index, 1);
     console.log('length' + store.length);
     store = JSON.stringify(store);
     localStorage.setItem("requests", store);
@@ -463,26 +474,26 @@ function approveRequest(index) {
         'fullName': '',
         'emailId': '',
         'userId': 0,
-        'password' :'',
+        'password': '',
         'phoneNo': 0,
-        'profilePictureURL' : '',
-        'chatContacts' : [] 
+        'profilePictureURL': '',
+        'chatContacts': []
     }
     contact.fullName = name;
     contact.emailId = 'some@mail.com';
     contact.phoneNo = 779121212;
     var contacts = localStorage.getItem("chatContacts");
     contacts = JSON.parse(contacts);
-    contact.userId = contacts.length +1;
+    contact.userId = contacts.length + 1;
     contacts.push(contact);
     contacts = JSON.stringify(contacts);
-    localStorage.setItem("chatContacts",contacts);
-    var el =$('#contacts > ul > li').eq(index)
+    localStorage.setItem("chatContacts", contacts);
+    var el = $('#contacts > ul > li').eq(index)
     el.remove();
-    var html = '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />'
-    + '<div class="meta"><p class="name">' + name + '</p></div></div></li>';
+    var html = '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+        '<div class="meta"><p class="name">' + name + '</p></div></div></li>';
     $('#contacts > ul').append(html);
     bringToTop($('#background'));
-    var $toastContent = $('<span>'+name + ' has been added '+ '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
+    var $toastContent = $('<span>' + name + ' has been added ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
     Materialize.toast($toastContent, 10000);
 }
