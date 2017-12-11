@@ -227,6 +227,7 @@ $(document).ready(function() {
     })
     .error(function () {
         alert("Data could not be loaded");
+    });
     $('#chatBox').keypress(function(event) {
         if (event.keyCode == 13) {
             sendChat();
@@ -626,7 +627,3 @@ function areContactsLoaded(gotDataFromSource) {
         console.log("loadAllContacts: data not ready yet");
     }
 }
-/*
--------------------Search User Ends --------------------------------------
--------------------Rachna Saluja - 9/12/17 ---------------------------------
-*/
