@@ -6,7 +6,6 @@ function isValidMessage(message) {
         if (message[i] != ' ')
             break;
     }
-    console.log(messageLength);
     if (i >= messageLength) {
         isValid = false;
     }
@@ -71,7 +70,6 @@ function random() {
 
 function searchContact() {
     var text = $("#searchText").val();
-    console.log(text);
 }
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -144,7 +142,6 @@ $(document).ready(function() {
     $('.contact').click(function() {
         var str = $('p', this).html();
         currentContactIndex = $(this).index();
-        console.log(currentContactIndex);
         currentContact(str);
         getChatMessages(currentContactIndex);
     });
@@ -210,6 +207,11 @@ $(document).ready(function() {
             $("#status-options").removeClass("active");
         }
     });
+    $('#chatBox').keypress(function(event) {
+        if (event.keyCode == 13) {
+            sendChat();
+        }
+    });
 });
 
 // scroll to bottom
@@ -255,7 +257,6 @@ function storeChat(currentContactIndex, message) {
 function getChatMessages(index) {
     var numItem = $('#contacts > ul > li.contact.request').length;
     var allMessages = " ";
-    console.log(numItem);
     if (numItem != 0 && index < numItem) {
         var rq = localStorage.getItem("requests");
         rq = JSON.parse(rq);
@@ -292,10 +293,24 @@ function getChatMessages(index) {
 }
 
 function makeGold() {
+    var msg = {
+        'creator': '',
+        'receiver': '',
+        'chatMessageId': 0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex': 0,
+        'chatMessageText': '',
+        'messageType': 0,
+        'chatStatus': '',
+        'chatType': ''
+    };
     $(event.currentTarget).css('color', 'gold');
     var ind = $(event.currentTarget).parent().index();
-    var text = $(event.currentTarget).parent().children('p').text() + ind;
-    storeStarMsg(text);
+    var text = $(event.currentTarget).parent().children('p').text();
+    msg.chatMessageText = text;
+    msg.creator = $('.contact-profile > p').text();
+    storeStarMsg(msg);
 }
 
 function showStar() {
@@ -317,7 +332,7 @@ function storeStarMsg(msgObj) {
         'chatStatus': '',
         'chatType': ''
     };
-    starredMessage.chatMessageText = msgObj;
+    starredMessage = msgObj;
     starredMessage.starred = true;
     var store = localStorage.getItem('starredMessages');
     if (store == null) {
@@ -452,7 +467,6 @@ function showEditMyProfile() {
 }
 
 function bringToTop(object) {
-    console.log("bringToTop() Called");
     var divs = ['#cprof', '#background', '#chat', '#uprof', '#eprof', '#stardisplay'];
 
     for (var i = 0; i < divs.length; i++) {
@@ -487,7 +501,6 @@ function removeRequest(index) {
     var store = localStorage.getItem("requests");
     store = JSON.parse(store);
     store.splice(index, 1);
-    console.log('length' + store.length);
     store = JSON.stringify(store);
     localStorage.setItem("requests", store);
     var el = $('#contacts > ul > li').eq(index)
@@ -500,7 +513,6 @@ function approveRequest(index) {
     store = JSON.parse(store);
     var name = store[index].creator;
     store.splice(index, 1);
-    console.log('length' + store.length);
     store = JSON.stringify(store);
     localStorage.setItem("requests", store);
     var contact = {
