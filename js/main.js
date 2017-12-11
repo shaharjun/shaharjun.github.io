@@ -125,7 +125,7 @@ $(document).ready(function() {
     $('#expanded > ul > li:nth-child(1)').html("Name : " + userName);
     $('#expanded > ul > li:nth-child(2)').html("Email : " + email);
     $('#expanded > ul > li:nth-child(3)').html("Phone : " + phoneNo);
-    setContacts();
+    //setContacts();
     var allContacts = []
     allContacts = getAllContacts();
     displayAllContacts(allContacts);
@@ -210,23 +210,10 @@ $(document).ready(function() {
 
     $("#searchUserButton").prop("disabled",true);
     clearSearchBar();
-    var contacts = new Map();
-    $.getJSON('./contacts.json', function (data) {
-    }).done(function(data){
-        $.each(data, function (i, contact) {
-            // $('ul').append('<li>' + contact.name +'</li>');
-            contacts[contact["emailId"]] = contact;
-            //console.log(contacts);
-        });
-     localStorage.setItem("allUsers", JSON.stringify(contacts));
-     areContactsLoaded(true);
-     $("#searchUserButton").prop("disabled",false);
-     $("#searchUserButton").click(function(){    
-        searchUser(true);
-     });
-    })
-    .error(function () {
-        alert("Data could not be loaded");
+    areContactsLoaded(true);
+    $("#searchUserButton").prop("disabled",false);
+    $("#searchUserButton").click(function(){    
+       searchUser(true);
     });
     $('#chatBox').keypress(function(event) {
         if (event.keyCode == 13) {
@@ -384,44 +371,12 @@ function getAllContacts() {
 function displayAllContacts(allContacts) {
     var allContactsString = "";
     var store = localStorage.getItem("requests");
-    var request = {
-        'creator': 'Arjun',
-        'receiver': 'Rajat',
-        'chatMessageId': 0,
-        'createdOn': new Date(),
-        'starred': false,
-        'contactIndex': 0,
-        'chatMessageText': '',
-        'messageType': 2,
-        'chatStatus': '',
-        'chatType': ''
-    }
-    var request2 = {
-        'creator': 'Utkarsha',
-        'receiver': 'Rajat',
-        'chatMessageId': 0,
-        'createdOn': new Date(),
-        'starred': false,
-        'contactIndex': 0,
-        'chatMessageText': '',
-        'messageType': 2,
-        'chatStatus': '',
-        'chatType': ''
-    };
     store = JSON.parse(store);
-    if (store == null || store.length == 0) {
-        var arr = [];
-        arr.push(request);
-        arr.push(request2);
-        arr = JSON.stringify(arr);
-        localStorage.setItem('requests', arr);
-    }
-    store = localStorage.getItem("requests");
-    store = JSON.parse(store);
+    if(store!=null){
     for (var i = 0; i < store.length; i++) {
         allContactsString += '<li class="contact request"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
             '<div class="meta"><p class="name">' + store[i].creator + '</p></div></div></li>';
-    }
+    }}
     if (allContacts != null) {
         for (var i = 0; i < allContacts.length; i++) {
             allContactsString += '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
@@ -550,10 +505,19 @@ function approveRequest(index) {
     contact.phoneNo = 779121212;
     var contacts = localStorage.getItem("chatContacts");
     contacts = JSON.parse(contacts);
+    if(contacts!=null){
     contact.userId = contacts.length + 1;
     contacts.push(contact);
     contacts = JSON.stringify(contacts);
     localStorage.setItem("chatContacts", contacts);
+    }
+    else {
+        contact.userId = 1;
+        var contactArray = [];
+        contactArray.push(contact);
+        contactArray = JSON.stringify(contactArray);
+        localStorage.setItem("chatContacts", contactArray);
+    }
     var el = $('#contacts > ul > li').eq(index)
     el.remove();
     var html = '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
@@ -614,7 +578,7 @@ function displaySearchUserResult(searchResult){
             var userName = value["fullName"];
             var emailId = value["emailId"];
             resultString +="<div><li ><div class=\"inlineDisplay\"><img  class=\"imageSearchUser\" src = \"images/profile.png\" alt=\"\" /></div>"+ "<div class=\"inlineDisplay userDetailsSearchUser\" >";
-            resultString +=userName+"<br>"+emailId+"</div><i onclick=\"addContact()\" class=\" addButton material-icons\">add</i></li></div><br>";
+            resultString +=userName+"<br>"+emailId+"</div><i data-mail="+emailId+" onclick=\"addContact()\" class=\" addButton material-icons\">add</i></li></div><br>";
         })
      }
      listElement.html(resultString);
@@ -626,4 +590,42 @@ function areContactsLoaded(gotDataFromSource) {
     else{
         console.log("loadAllContacts: data not ready yet");
     }
+}
+function addContact() {
+    var $toastContent = $('<span>' + 'Request Sent ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
+    Materialize.toast($toastContent, 10000);
+   var emailId = $(event.currentTarget).data("mail");
+   console.log(emailId);
+   var request = {
+    'creator': '',
+    'receiver': '',
+    'chatMessageId': 0,
+    'createdOn': new Date(),
+    'starred': false,
+    'contactIndex': 0,
+    'chatMessageText': '',
+    'messageType': 2,
+    'chatStatus': '',
+    'chatType': ''
+    }
+   var users = JSON.parse(localStorage.getItem("allUsers"));
+   var contact = users[emailId];
+   console.log(contact);
+   request.creator = contact.fullName;
+   var currUser = JSON.parse(localStorage.getItem("thisUser"));
+   request.receiver = currUser.fullName;
+   var store = localStorage.getItem("requests");
+   store = JSON.parse(store);
+   if (store == null || store.length == 0) {
+       var arr = [];
+       arr.push(request);
+       arr = JSON.stringify(arr);
+       localStorage.setItem('requests', arr);
+   }
+   else {
+       store.push(request);
+       store = JSON.stringify(store);
+       localStorage.setItem('requests',store);
+   }
+  // location.reload();
 }
