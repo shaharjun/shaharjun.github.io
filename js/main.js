@@ -112,14 +112,19 @@ $(document).ready(function() {
     userName = user.fullName;
     email = user.emailId;
     phoneNo = user.phoneNo;
+    profilePicture = user.profilePictureURL;
 
     //set uprof and eprof values
     $("#uprof #userNameValue").html(userName);
     $("#uprof #userEmailValue").html(email);
     $("#uprof #userPhoneValue").html(phoneNo);
+    $('#uprof .display-pic').attr('src', profilePicture);
     $("#eprof #userNameValue").attr('value', userName);
     $("#eprof #userEmailValue").attr('value', email);
     $("#eprof #phone").attr('value', phoneNo);
+    $('#eprof #upload-demo').attr('src', profilePicture);
+
+    $('#profile-img').attr('src', profilePicture);
 
     $("#profile > div > p").html(userName);
     $('#expanded > ul > li:nth-child(1)').html("Name : " + userName);
@@ -190,7 +195,6 @@ $(document).ready(function() {
             height: 200,
             type: 'circle'
         },
-        url: 'images/profile.png',
         showZoomer : false,
         boundary: {
             width: 300,
@@ -199,7 +203,10 @@ $(document).ready(function() {
     });
     $("#updateProfilePictureBtn").click(function(){
         $('#upload-demo').croppie('result', 'base64').then(function(base64){
-            console.log(base64);
+            var user = JSON.parse(localStorage.getItem('thisUser'));
+            user.profilePictureURL = base64;
+            localStorage.setItem("thisUser", JSON.stringify(user));
+            Materialize.toast("Profile Picture changed. Please Refresh to see changes.", 4000);
         });
     });
     $(document).bind("mouseup touchend", function(e) {
@@ -233,6 +240,16 @@ $(document).ready(function() {
             sendChat();
         }
     });
+    $('#updateProfileInfoBtn').click(function(){
+        var eUserName = $("#eprof #userNameValue").val();
+        var eUserEmail = $("#eprof #userEmailValue").val();
+        var eUserPhone = $("#eprof #phone").val();
+        user.fullName = eUserName;
+        user.emailId = eUserEmail;
+        user.phoneNo = eUserPhone;
+        localStorage.setItem("thisUser", JSON.stringify(user));
+        Materialize.toast("Profile Info changed. Please Refresh to see changes.", 4000);
+    }) 
 });
 
 // scroll to bottom
