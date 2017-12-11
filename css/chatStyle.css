@@ -918,4 +918,18 @@
 	padding-left: 30%;
 	padding-right: 30%;
 
+
+#stardisplay {
+    display: inline-block;
+}
+.stardisplay ul li p {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 500px;
+    line-height: 130%;
+}
+.starmsg {
+    visibility:hidden;
+r
 }
