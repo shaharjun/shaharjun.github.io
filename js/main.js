@@ -207,6 +207,7 @@ $(document).ready(function() {
             user.profilePictureURL = base64;
             localStorage.setItem("thisUser", JSON.stringify(user));
             Materialize.toast("Profile Picture changed. Please Refresh to see changes.", 4000);
+            location.reload();
         });
     });
     $(document).bind("mouseup touchend", function(e) {
@@ -249,6 +250,7 @@ $(document).ready(function() {
         user.phoneNo = eUserPhone;
         localStorage.setItem("thisUser", JSON.stringify(user));
         Materialize.toast("Profile Info changed. Please Refresh to see changes.", 4000);
+        location.reload();
     }) 
 });
 
