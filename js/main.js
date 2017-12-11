@@ -6,7 +6,6 @@ function isValidMessage(message) {
         if (message[i] != ' ')
             break;
     }
-    console.log(messageLength);
     if (i >= messageLength) {
         isValid = false;
     }
@@ -71,7 +70,6 @@ function random() {
 
 function searchContact() {
     var text = $("#searchText").val();
-    console.log(text);
 }
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -115,14 +113,19 @@ $(document).ready(function() {
     userName = user.fullName;
     email = user.emailId;
     phoneNo = user.phoneNo;
+    profilePicture = user.profilePictureURL;
 
     //set uprof and eprof values
     $("#uprof #userNameValue").html(userName);
     $("#uprof #userEmailValue").html(email);
     $("#uprof #userPhoneValue").html(phoneNo);
-    $("#eprof #userNameValue").html(userName);
-    $("#eprof #userEmailValue").html(email);
-    $("#eprof #userPhoneValue").html(phoneNo);
+    $('#uprof .display-pic').attr('src', profilePicture);
+    $("#eprof #userNameValue").attr('value', userName);
+    $("#eprof #userEmailValue").attr('value', email);
+    $("#eprof #phone").attr('value', phoneNo);
+    $('#eprof #upload-demo').attr('src', profilePicture);
+
+    $('#profile-img').attr('src', profilePicture);
 
     $("#profile > div > p").html(userName);
     $('#expanded > ul > li:nth-child(1)').html("Name : " + userName);
@@ -145,7 +148,6 @@ $(document).ready(function() {
     $('.contact').click(function() {
         var str = $('p', this).html();
         currentContactIndex = $(this).index();
-        console.log(currentContactIndex);
         currentContact(str);
         getChatMessages(currentContactIndex);
     });
@@ -187,11 +189,68 @@ $(document).ready(function() {
     $("#myProfileOuterDiv").click(function() {
         bringToTop($("#uprof"));
     });
+    $('#upload-demo').croppie({
+        enableExif: true,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        showZoomer : false,
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+    $("#updateProfilePictureBtn").click(function(){
+        $('#upload-demo').croppie('result', 'base64').then(function(base64){
+            var user = JSON.parse(localStorage.getItem('thisUser'));
+            user.profilePictureURL = base64;
+            localStorage.setItem("thisUser", JSON.stringify(user));
+            Materialize.toast("Profile Picture changed. Please Refresh to see changes.", 4000);
+        });
+    });
     $(document).bind("mouseup touchend", function(e) {
         if (e.target.id != "profile-img") {
             $("#status-options").removeClass("active");
         }
     });
+
+    $("#searchUserButton").prop("disabled",true);
+    clearSearchBar();
+    var contacts = new Map();
+    $.getJSON('./contacts.json', function (data) {
+    }).done(function(data){
+        $.each(data, function (i, contact) {
+            // $('ul').append('<li>' + contact.name +'</li>');
+            contacts[contact["emailId"]] = contact;
+            //console.log(contacts);
+        });
+     localStorage.setItem("allUsers", JSON.stringify(contacts));
+     areContactsLoaded(true);
+     $("#searchUserButton").prop("disabled",false);
+     $("#searchUserButton").click(function(){    
+        searchUser(true);
+     });
+    })
+    .error(function () {
+        alert("Data could not be loaded");
+    });
+    $('#chatBox').keypress(function(event) {
+        if (event.keyCode == 13) {
+            sendChat();
+        }
+    });
+    $('#updateProfileInfoBtn').click(function(){
+        var eUserName = $("#eprof #userNameValue").val();
+        var eUserEmail = $("#eprof #userEmailValue").val();
+        var eUserPhone = $("#eprof #phone").val();
+        user.fullName = eUserName;
+        user.emailId = eUserEmail;
+        user.phoneNo = eUserPhone;
+        localStorage.setItem("thisUser", JSON.stringify(user));
+        Materialize.toast("Profile Info changed. Please Refresh to see changes.", 4000);
+    }) 
 });
 
 // scroll to bottom
@@ -237,7 +296,6 @@ function storeChat(currentContactIndex, message) {
 function getChatMessages(index) {
     var numItem = $('#contacts > ul > li.contact.request').length;
     var allMessages = " ";
-    console.log(numItem);
     if (numItem != 0 && index < numItem) {
         var rq = localStorage.getItem("requests");
         rq = JSON.parse(rq);
@@ -274,10 +332,24 @@ function getChatMessages(index) {
 }
 
 function makeGold() {
+    var msg = {
+        'creator': '',
+        'receiver': '',
+        'chatMessageId': 0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex': 0,
+        'chatMessageText': '',
+        'messageType': 0,
+        'chatStatus': '',
+        'chatType': ''
+    };
     $(event.currentTarget).css('color', 'gold');
     var ind = $(event.currentTarget).parent().index();
-    var text = $(event.currentTarget).parent().children('p').text() + ind;
-    storeStarMsg(text);
+    var text = $(event.currentTarget).parent().children('p').text();
+    msg.chatMessageText = text;
+    msg.creator = $('.contact-profile > p').text();
+    storeStarMsg(msg);
 }
 
 function showStar() {
@@ -299,7 +371,7 @@ function storeStarMsg(msgObj) {
         'chatStatus': '',
         'chatType': ''
     };
-    starredMessage.chatMessageText = msgObj;
+    starredMessage = msgObj;
     starredMessage.starred = true;
     var store = localStorage.getItem('starredMessages');
     if (store == null) {
@@ -380,7 +452,7 @@ function displayAllContacts(allContacts) {
 function setContacts() {
     var contactsList = [];
     if (!localStorage.getItem("chatContacts")) {
-        for (var i = 1; i < 110; i++) {
+        for (var i = 1; i < 10; i++) {
             var contact = {
                 'fullName': '',
                 'emailId': '',
@@ -434,7 +506,6 @@ function showEditMyProfile() {
 }
 
 function bringToTop(object) {
-    console.log("bringToTop() Called");
     var divs = ['#cprof', '#background', '#chat', '#uprof', '#eprof', '#stardisplay'];
 
     for (var i = 0; i < divs.length; i++) {
@@ -451,11 +522,24 @@ function backHomeFromMyProfile() {
     bringToTop($("#background"));
 }
 
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#upload-demo').croppie('bind', {
+                url: e.target.result
+            });
+        }
+        reader.readAsDataURL(input.files[0]);
+    }	
+} 
 function removeRequest(index) {
     var store = localStorage.getItem("requests");
     store = JSON.parse(store);
     store.splice(index, 1);
-    console.log('length' + store.length);
     store = JSON.stringify(store);
     localStorage.setItem("requests", store);
     var el = $('#contacts > ul > li').eq(index)
@@ -468,7 +552,6 @@ function approveRequest(index) {
     store = JSON.parse(store);
     var name = store[index].creator;
     store.splice(index, 1);
-    console.log('length' + store.length);
     store = JSON.stringify(store);
     localStorage.setItem("requests", store);
     var contact = {
@@ -497,4 +580,68 @@ function approveRequest(index) {
     bringToTop($('#background'));
     var $toastContent = $('<span>' + name + ' has been added ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
     Materialize.toast($toastContent, 10000);
+}
+/*
+-------------------Search User Starts --------------------------------------
+-------------------Rachna Saluja - 9/12/17 ---------------------------------
+*/
+function clearSearchBar(){
+    $("#searchText").val('');
+    //$("#search").html('');
+}
+function searchUser(contactListReady) {
+    //console.log("in search function");
+    /**
+     * Add check - do not display current user(the one who is calling the search) in the contacts list
+     */
+    if(contactListReady){
+        var i =0,numberOfUsers,currentContact;
+        var result = new Set();
+        var searchText = $("#searchText").val();
+
+        var allContacts = JSON.parse(localStorage.getItem("allUsers"));
+
+        //allContacts is an array of objects
+        for(var key in allContacts){
+            if(allContacts.hasOwnProperty(key)){
+                var currentContact = allContacts[key];  //this is the user object
+                var currentContactUserName = currentContact["fullName"];
+                var currentContactEmailId = currentContact["emailId"];
+                currentContactUserName = currentContactUserName.toLowerCase();
+                currentContactEmailId = currentContactEmailId.toLowerCase();
+                if(currentContactUserName.indexOf(searchText)!=-1 ||
+                    currentContactEmailId.indexOf(searchText)!=-1)
+                        result.add(currentContact);
+            }
+        }
+        //console.log("Result is ");  
+        //console.log(result);
+        displaySearchUserResult(result);
+    }
+    else{
+        console.log("searchUser: data not ready yet");
+    }
+}
+function displaySearchUserResult(searchResult){
+    console.log("in display result");
+    //searchResult is a set we get from searchUser function
+    var listElement = $("#searchUserResultList");
+    if(searchResult!=null){
+        var resultString="";
+        searchResult.forEach(function(value,key,setObj){
+            var userName = value["fullName"];
+            var emailId = value["emailId"];
+            resultString +="<div><li ><div class=\"inlineDisplay\"><img  class=\"imageSearchUser\" src = \"images/profile.png\" alt=\"\" /></div>"+ "<div class=\"inlineDisplay userDetailsSearchUser\" >";
+            resultString +=userName+"<br>"+emailId+"</div><i onclick=\"addContact()\" class=\" addButton material-icons\">add</i></li></div><br>";
+        })
+     }
+     listElement.html(resultString);
+}
+function areContactsLoaded(gotDataFromSource) {
+    if(gotDataFromSource){
+        searchUser(gotDataFromSource);
+    }
+    else{
+        console.log("loadAllContacts: data not ready yet");
+    }
 }
