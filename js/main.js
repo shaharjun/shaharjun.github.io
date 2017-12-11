@@ -117,9 +117,9 @@ $(document).ready(function() {
     $("#uprof #userNameValue").html(userName);
     $("#uprof #userEmailValue").html(email);
     $("#uprof #userPhoneValue").html(phoneNo);
-    $("#eprof #userNameValue").html(userName);
-    $("#eprof #userEmailValue").html(email);
-    $("#eprof #userPhoneValue").html(phoneNo);
+    $("#eprof #userNameValue").attr('value', userName);
+    $("#eprof #userEmailValue").attr('value', email);
+    $("#eprof #phone").attr('value', phoneNo);
 
     $("#profile > div > p").html(userName);
     $('#expanded > ul > li:nth-child(1)').html("Name : " + userName);
@@ -182,6 +182,25 @@ $(document).ready(function() {
 
     $("#myProfileOuterDiv").click(function() {
         bringToTop($("#uprof"));
+    });
+    $('#upload-demo').croppie({
+        enableExif: true,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        url: 'images/profile.png',
+        showZoomer : false,
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+    $("#updateProfilePictureBtn").click(function(){
+        $('#upload-demo').croppie('result', 'base64').then(function(base64){
+            console.log(base64);
+        });
     });
     $(document).bind("mouseup touchend", function(e) {
         if (e.target.id != "profile-img") {
@@ -464,6 +483,20 @@ function backHomeFromMyProfile() {
     bringToTop($("#background"));
 }
 
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#upload-demo').croppie('bind', {
+                url: e.target.result
+            });
+        }
+        reader.readAsDataURL(input.files[0]);
+    }	
+} 
 function removeRequest(index) {
     var store = localStorage.getItem("requests");
     store = JSON.parse(store);
