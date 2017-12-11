@@ -168,16 +168,16 @@
 							onclick="backHomeFromMyProfile()"><i class="material-icons">close</i></a>
 					</div>
 
-					<!-- Card Profile image -->
-					<div class="card-image">
-							<img src="" id="upload-demo"/>
-							<br>
-							<input type='file' onchange="readURL(this);"  accept="image/*"/>
-					</div>
-					<br>
-
+					<form>
+						<img src="" id="upload-demo"/>
+					</form>
+					
 					<!-- Card Profile content -->
-					<div class="card-content" style="margin-top: 150px;">
+					<div class="card-content">
+						<div class="card-action">
+							<input type='file' onchange="readURL(this);"  accept="image/jpeg, image/png" style="margin-left:10%"/><br><br>
+							<a id="updateProfilePictureBtn" href="#">Update Profile Picture</a>
+						</div>
 						<div id="userName" class="input-field">
 							<p class="cardLabel">Full Name</p>
 							<input id="userNameValue" type="text">
@@ -190,9 +190,9 @@
 							<p class="cardLabel">Phone No.</p>
 							<input id="phone" type="text" class="validate">
 						</div>
-					</div>
-					<div class="card-action">
-						<a href="#">Update Profile</a>
+						<div class="card-action">
+							<a href="#">Update Profile</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -393,40 +393,6 @@
 				</div>			
 			</div>
 		</div>
-	
 	</div> 
-
-	<script>
-
-$('#upload-demo').croppie({
-    enableExif: true,
-    viewport: {
-        width: 200,
-        height: 200,
-        type: 'circle'
-    },
-    url: 'images/profile.png',
-    boundary: {
-        width: 250,
-        height: 250
-    }
-});
-
-function readURL(input) {
-    if (input.files && input.files[0]) {
-
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#upload-demo').croppie('bind', {
-                url: e.target.result
-            });
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-} 
-
-
-</script>
 </body>
 </html>

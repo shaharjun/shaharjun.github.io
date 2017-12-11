@@ -148,6 +148,25 @@ $(document).ready(function() {
     $("#myProfileOuterDiv").click(function(){
         bringToTop($("#uprof"));
     });
+    $('#upload-demo').croppie({
+        enableExif: true,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        url: 'images/profile.png',
+        showZoomer : false,
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+    $("#updateProfilePictureBtn").click(function(){
+        $('#upload-demo').croppie('result', 'base64').then(function(base64){
+            console.log(base64);
+        });
+    });
 });
 
 // scroll to bottom
@@ -327,3 +346,18 @@ function backHomeFromContactProfile() {
 function backHomeFromMyProfile(){
     bringToTop($("#background"));
 }
+
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#upload-demo').croppie('bind', {
+                url: e.target.result
+            });
+        }
+        reader.readAsDataURL(input.files[0]);
+    }	
+} 
