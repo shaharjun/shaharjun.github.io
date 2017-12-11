@@ -316,9 +316,12 @@
 			<input type="text" id="searchText"
 
 				placeholder="Search by name, e-mail id" />
+				<input type="submit" id="searchUserButton" class = " btn-flat"
+				value="Search" style="background:#32465a;color:white;"/>
+				
 
-			<div id="searchContactResult">
-				<ul id="searchContactResultList">
+			<div id="searchUserResult">
+				<ul id="searchUserResultList">
 				</ul>
 			</div>
 
@@ -326,7 +329,7 @@
 		<div class="modal-footer">
 
 				<a href="#!" style="background:#32465a;color:white;"
-				class="modal-action modal-close btn-flat">Close</a>
+				class="modal-action modal-close btn-flat" onclick="clearSearchBar()">Close</a>
 		</div>
 	</div>
 	<div id="viewPoll" class="modal">

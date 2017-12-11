@@ -930,3 +930,24 @@
 #starmessages {
     overflow-y:auto;
 }
+/*
+Rachna Saluja - Search Contact - Result List
+*/
+.imageSearchUser{
+    width:50px;
+    border-radius: 50%;
+}
+.inlineDisplay{
+    display: inline-block;
+    padding-top: 10px;
+}
+.userDetailsSearchUser{
+    padding-left: 15px;
+    vertical-align: middle;
+}
+.addButton{
+    float:right;
+    padding-top:20px;
+    cursor: pointer;
+}
+/**/

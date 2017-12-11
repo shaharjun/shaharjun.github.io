@@ -191,6 +191,27 @@ $(document).ready(function() {
             $("#status-options").removeClass("active");
         }
     });
+
+    $("#searchUserButton").prop("disabled",true);
+    clearSearchBar();
+    var contacts = new Map();
+    $.getJSON('./contacts.json', function (data) {
+    }).done(function(data){
+        $.each(data, function (i, contact) {
+            // $('ul').append('<li>' + contact.name +'</li>');
+            contacts[contact["emailId"]] = contact;
+            //console.log(contacts);
+        });
+     localStorage.setItem("allUsers", JSON.stringify(contacts));
+     areContactsLoaded(true);
+     $("#searchUserButton").prop("disabled",false);
+     $("#searchUserButton").click(function(){    
+        searchUser(true);
+     });
+    })
+    .error(function () {
+        alert("Data could not be loaded");
+    });
 });
 
 // scroll to bottom
@@ -497,3 +518,71 @@ function approveRequest(index) {
     var $toastContent = $('<span>' + name + ' has been added ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
     Materialize.toast($toastContent, 10000);
 }
+/*
+-------------------Search User Starts --------------------------------------
+-------------------Rachna Saluja - 9/12/17 ---------------------------------
+*/
+function clearSearchBar(){
+    $("#searchText").val('');
+    //$("#search").html('');
+}
+function searchUser(contactListReady) {
+    //console.log("in search function");
+    /**
+     * Add check - do not display current user(the one who is calling the search) in the contacts list
+     */
+    if(contactListReady){
+        var i =0,numberOfUsers,currentContact;
+        var result = new Set();
+        var searchText = $("#searchText").val();
+
+        var allContacts = JSON.parse(localStorage.getItem("allUsers"));
+
+        //allContacts is an array of objects
+        for(var key in allContacts){
+            if(allContacts.hasOwnProperty(key)){
+                var currentContact = allContacts[key];  //this is the user object
+                var currentContactUserName = currentContact["fullName"];
+                var currentContactEmailId = currentContact["emailId"];
+                currentContactUserName = currentContactUserName.toLowerCase();
+                currentContactEmailId = currentContactEmailId.toLowerCase();
+                if(currentContactUserName.indexOf(searchText)!=-1 ||
+                    currentContactEmailId.indexOf(searchText)!=-1)
+                        result.add(currentContact);
+            }
+        }
+        //console.log("Result is ");  
+        //console.log(result);
+        displaySearchUserResult(result);
+    }
+    else{
+        console.log("searchUser: data not ready yet");
+    }
+}
+function displaySearchUserResult(searchResult){
+    console.log("in display result");
+    //searchResult is a set we get from searchUser function
+    var listElement = $("#searchUserResultList");
+    if(searchResult!=null){
+        var resultString="";
+        searchResult.forEach(function(value,key,setObj){
+            var userName = value["fullName"];
+            var emailId = value["emailId"];
+            resultString +="<div><li ><div class=\"inlineDisplay\"><img  class=\"imageSearchUser\" src = \"images/profile.png\" alt=\"\" /></div>"+ "<div class=\"inlineDisplay userDetailsSearchUser\" >";
+            resultString +=userName+"<br>"+emailId+"</div><i onclick=\"addContact()\" class=\" addButton material-icons\">add</i></li></div><br>";
+        })
+     }
+     listElement.html(resultString);
+}
+function areContactsLoaded(gotDataFromSource) {
+    if(gotDataFromSource){
+        searchUser(gotDataFromSource);
+    }
+    else{
+        console.log("loadAllContacts: data not ready yet");
+    }
+}
+/*
+-------------------Search User Ends --------------------------------------
+-------------------Rachna Saluja - 9/12/17 ---------------------------------
+*/
