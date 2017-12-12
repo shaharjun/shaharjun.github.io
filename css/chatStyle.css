@@ -379,7 +379,7 @@
 
 #frame #sidepanel #search label {
     position: absolute;
-    margin: 10px 0 0 20px;
+    margin: 10px 0 0 10px;
 }
 
 #frame #sidepanel #search input {
