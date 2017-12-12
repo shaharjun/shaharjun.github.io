@@ -93,7 +93,7 @@ function searchContact() {
     console.log("in search contact");
     var searchContactText = $("#searchContactText").val();
     var searchResult = null;
-    var allContactsList = [];
+    var allContactsList = new Map();
     var allContacts = localStorage.getItem("chatContacts");
     allContactsList = JSON.parse(allContacts);
     var allContactsOfUser = allContactsList;
@@ -103,15 +103,17 @@ function searchContact() {
     } else {
         searchResult = new Set();
         searchContactText = searchContactText.toLowerCase();
-        for (var i = 0; i < allContactsOfUser.length; i++) {
-            var contactName = allContactsOfUser[i].fullName;
-            var contactEmailId = allContactsOfUser[i].emailId;
+        console.log(searchContactText);
+        allContactsList.forEach(function(value,key,mapObj){
+            var contactName = value["fullName"];
+            var contactEmailId = value["emailId"];
             contactName = contactName.toLowerCase();
             contactEmailId = contactEmailId.toLowerCase();
             if (contactName.indexOf(searchContactText) != -1 || contactEmailId.indexOf(searchContactText) != -1) {
-                searchResult.add(allContactsOfUser[i]);
+                         console.log("in match "+contactName+" "+contactEmailId);
+                         searchResult.add(value);
             }
-        }
+        })
         searchContactDisplayResult(searchResult, allContactsOfUser);
     }
 }
