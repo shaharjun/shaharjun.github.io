@@ -126,7 +126,6 @@ $(document).ready(function() {
     $("#eprof #userNameValue").attr('value', userName);
     $("#eprof #userEmailValue").attr('value', email);
     $("#eprof #phone").attr('value', phoneNo);
-    $('#eprof #upload-demo').attr('src', profilePicture);
 
     $('#profile-img').attr('src', profilePicture);
 
@@ -200,18 +199,29 @@ $(document).ready(function() {
             height: 200,
             type: 'circle'
         },
+        zoom : 0,
         showZoomer : false,
         boundary: {
             width: 300,
             height: 300
         }
     });
-    $("#updateProfilePictureBtn").click(function(){
+    $('#upload-demo').croppie('bind', {
+        url : user.profilePictureURL,
+        zoom : 0
+    });
+    $("#updateProfileBtn").click(function(){
         $('#upload-demo').croppie('result', 'base64').then(function(base64){
             var user = JSON.parse(localStorage.getItem('thisUser'));
+            var eUserName = $("#eprof #userNameValue").val();
+            var eUserEmail = $("#eprof #userEmailValue").val();
+            var eUserPhone = $("#eprof #phone").val();
             user.profilePictureURL = base64;
+            user.fullName = eUserName;
+            user.emailId = eUserEmail;
+            user.phoneNo = eUserPhone;
             localStorage.setItem("thisUser", JSON.stringify(user));
-            Materialize.toast("Profile Picture changed. Please Refresh to see changes.", 4000);
+            Materialize.toast("Profile Updated. Refreshing Page.", 4000);
             location.reload();
         });
     });
@@ -234,17 +244,6 @@ $(document).ready(function() {
             sendChat(str);
         }
     });
-    $('#updateProfileInfoBtn').click(function(){
-        var eUserName = $("#eprof #userNameValue").val();
-        var eUserEmail = $("#eprof #userEmailValue").val();
-        var eUserPhone = $("#eprof #phone").val();
-        user.fullName = eUserName;
-        user.emailId = eUserEmail;
-        user.phoneNo = eUserPhone;
-        localStorage.setItem("thisUser", JSON.stringify(user));
-        Materialize.toast("Profile Info changed. Please Refresh to see changes.", 4000);
-        location.reload();
-    }) 
 
     $('#contacts > ul > li.request').click(function() {
         var rq = localStorage.getItem("requests");
@@ -520,7 +519,8 @@ function readURL(input) {
 
         reader.onload = function (e) {
             $('#upload-demo').croppie('bind', {
-                url: e.target.result
+                url: e.target.result,
+                zoom : 0
             });
         }
         reader.readAsDataURL(input.files[0]);
