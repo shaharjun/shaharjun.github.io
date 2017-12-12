@@ -104,16 +104,18 @@ function searchContact() {
         searchResult = new Set();
         searchContactText = searchContactText.toLowerCase();
         console.log(searchContactText);
-        allContactsList.forEach(function(value,key,mapObj){
-            var contactName = value["fullName"];
-            var contactEmailId = value["emailId"];
-            contactName = contactName.toLowerCase();
-            contactEmailId = contactEmailId.toLowerCase();
-            if (contactName.indexOf(searchContactText) != -1 || contactEmailId.indexOf(searchContactText) != -1) {
-                         console.log("in match "+contactName+" "+contactEmailId);
-                         searchResult.add(value);
+        for (var key in allContactsList) {
+            if (allContactsList.hasOwnProperty(key)) {
+                var currentContact = allContactsList[key]; //this is the user object
+                var currentContactUserName = currentContact["fullName"];
+                var currentContactEmailId = currentContact["emailId"];
+                currentContactUserName = currentContactUserName.toLowerCase();
+                currentContactEmailId = currentContactEmailId.toLowerCase();
+                if (currentContactUserName.indexOf(searchContactText) != -1 ||
+                    currentContactEmailId.indexOf(searchContactText) != -1)
+                    searchResult.add(currentContact);
             }
-        })
+        }
         searchContactDisplayResult(searchResult, allContactsOfUser);
     }
 }
