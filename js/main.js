@@ -72,10 +72,76 @@ function logout() {
 function random() {
     $('#addreminder').modal();
 }
-
+/**
+ * Rachna Saluja - Search in contact list of the current user
+ * ----------------------Start of code --------------------------------
+ */
+// $("#searchContactText").keydown(function(e){
+//     if(e.keyCode == 13) searchContact();
+//     else console.log(e);
+// });
+// $("#searchContactText").click(function(e){
+//     var key = e.which;
+//     if(key == 13){
+//         searchContact();
+//     }
+//     else{
+//         console.log(key);
+//     }
+// });
 function searchContact() {
-    var text = $("#searchText").val();
+    console.log("in search contact");
+    var searchContactText = $("#searchContactText").val();
+    var searchResult = null;
+    var allContactsList = [];
+    var allContacts = localStorage.getItem("chatContacts");
+    allContactsList = JSON.parse(allContacts);
+    var allContactsOfUser = allContactsList;
+    if(searchContactText == ""){
+        searchResult =null;
+        displayAllContacts(allContactsOfUser);
+    }
+    else{
+        searchResult = new Set();
+        searchContactText = searchContactText.toLowerCase();
+        for(var i =0;i<allContactsOfUser.length;i++){
+            var contactName = allContactsOfUser[i].fullName;
+            var contactEmailId = allContactsOfUser[i].emailId;
+            contactName = contactName.toLowerCase();
+            contactEmailId = contactEmailId.toLowerCase();
+            if(contactName.indexOf(searchContactText) != -1 || contactEmailId.indexOf(searchContactText) != -1){
+                searchResult.add(allContactsOfUser[i]);
+            }
+        }
+        searchContactDisplayResult(searchResult,allContactsOfUser);
+    }
 }
+
+function searchContactDisplayResult(searchResult,allContactsOfUser){
+    console.log("in display");
+    console.log(searchResult);
+    var allContactsString = "";
+    if (searchResult != null) {
+        console.log("in not null");
+        searchResult.forEach(function(value,key,setObj){
+            console.log("in loop");
+            var contactName = value["fullName"];
+            console.log(contactName);
+            allContactsString += '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+                   '<div class="meta"><p class="name">' + contactName + '</p></div></div></li>';
+        })
+        $('#contacts > ul').html(allContactsString);    
+        // for (var i = 0; i < searchResult.size; i++) {
+        //     allContactsString += '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+        //         '<div class="meta"><p class="name">' + searchResult[i].fullName + '</p></div></div></li>';
+        // }
+    }
+    else displayAllContacts(allContactsOfUsers);
+    
+}
+ /**
+ * -------------------End of code ------------------------------------
+ */
 $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -219,9 +285,35 @@ $(document).ready(function() {
             $("#status-options").removeClass("active");
         }
     });
-
     $("#searchUserButton").prop("disabled",true);
+    $("#closeAddContactButton").click(function(){
+        clearSearchBar();
+    });
     clearSearchBar();
+    $("#clearSearchContactBar").click(function(){
+        $("#searchContactText").val('');
+        var allContacts = localStorage.getItem("chatContacts");
+        var allContactsOfUser = JSON.parse(allContacts);
+        //$('#contacts > ul').html(''); 
+        displayAllContacts(allContactsOfUser);
+    });
+    var contacts = new Map();
+    $.getJSON('./contacts.json', function (data) {
+    }).done(function(data){
+        $.each(data, function (i, contact) {
+            // $('ul').append('<li>' + contact.name +'</li>');
+            contacts[contact["emailId"]] = contact;
+            //console.log(contacts);
+        });
+     localStorage.setItem("allUsers", JSON.stringify(contacts));
+     areContactsLoaded(true);
+     $("#searchUserButton").prop("disabled",false);
+     $("#searchUserButton").click(function(){    
+        searchUser(true);
+     });
+    })
+    .error(function () {
+        alert("Data could not be loaded");
     areContactsLoaded(true);
     $("#searchUserButton").prop("disabled",false);
     $("#searchUserButton").click(function(){    
@@ -596,6 +688,7 @@ function searchUser(contactListReady) {
         var i =0,numberOfUsers,currentContact;
         var result = new Set();
         var searchText = $("#searchText").val();
+        searchText = searchText.toLowerCase();
 
         var allContacts = JSON.parse(localStorage.getItem("allUsers"));
 
@@ -612,8 +705,6 @@ function searchUser(contactListReady) {
                         result.add(currentContact);
             }
         }
-        //console.log("Result is ");  
-        //console.log(result);
         displaySearchUserResult(result);
     }
     else{
@@ -621,7 +712,6 @@ function searchUser(contactListReady) {
     }
 }
 function displaySearchUserResult(searchResult){
-    console.log("in display result");
     //searchResult is a set we get from searchUser function
     var listElement = $("#searchUserResultList");
     if(searchResult!=null){

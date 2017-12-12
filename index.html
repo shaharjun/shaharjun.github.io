@@ -85,10 +85,11 @@
 
 			<div id="search">
 
-				<label><i class="fa fa-search" aria-hidden="true"></i></label>
-
-				<input type="text" style="width: 100%" class="browser-default"
-					placeholder="Search contacts..." />
+				<label><i onclick="searchContact()"class="fa fa-search" aria-hidden="true"></i></label>
+				<input type="text" style="width: 93%" class="browser-default"
+					placeholder="Search contacts..." id="searchContactText"/>
+				<label><i id="clearSearchContactBar"class="fa fa-times" aria-hidden="true"></i></label>
+						
 			</div>
 			<div id="contacts">
 				&nbsp &nbsp
@@ -343,7 +344,7 @@
 		<div class="modal-footer">
 
 				<a href="#!" style="background:#32465a;color:white;"
-				class="modal-action modal-close btn-flat" onclick="clearSearchBar()">Close</a>
+				class="modal-action modal-close btn-flat" id="closeAddContactButton">Close</a>
 		</div>
 	</div>
 	<div id="viewPoll" class="modal">
