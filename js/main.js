@@ -316,7 +316,7 @@ $(document).ready(function () {
             });
         })
         .error(function () {
-            alert("Data could not be loaded");
+            console.log("Data could not be loaded");
             areContactsLoaded(true);
             $("#searchUserButton").prop("disabled", false);
             $("#searchUserButton").click(function () {
