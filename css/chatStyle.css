@@ -379,7 +379,7 @@
 
 #frame #sidepanel #search label {
     position: absolute;
-    margin: 10px 0 0 20px;
+    margin: 10px 0 0 10px;
 }
 
 #frame #sidepanel #search input {
@@ -869,6 +869,7 @@
     height: 100%;
     width:100%;
     overflow: hidden;
+    overflow-y: scroll;
     margin-top: 0;
 }
 #logout-button{
@@ -897,7 +898,7 @@
 .card-content{
     text-align: center;
 }
-#userName p{
+#uprof #userName p, #cprof #userName p {
     font-size: 40px;
 }
 .card-content p{
@@ -929,4 +930,143 @@
 }
 #starmessages {
     overflow-y:auto;
+}
+/*
+Rachna Saluja - Search Contact - Result List
+*/
+.imageSearchUser{
+    width:50px;
+    border-radius: 50%;
+}
+.inlineDisplay{
+    display: inline-block;
+    padding-top: 10px;
+}
+.userDetailsSearchUser{
+    padding-left: 15px;
+    vertical-align: middle;
+}
+.addButton{
+    float:right;
+    padding-top:20px;
+    cursor: pointer;
+}
+/**/
+#eprof .card-content .input-field{
+    margin-top: 0 !important;
+}
+#eprof .card-content input{
+    width:40% !important;
+    font-size: 20px;
+    height:2rem !important;
+    text-align: center !important;
+} 
+#frame #sidepanel #contacts ul li.request {
+    position: relative;
+    padding: 10px 0 15px 0;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request {
+        padding: 6px 0 46px 8px;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request:hover {
+    background: #32465a;
+}
+
+#frame #sidepanel #contacts ul li.request.active {
+    background: #32465a;
+    border-right: 5px solid #435f7a;
+}
+
+#frame #sidepanel #contacts ul li.request.active span.contact-status {
+    border: 2px solid #32465a !important;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap {
+    width: 88%;
+    margin: 0 auto;
+    position: relative;
+}
+
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request .wrap {
+        width: 100%;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span {
+    position: absolute;
+    left: 0;
+    margin: -2px 0 0 -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #2c3e50;
+    background: #95a5a6;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span.online {
+    background: #2ecc71;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span.away {
+    background: #f1c40f;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span.busy {
+    background: #e74c3c;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap img {
+    width: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request .wrap img {
+        margin-right: 0px;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta {
+    padding: 5px 0 0 0;
+}
+
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request .wrap .meta {
+        display: none;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta .name {
+    font-weight: 600;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta .preview {
+    margin: 5px 0 0 0;
+    padding: 0 0 1px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -moz-transition: 1s all ease;
+    -o-transition: 1s all ease;
+    -webkit-transition: 1s all ease;
+    transition: 1s all ease;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta .preview span {
+    position: initial;
+    border-radius: initial;
+    background: none;
+    border: none;
+    padding: 0 2px 0 0;
+    margin: 0 0 0 1px;
+    opacity: .5;
 }

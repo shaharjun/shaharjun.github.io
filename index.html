@@ -29,8 +29,8 @@
 <script src='js/plugins/jquery-2.2.4.min.js'></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src='js/populate.js'></script>
 <script src='js/main.js'></script>
-<script src='js/poll.js'></script>
 <link rel="stylesheet" href="css/croppie.css" />
 <script src="js/croppie.js"></script>
 </head>
@@ -39,7 +39,7 @@
 		<div id="sidepanel">
 			<div id="profile">
 				<div class="wrap">
-					<img id="profile-img" src="images/profile.png" class="online"
+					<img id="profile-img" src="" class="online"
 						alt="" />
 					<p></p>
 					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
@@ -84,10 +84,11 @@
 
 			<div id="search">
 
-				<label><i class="fa fa-search" aria-hidden="true"></i></label>
-
-				<input type="text" style="width: 100%" class="browser-default"
-					placeholder="Search contacts..." />
+				<label><i onclick="searchContact()"class="fa fa-search" aria-hidden="true"></i></label>
+				<input type="text" style="width: 93%" class="browser-default"
+					placeholder="Search contacts..." id="searchContactText"/>
+				<label><i id="clearSearchContactBar"class="fa fa-times" aria-hidden="true"></i></label>
+						
 			</div>
 			<div id="contacts">
 				&nbsp &nbsp
@@ -134,7 +135,7 @@
 
 					<!-- Card Profile image -->
 					<div class="card-image">
-						<img src="images/profile.png" class="display-pic">
+						<img src="" class="display-pic">
 					</div>
 
 					<!-- Card Profile content -->
@@ -191,7 +192,7 @@
 							<input id="phone" type="text" class="validate">
 						</div>
 						<div class="card-action">
-							<a href="#">Update Profile</a>
+							<a id="updateProfileInfoBtn" href="#">Update Profile</a>
 						</div>
 					</div>
 				</div>
@@ -219,15 +220,15 @@
 					<!-- Card Profile content -->
 					<div class="card-content">
 						<div id="userName">
-							<p id="userNameValue">userName</p>
+							<p id="userNameValue"></p>
 						</div>
 						<div id="userEmail">
 							<p class="cardLabel">Email</p>
-							<p id="userEmailValue">kamlesh@gmail.com</p>
+							<p id="userEmailValue"></p>
 						</div>
 						<div id="userPhone">
 							<p class="cardLabel">Phone No.</p>
-							<p id="userPhoneValue">9676433245</p>
+							<p id="userPhoneValue"></p>
 						</div>
 					</div>
 
@@ -289,15 +290,14 @@
 		</div>
 	</div>
 
-	
-<div id="addreminder" class="modal">
+	<div id="addreminder" class="modal">
 		<div class="modal-content">
 			<div class="rowreminder">
 				<form class="col s12">
 					<div class="rowreminder">
 						<div class="input-field col s6">
-							<i class="material-icons prefix">mode_edit</i>	
-							<textarea id="remaindermessage" class="materialize-textarea"></textarea>
+							<i class="material-icons prefix">mode_edit</i>
+							<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
 							<label for="icon_prefix2">Enter Message</label>
 						</div>
 					</div>
@@ -305,14 +305,13 @@
 				</form>
 			</div>
 			<div class="input-field col s6">
-				<i class="material-icons prefix">perm_contact_calendar</i> 
-				<input type="text"id="remainderdate"
+				<i class="material-icons prefix">access_time</i> <input type="text"
 					class="datepicker"> <label for="icon_prefix2">Enter
 					Date</label>
 			</div>
 			<div class="input-field col s6">
 				<i class="material-icons prefix">contacts</i>
-				<textarea id="remindercontact" class="materialize-textarea"></textarea>
+				<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
 				<label for="icon_prefix2">Add Contact</label>
 				<div id="searchContactResult">
 					<ul id="searchContactResultList">
@@ -320,11 +319,10 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-			<a href="#!" style="background:#32465a;color:white;"
-				class="modal-action modal-close btn-flat" id="addrem" onClick='sendReminderChat()'>Add Reminder</a>
-			<a href="#!" style="background:#32465a;color:white;"
-				class="modal-action modal-close btn-flat">Close</a>
-		</div>
+
+				<a href="#!" style="background:#32465a;color:white;" class="modal-action modal-close btn-flat">Close</a>
+
+			</div>
 		</div>
 	</div>
 	<div id="addContactModal" class="modal">
@@ -345,7 +343,7 @@
 		<div class="modal-footer">
 
 				<a href="#!" style="background:#32465a;color:white;"
-				class="modal-action modal-close btn-flat" onclick="clearSearchBar()">Close</a>
+				class="modal-action modal-close btn-flat" id="closeAddContactButton">Close</a>
 		</div>
 	</div>
 	<div id="viewPoll" class="modal">
@@ -400,6 +398,5 @@
 			</div>
 		</div>
 	</div> 
-	<script src='js/main.js'></script>
 </body>
 </html>
