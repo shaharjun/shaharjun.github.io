@@ -799,18 +799,12 @@ function storeReminder(message, reminderDate,reminderContact,messageType) {
         'chatType': 'REMINDER',
         "scheduledDate":"",  
     }
-   // var numItem = $('#contacts > ul > li.contact.request').length;
-    //currentContactIndex = currentContactIndex - numItem;
     var remindermessages = localStorage.getItem("remindermessages");
-   //messageData.contactIndex = currentContactIndex;
-    console.log(email);
     messageData.chatMessageText = message;
     messageData.scheduledDate = reminderDate;
     messageData.messageType=0;
     messageData.receiver = reminderContact;
     messageData.creator = email;
-   // messageData.reminderContact = reminderContact;
-  //  messageData.userRecieverId=reminderContact;
     if (remindermessages == null) {
         remindermessages = [];
         remindermessages.push(messageData);
@@ -828,13 +822,6 @@ function storeReminder(message, reminderDate,reminderContact,messageType) {
 }
 
 function getReminderChat(str) {
-   // var numItem = $('#contacts > ul > li.contact.request').length;
-    console.log("hey");
-    //index = index - numItem;
-  //  var numItem = $('#contacts > ul > li.contact.request').length;
-    //index = index - numItem;
-    
-    //$('.message-input').css('visibility', 'visible');
     var messages = localStorage.getItem("remindermessages");
     if (messages != null) {
         var remindermessagesArray = [];
@@ -844,7 +831,6 @@ function getReminderChat(str) {
         var allMessages1 = "";
           
         var d = new Date();
-           // console.log(d);
             var dd = d.getDate();
             var mm = d.getMonth()+1; //January is 0!
             
@@ -859,17 +845,10 @@ function getReminderChat(str) {
         var datestring = dd+'-'+mm+'-'+yyyy;
            
         for (var i = 0; i < remindermessagesArray.length; i++) {
-         //console.log(remindermessagesArray[i].userRecieverId);
-         
-            if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].contactIndex == 2 && remindermessagesArray[i].messageType == 0) {
-                //console.log("hey");
-               // allMessages1 += "<li class='replies'>" +
-                //"<img src='images/profile.png' alt='' />" +
-                //"<p style=\"word-wrap: break-word;\">" + remindermessagesArray[i].chatMessageText + "</p></li>";
-                  
+            if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == str && remindermessagesArray[i].messageType == 0) {
                 var messageData = {
-                        'creator': '',
-                        'receiver': '',
+                        'creator': remindermessagesArray[i].creator,
+                        'receiver': remindermessagesArray[i].receiver,
                         'chatMessageId': 0,
                         'createdOn': new Date(),
                         'starred': false,
@@ -879,9 +858,8 @@ function getReminderChat(str) {
                         'chatStatus': 'SENT',
                         'chatType': 'REMINDER'
                     };
-                 storeChat(2, messageData);
-                 remindermessagesArray[i].messageType = 1;
-                 //console.log(remindermessagesArray[i].messageType);    
+                 storeChat(messageData);
+                 remindermessagesArray[i].messageType = 1;   
             }    
         }
         remindermessagesArray = JSON.stringify(remindermessagesArray);
