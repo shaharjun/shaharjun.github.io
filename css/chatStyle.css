@@ -961,3 +961,112 @@ Rachna Saluja - Search Contact - Result List
     height:2rem !important;
     text-align: center !important;
 } 
+#frame #sidepanel #contacts ul li.request {
+    position: relative;
+    padding: 10px 0 15px 0;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request {
+        padding: 6px 0 46px 8px;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request:hover {
+    background: #32465a;
+}
+
+#frame #sidepanel #contacts ul li.request.active {
+    background: #32465a;
+    border-right: 5px solid #435f7a;
+}
+
+#frame #sidepanel #contacts ul li.request.active span.contact-status {
+    border: 2px solid #32465a !important;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap {
+    width: 88%;
+    margin: 0 auto;
+    position: relative;
+}
+
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request .wrap {
+        width: 100%;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span {
+    position: absolute;
+    left: 0;
+    margin: -2px 0 0 -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #2c3e50;
+    background: #95a5a6;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span.online {
+    background: #2ecc71;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span.away {
+    background: #f1c40f;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap span.busy {
+    background: #e74c3c;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap img {
+    width: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request .wrap img {
+        margin-right: 0px;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta {
+    padding: 5px 0 0 0;
+}
+
+@media screen and (max-width: 735px) {
+    #frame #sidepanel #contacts ul li.request .wrap .meta {
+        display: none;
+    }
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta .name {
+    font-weight: 600;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta .preview {
+    margin: 5px 0 0 0;
+    padding: 0 0 1px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -moz-transition: 1s all ease;
+    -o-transition: 1s all ease;
+    -webkit-transition: 1s all ease;
+    transition: 1s all ease;
+}
+
+#frame #sidepanel #contacts ul li.request .wrap .meta .preview span {
+    position: initial;
+    border-radius: initial;
+    background: none;
+    border: none;
+    padding: 0 2px 0 0;
+    margin: 0 0 0 1px;
+    opacity: .5;
+}
