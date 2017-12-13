@@ -177,8 +177,7 @@
 					<!-- Card Profile content -->
 					<div class="card-content">
 						<div class="card-action">
-							<input type='file' onchange="readURL(this);"  accept="image/jpeg, image/png" style="margin-left:10%"/><br><br>
-							<a id="updateProfilePictureBtn" href="#">Update Profile Picture</a>
+							<input type='file' onchange="readURL(this);"  accept="image/jpeg, image/png" style="margin-left:10%;color:green;"/><br><br>
 						</div>
 						<div id="userName" class="input-field">
 							<p class="cardLabel">Full Name</p>
@@ -193,7 +192,7 @@
 							<input id="phone" type="text" class="validate">
 						</div>
 						<div class="card-action">
-							<a id="updateProfileInfoBtn" href="#">Update Profile</a>
+							<a id="updateProfileBtn" href="#">Update Profile</a>
 						</div>
 					</div>
 				</div>
@@ -312,22 +311,35 @@
 					Date</label>
 			</div>
 			<div class="input-field col s6">
-				<i class="material-icons prefix">contacts</i>
-				<textarea id="remindercontact" class="materialize-textarea"></textarea>
-				<label for="icon_prefix2">Add Contact</label>
-				<div id="searchContactResult">
-					<ul id="searchContactResultList">
-					</ul>
+					<div class="input_fields_wrap">
+						<p>
+				        <i class="material-icons prefix">contacts</i>
+				         <label for="icon_prefix2"></label>
+						<label id="getcontact" style="visibility:hidden">></label>
+						<a class="btn-floating" id="createlist" style="background:#32465a;color:white; float:right">
+							<i class="material-icons">add</i></a>
+						</p>
+						</div>
+				<div><i class="material-icons prefix"></i><input type="text" id="remindercontact" placeholder="Select Contact" onkeypress="return false" />
 				</div>
+					
+					<div id="remindercreate">
+						<div id="rsearchUserResult">
+							<ul id="rsearchUserResultList">
+							</ul>
+						</div>
+					</div>
 			</div>
+		</div>
 			<div class="modal-footer">
 			<a href="#!" style="background:#32465a;color:white;"
 				class="modal-action modal-close btn-flat" id="addrem" onClick='sendReminderChat()'>Add Reminder</a>
 			<a href="#!" style="background:#32465a;color:white;"
 				class="modal-action modal-close btn-flat">Close</a>
 		</div>
-		</div>
+		
 	</div>
+	
 	<div id="addContactModal" class="modal">
 		<div class="modal-content">
 			<input type="text" id="searchText"
@@ -401,6 +413,6 @@
 			</div>
 		</div>
 	</div> 
-	<script src='js/main.js'></script>
+	<script src='js/datepicker.js'></script>
 </body>
 </html>
