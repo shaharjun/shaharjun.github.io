@@ -222,9 +222,9 @@ $(document).ready(function () {
     $('body').on('click', '.contact', function() {
         console.log($(this));
         var str = $(this).data("email");
-             currentContactIndex = $(this).index();
-             currentContact(str);
-             getChatMessages(str);
+        currentContactIndex = $(this).index();
+        currentContact(str);
+        getChatMessages(str);
     });
     $(".expand-button").click(function () {
         $("#profile").toggleClass("expanded");
