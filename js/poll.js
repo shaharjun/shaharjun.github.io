@@ -37,7 +37,7 @@ $(function () {
     displayData();
     
     $("#create").click(function(){
-    	$("#popUp_1").show();
+    	$("#popUp_1").toggle();
     })
     $("#closePoll").click(function(){
     	$("#popUp_1").hide();
@@ -51,13 +51,7 @@ $(function () {
     	sendResponse(this.id);
    	
     })
-
-   
-        
-    
-    
-    
-    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var wrapper = $(".input_fields_wrap"); //Fields wrapper
     var x = 1; //initial text box count
     $("#addPollContact").click(function(e){ //on add input button click
         e.preventDefault();
@@ -79,8 +73,6 @@ function displayData(){
 }
 
 function sendPoll(){
-	
-	
 	pollData.polledChatMessageText=$('#questionPoll').val();
 	var pollFieldCount = $('.input_fields_wrap').find('input');
 	for (var i = 1; i <= pollFieldCount.length; i++){
@@ -93,7 +85,6 @@ function sendPoll(){
 			pollData.users[i-1]=user;
 		}
 	}
-	//pollData = JSON.stringify(pollData);
 	console.log(pollData)
     var pollArray=localStorage.getItem("polledMessage");
     if(pollArray==null){
@@ -110,25 +101,9 @@ function sendPoll(){
     	pollArray.push(pollData);
     	pollArray=JSON.stringify(pollArray);
     	localStorage.setItem("polledMessage", pollArray);
-    	
-    	
     }
-	
-	
-	
-	
 	console.log(pollData);
-	
-    
-    //pollCount++;
-   
- 
 }
-
-
-
-
-
 function displayQuestions(){
 	$("#questions").empty();
 	
@@ -154,19 +129,19 @@ function displayQuestions(){
 			str+=" type='radio' id=" +"test1"+i
 			str+=" value='yes'/>";
 			str+="<label for="+ "test1"+i
-			str+=">" +poll.polledResponseType[0] +  "<div class='chip'>" ;
+			str+=">" +poll.polledResponseType[0] +  "<div class='chip' style='float:right'>" ;
 			str+=poll.pollYesCount +"</div></label><br>";
 			str+="<input name=" +"group"+i;
 			str+=" type='radio' id=" +"test2"+i
 			str+=" value='no'/>";
 			str+="<label for="+"test2"+i;
-			str+=">" +poll.polledResponseType[1] +"<div class='chip'>";
+			str+=">" +poll.polledResponseType[1] +"<div class='chip' style='float:right'>";
 			str+=poll.pollNoCount +"</div></label><br>";
 			str+="<input name=" +'group'+i;
 			str+=" type='radio' id=" +"test3"+i;
 			str+=" value='cantSay'/>";
 			str+="<label for=" +"test3"+i;
-			str+=">" +poll.polledResponseType[2] +"<div class='chip'>";
+			str+=">" +poll.polledResponseType[2] +"<div class='chip' style='float:right'>";
 			str+=poll.pollCantSayCount +"<br></div></label>";
 			str+="<input type='button' class='submit' id=" +i
 			str+=" value='Submit Poll'/>";
@@ -184,13 +159,7 @@ function sendResponse(x){
 	var radioValue = $("input[name=" +'group'+x+"]:checked").val();
 	console.log(radioValue);
 	var pollSendResponse=localStorage.getItem("polledMessage");
-	
-	
-	
-	
 	pollSendResponse=JSON.parse(pollSendResponse);
-	
-	
 	if(radioValue=="yes"){
 		pollSendResponse[x].pollYesCount++;
 		console.log(pollSendResponse[x].pollYesCount);
@@ -206,15 +175,6 @@ function sendResponse(x){
 	pollSendResponse = JSON.stringify(pollSendResponse);
     localStorage.setItem("polledMessage", pollSendResponse);
 }
-
-
-
-
-
-
-
-
-
 function pollIdGenerator(){
 	return pollId++;
 	
@@ -222,7 +182,3 @@ function pollIdGenerator(){
 function responseIdGenerator(){
 	return responseId++;
 }
-
-
-
-
