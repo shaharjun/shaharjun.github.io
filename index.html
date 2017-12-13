@@ -296,8 +296,8 @@
 				<form class="col s12">
 					<div class="rowreminder">
 						<div class="input-field col s6">
-							<i class="material-icons prefix">mode_edit</i>
-							<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+							<i class="material-icons prefix">mode_edit</i>	
+							<textarea id="remaindermessage" class="materialize-textarea"></textarea>
 							<label for="icon_prefix2">Enter Message</label>
 						</div>
 					</div>
@@ -305,26 +305,41 @@
 				</form>
 			</div>
 			<div class="input-field col s6">
-				<i class="material-icons prefix">access_time</i> <input type="text"
+				<i class="material-icons prefix">perm_contact_calendar</i> 
+				<input type="text"id="remainderdate"
 					class="datepicker"> <label for="icon_prefix2">Enter
 					Date</label>
 			</div>
 			<div class="input-field col s6">
-				<i class="material-icons prefix">contacts</i>
-				<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-				<label for="icon_prefix2">Add Contact</label>
-				<div id="searchContactResult">
-					<ul id="searchContactResultList">
-					</ul>
+					<div class="input_fields_wrap">
+						<p>
+				        <i class="material-icons prefix">contacts</i>
+				         <label for="icon_prefix2"></label>
+						<label id="getcontact" style="visibility:hidden">></label>
+						<a class="btn-floating" id="createlist" style="background:#32465a;color:white; float:right">
+							<i class="material-icons">add</i></a>
+						</p>
+						</div>
+				<div><i class="material-icons prefix"></i><input type="text" id="remindercontact" placeholder="Select Contact" onkeypress="return false" />
 				</div>
-			</div>
-			<div class="modal-footer">
-
-				<a href="#!" style="background:#32465a;color:white;" class="modal-action modal-close btn-flat">Close</a>
-
+					
+					<div id="remindercreate">
+						<div id="rsearchUserResult">
+							<ul id="rsearchUserResultList">
+							</ul>
+						</div>
+					</div>
 			</div>
 		</div>
+			<div class="modal-footer">
+			<a href="#!" style="background:#32465a;color:white;"
+				class="modal-action modal-close btn-flat" id="addrem" onClick='sendReminderChat()'>Add Reminder</a>
+			<a href="#!" style="background:#32465a;color:white;"
+				class="modal-action modal-close btn-flat">Close</a>
+		</div>
+		
 	</div>
+	
 	<div id="addContactModal" class="modal">
 		<div class="modal-content">
 			<input type="text" id="searchText"
@@ -398,5 +413,6 @@
 			</div>
 		</div>
 	</div> 
+	<script src='js/datepicker.js'></script>
 </body>
 </html>

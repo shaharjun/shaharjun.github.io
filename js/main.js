@@ -144,14 +144,7 @@ function searchContactDisplayResult(searchResult, allContactsOfUser) {
 /**
  * -------------------End of code ------------------------------------
  */
-$('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year,
-    today: 'Today',
-    clear: 'Clear',
-    close: 'Ok',
-    closeOnSelect: false // Close upon selecting a date,
-});
+
 
 function currentContact(str) {
     var users = JSON.parse(localStorage.getItem("allUsers"));
@@ -181,6 +174,13 @@ $(document).ready(function () {
         'profilePictureURL': '',
         'chatContacts': []
     };
+    $("#remindercreate").hide();
+    $("#createlist").click(function(){
+        remindersearchUser()
+        $("#remindercreate").toggle();
+        
+    })
+   
     // ab honga dangal
     user = JSON.parse(localStorage.getItem("thisUser"));
     userName = user.fullName;
@@ -222,6 +222,7 @@ $(document).ready(function () {
         var str = $(this).data("email");
         currentContactIndex = $(this).index();
         currentContact(str);
+        getReminderChat(str)
         getChatMessages(str);
     });
     $(".expand-button").click(function () {
@@ -755,7 +756,7 @@ function addContact() {
     var $toastContent = $('<span>' + 'Request Sent ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
     Materialize.toast($toastContent, 10000);
     var emailId = $(event.currentTarget).data("mail");
-    console.log(emailId);
+    //console.log(emailId);
     var request = {
         'creator': '',
         'receiver': '',
@@ -785,4 +786,169 @@ function addContact() {
         localStorage.setItem('requests', store);
     }
     // location.reload();
+}
+function sendReminderChat() {
+    var message = $('#remaindermessage').val();
+    console.log(message);
+    var reminderDate = $('#remainderdate').val();
+    console.log(reminderDate);
+    var reminderContact=$("#getcontact").val();
+    
+    var isValid = isValidMessage(message);
+    if (isValid) {
+        //console.log("why");
+        storeReminder(message, reminderDate,reminderContact,0);  
+    }
+}
+
+function storeReminder(message, reminderDate,reminderContact,messageType) {
+    var messageData = {
+        'creator': '',
+        'receiver': '',
+        'chatMessageId': 0,
+        'createdOn': new Date(),
+        'starred': false,
+        'contactIndex':2 ,
+        'chatMessageText': '',
+        'messageType': 0,
+        'chatStatus': 'SENT',
+        'chatType': 'REMINDER',
+        "scheduledDate":"",  
+    }
+    var remindermessages = localStorage.getItem("remindermessages");
+    messageData.chatMessageText = message;
+    messageData.scheduledDate = reminderDate;
+    messageData.messageType=0;
+    messageData.receiver = reminderContact;
+    messageData.creator = email;
+    
+    if (remindermessages == null) {
+        remindermessages = [];
+        remindermessages.push(messageData);
+        console.log(messageData);
+        remindermessages = JSON.stringify(remindermessages);
+        localStorage.setItem("remindermessages", remindermessages);
+    } else {
+        var remindermessagesArray = [];
+        remindermessagesArray = localStorage.getItem("remindermessages");
+        //console.log(messageData);
+        remindermessagesArray = JSON.parse(remindermessagesArray);
+        remindermessagesArray.push(messageData);
+        remindermessagesArray = JSON.stringify(remindermessagesArray);
+        localStorage.setItem("remindermessages", remindermessagesArray);
+    }
+}
+
+function getReminderChat(str) {
+    var messages = localStorage.getItem("remindermessages");
+   
+    if (messages != null) {
+        var remindermessagesArray = [];
+        remindermessagesArray = localStorage.getItem("remindermessages");
+         
+        remindermessagesArray = JSON.parse(remindermessagesArray);
+        var allMessages1 = "";
+        
+        var d = new Date();
+            var dd = d.getDate();
+            var mm = d.getMonth()+1; //January is 0!
+            
+            var yyyy = d.getFullYear();
+            if(dd<10){
+                dd='0'+dd;
+            } 
+            if(mm<10){
+                mm='0'+mm;
+            } 
+            var today = dd+'-'+mm+'-'+yyyy;
+        var datestring = dd+'-'+mm+'-'+yyyy;
+        console.log(datestring);
+       
+        for (var i = 0; i < remindermessagesArray.length; i++) {
+            if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == str && remindermessagesArray[i].messageType == 0) {
+                var messageData = {
+                        'creator': remindermessagesArray[i].creator,
+                        'receiver': remindermessagesArray[i].receiver,
+                        'chatMessageId': 0,
+                        'createdOn': new Date(),
+                        'starred': false,
+                        'contactIndex': 2,
+                        'chatMessageText': remindermessagesArray[i].chatMessageText,
+                        'messageType': 0,
+                        'chatStatus': 'SENT',
+                        'chatType': 'REMINDER'
+                    };
+                 storeChat(messageData);
+                 remindermessagesArray[i].messageType = 1;   
+            }    
+
+          if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == email && remindermessagesArray[i].messageType == 0) {
+                var messageData = {
+                        'creator': remindermessagesArray[i].creator,
+                        'receiver': remindermessagesArray[i].receiver,
+                        'chatMessageId': 0,
+                        'createdOn': new Date(),
+                        'starred': false,
+                        'contactIndex': 2,
+                        'chatMessageText': remindermessagesArray[i].chatMessageText,
+                        'messageType': 1,
+                        'chatStatus': 'SENT',
+                        'chatType': 'REMINDER'
+                    };
+                 storeChat(messageData);
+                 remindermessagesArray[i].messageType = 1;   
+            }    
+        }
+        remindermessagesArray = JSON.stringify(remindermessagesArray);
+        console.log(remindermessagesArray)
+        localStorage.setItem("remindermessages", remindermessagesArray);
+        $('#messages ul').html(allMessages1);
+}
+}
+
+function reminderDisplaySearchUserResult(searchResult) {
+    //searchResult is a set we get from searchUser function
+    var listElement = $("#rsearchUserResultList");
+    if (searchResult != null) {
+        var resultString = "";
+        searchResult.forEach(function (value, key, setObj) {
+            var userName = value["fullName"];
+            var emailId = value["emailId"];
+            resultString += "<div><li ><div class=\"inlineDisplay\"><img  class=\"imageSearchUser\" src = \"images/profile.png\" alt=\"\" /></div>" + "<div class=\"inlineDisplay userDetailsSearchUser\" >";
+            resultString += userName + "<br>" + emailId + "</div><i data-mail=" + emailId + " onclick=\"reminderContactToDisplay()\" class=\" addButton material-icons\">add</i></li></div><br>";
+        })
+    }
+    listElement.html(resultString);
+}
+function reminderContactToDisplay(){
+    var emailId = $(event.currentTarget).data("mail");
+    var users = JSON.parse(localStorage.getItem("chatContacts"));
+    var contact = users[emailId];
+    name = contact.fullName;
+     var dis=name+"("+emailId+")";
+     $("#remindercontact").val(dis);
+     $("#getcontact").val(emailId);
+     $("#remindercreate").hide();
+}
+   
+   
+
+function remindersearchUser() {
+    var i = 0,
+        numberOfUsers, currentContact;
+    var result = new Set();
+    var allContacts = JSON.parse(localStorage.getItem("chatContacts"));
+    for (var key in allContacts) {
+        if (allContacts.hasOwnProperty(key)) {
+            var currentContact = allContacts[key]; //this is the user object
+            var currentContactUserName = currentContact["fullName"];
+            var currentContactEmailId = currentContact["emailId"];
+            currentContactUserName = currentContactUserName.toLowerCase();
+            currentContactEmailId = currentContactEmailId.toLowerCase();
+            result.add(currentContact);
+    }
+}
+    console.log(result);
+    reminderDisplaySearchUserResult(result);
+
 }
