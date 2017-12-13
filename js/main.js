@@ -129,8 +129,9 @@ function searchContactDisplayResult(searchResult, allContactsOfUser) {
         searchResult.forEach(function (value, key, setObj) {
             console.log("in loop");
             var contactName = value["fullName"];
+            var email = value["emailId"];
             console.log(contactName);
-            allContactsString += '<li class="contact"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+            allContactsString += '<li class="contact" data-email="'+email+'"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
                 '<div class="meta"><p class="name">' + contactName + '</p></div></div></li>';
         })
         $('#contacts > ul').html(allContactsString);
@@ -218,11 +219,12 @@ $(document).ready(function () {
         console.log("Access Denied, redirecting to Login");
         window.location.href = "login.html";
     }
-    $('.contact').click(function () {
+    $('body').on('click', '.contact', function() {
+        console.log($(this));
         var str = $(this).data("email");
-        currentContactIndex = $(this).index();
-        currentContact(str);
-        getChatMessages(str);
+             currentContactIndex = $(this).index();
+             currentContact(str);
+             getChatMessages(str);
     });
     $(".expand-button").click(function () {
         $("#profile").toggleClass("expanded");
