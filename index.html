@@ -31,7 +31,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 <script src='js/populate.js'></script>
 <script src='js/main.js'></script>
-<!-- <script src='js/poll.js'></script> -->
+<script src='js/poll.js'></script>
 <link rel="stylesheet" href="css/croppie.css" />
 <script src="js/croppie.js"></script>
 </head>
@@ -367,10 +367,13 @@
 			<div class="row">
 					<div class="col s10">
 						<span class="card-image waves-effect waves-block waves-light" >
-							<p class="font-weight-bold" id="create">
-								<font face="verdana" color="black" size="5">Create
+							<div id="create">
+							<a class="btn-floating btn-large waves-effect waves-light red">
+							<i class="material-icons">add</i></a>
+							<font face="verdana" color="black" size="5">Create
 								</font>
-							</p>
+							
+							</div>
 						</span>
 					</div>
 					<div class="col s2" id="closePoll">
@@ -386,7 +389,7 @@
 				<div class="row">
 					<div class="col s12" id="popUp_1">
 						<form>
-							<input type="text" name="question" id="question" 
+							<input type="text" name="question" id="questionPoll" 
 									placeholder="Enter your question for Poll"/><br>
 							<div class="input_fields_wrap">							
 								<p>
@@ -395,10 +398,10 @@
 									<i class="material-icons">add</i>
 									</a>
 								</p>
-							<div><input type="text" name="mytext[]" id="addContactPoll"></div>
+							<div><input type="text" name="mytext" id="addContactPoll1"></div>
 							</div>
 							<br>
-							<input type="submit" value="Send the Poll" 
+							<input type="button" id="sendPoll" value="Send the Poll" 
 								class="waves-effect waves-light btn">
 						</form>
 					</div>
