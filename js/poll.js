@@ -1,3 +1,4 @@
+
 pollId=0;
 responseId=0;
 
@@ -31,9 +32,10 @@ var field=0  ;
 var max_fields      = 4; //maximum CONTACTS allowed
 
 
+
 $(function () {
 
-	
+
 	$("#popUp_1").hide();
 	$("#demo").hide();
 	
@@ -114,7 +116,8 @@ function sendPoll(){
     }
 	console.log(pollData);
 }
-function displayQuestions(){
+
+function displayQuestions() {
 	$("#questions").empty();
 	
 	var Polldisplay=localStorage.getItem("polledMessage");
@@ -162,11 +165,11 @@ function displayQuestions(){
 		}
 	});
 	$("#questions").append(str);
-	}
+}
 
-function sendResponse(x){
+function sendResponse(x) {
 	console.log(x);
-	var radioValue = $("input[name=" +'group'+x+"]:checked").val();
+	var radioValue = $("input[name=" + 'group' + x + "]:checked").val();
 	console.log(radioValue);
 		
 	var pollSendResponse=localStorage.getItem("polledMessage");
@@ -204,11 +207,13 @@ function sendResponse(x){
 	localStorage.setItem("polledMessage", pollSendResponse);
 	location.reload();
 }
-function pollIdGenerator(){
+
+function pollIdGenerator() {
 	return pollId++;
-	
+
 }
-function responseIdGenerator(){
+
+function responseIdGenerator() {
 	return responseId++;
 }
 
