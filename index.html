@@ -310,6 +310,8 @@
 					class="datepicker"> <label for="icon_prefix2">Enter
 					Date</label>
 			</div>
+
+			<!--add contact reminder-->
 			<div class="input-field col s6">
 					<div class="input_fields_wrap">
 						<p>
@@ -330,6 +332,7 @@
 						</div>
 					</div>
 			</div>
+			<!--end of contact reminder -->
 		</div>
 			<div class="modal-footer">
 			<a href="#!" style="background:#32465a;color:white;"
@@ -394,16 +397,25 @@
 							<div class="input_fields_wrap">							
 								<p>
 									<i class="material-icons prefix">contacts</i> Add Contacts
-									<a class="btn-floating" id="addPollContact" style="float: right;">
+									<a class="btn-floating" id="addPollContact" style="float: right;" onclick="remindersearchUse()">
 									<i class="material-icons">add</i>
 									</a>
 								</p>
-							<div><input type="text" name="mytext" id="addContactPoll1"></div>
+								<div  id="contactForPoll"></div>
+								<div id="pollContactCreate">
+									<div id="psearchUserResult">
+										<ul id="psearchUserResultList">
+										</ul>
+									</div>
+								</div>
+							<!--<div><input type="text" name="mytext" id="addContactPoll1"></div>-->
 							</div>
+							
 							<br>
 							<input type="button" id="sendPoll" value="Send the Poll" 
 								class="waves-effect waves-light btn">
 						</form>
+						
 					</div>
 					</div>
 			<!-- </div> -->
