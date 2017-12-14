@@ -13,7 +13,6 @@ function isValidMessage(message) {
 }
 
 function sendChat(email) {
-
     var thisUser = JSON.parse(localStorage.getItem("thisUser"));
     var sentMessage = {
         'creator': '',
@@ -72,28 +71,11 @@ function logout() {
 function random() {
     $('#addreminder').modal();
 }
-/**
- * Rachna Saluja - Search in contact list of the current user
- * ----------------------Start of code --------------------------------
- */
-// $("#searchContactText").keydown(function(e){
-//     if(e.keyCode == 13) searchContact();
-//     else console.log(e);
-// });
-// $("#searchContactText").click(function(e){
-//     var key = e.which;
-//     if(key == 13){
-//         searchContact();
-//     }
-//     else{
-//         console.log(key);
-//     }
-// });
 function searchContact() {
     console.log("in search contact");
     var searchContactText = $("#searchContactText").val();
     var searchResult = null;
-    var allContactsList = new Map();
+    var allContactsList = null;
     var allContacts = localStorage.getItem("chatContacts");
     allContactsList = JSON.parse(allContacts);
     var allContactsOfUser = allContactsList;
@@ -131,7 +113,7 @@ function searchContactDisplayResult(searchResult, allContactsOfUser) {
             var contactName = value["fullName"];
             var email = value["emailId"];
             console.log(contactName);
-            allContactsString += '<li class="contact" data-email="'+email+'"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+            allContactsString += '<li class="contact" data-email="' + email + '"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
                 '<div class="meta"><p class="name">' + contactName + '</p></div></div></li>';
         })
         $('#contacts > ul').html(allContactsString);
@@ -176,18 +158,19 @@ $(document).ready(function () {
         'chatContacts': []
     };
     $("#remindercreate").hide();
-    $("#createlist").click(function(){
+    $("#createlist").click(function () {
         remindersearchUser()
         $("#remindercreate").toggle();
-        
+
     })
-   
+
     // ab honga dangal
     user = JSON.parse(localStorage.getItem("thisUser"));
     userName = user.fullName;
     email = user.emailId;
     phoneNo = user.phoneNo;
-    profilePicture = user.profilePictureURL;
+    profilePicture = user.profilePictureUrl;
+    console.log(user);
 
     //set uprof and eprof values
     $("#uprof #userNameValue").html(userName);
@@ -219,7 +202,7 @@ $(document).ready(function () {
         console.log("Access Denied, redirecting to Login");
         window.location.href = "login.html";
     }
-    $('body').on('click', '.contact', function() {
+    $('body').on('click', '.contact', function () {
         console.log($(this));
         var str = $(this).data("email");
         currentContactIndex = $(this).index();
@@ -272,24 +255,24 @@ $(document).ready(function () {
             height: 200,
             type: 'circle'
         },
-        zoom : 0,
-        showZoomer : false,
+        zoom: 0,
+        showZoomer: false,
         boundary: {
             width: 300,
             height: 300
         }
     });
     $('#upload-demo').croppie('bind', {
-        url : user.profilePictureURL,
-        zoom : 0
+        url: user.profilePictureUrl,
+        zoom: 0
     });
-    $("#updateProfileBtn").click(function(){
-        $('#upload-demo').croppie('result', 'base64').then(function(base64){
+    $("#updateProfileBtn").click(function () {
+        $('#upload-demo').croppie('result', 'base64').then(function (base64) {
             var user = JSON.parse(localStorage.getItem('thisUser'));
             var eUserName = $("#eprof #userNameValue").val();
             var eUserEmail = $("#eprof #userEmailValue").val();
             var eUserPhone = $("#eprof #phone").val();
-            user.profilePictureURL = base64;
+            user.profilePictureUrl = base64;
             user.fullName = eUserName;
             user.emailId = eUserEmail;
             user.phoneNo = eUserPhone;
@@ -335,39 +318,39 @@ $(document).ready(function () {
             $("#searchUserButton").prop("disabled", false);
             $("#searchUserButton").click(function () {
                 searchUser(true);
-            });
-            $('#chatBox').keypress(function (event) {
-                if (event.keyCode == 13) {
-                    var str = $("#cprof #userEmailValue").text();
-                    sendChat(str);
-                }
-            });
-            $('#updateProfileInfoBtn').click(function () {
-                var eUserName = $("#eprof #userNameValue").val();
-                var eUserEmail = $("#eprof #userEmailValue").val();
-                var eUserPhone = $("#eprof #phone").val();
-                user.fullName = eUserName;
-                user.emailId = eUserEmail;
-                user.phoneNo = eUserPhone;
-                localStorage.setItem("thisUser", JSON.stringify(user));
-                Materialize.toast("Profile Info changed. Please Refresh to see changes.", 4000);
-            });
-
-            $('#contacts > ul > li.request').click(function () {
-                var rq = localStorage.getItem("requests");
-                rq = JSON.parse(rq);
-                console.log($(event.currentTarget));
-                var emailId = $(event.currentTarget).data("emailid");
-                console.log(emailId);
-                var msg = '<li class="sent"><img src="images/profile.png" alt="">' +
-                    '<p>' + rq[emailId].creator + ' wants to connect with you</p>' +
-                    '&nbsp<i onClick="approveRequest(\'' + emailId + '\')" style="font-size:2em;color:seagreen" class="fa fa-check-circle" aria-hidden="true"></i>' +
-                    '&nbsp&nbsp<i onClick="removeRequest(\'' + emailId + '\')" style="font-size:2em;color:indianred" class="fa fa-times" aria-hidden="true"></i></li>';
-                $('#messages ul').html(msg);
-                $('.message-input').css('visibility', 'hidden');
-                bringToTop($('#chat'));
-            });
+            })
         });
+    $('#chatBox').keypress(function (event) {
+        if (event.keyCode == 13) {
+            var str = $("#cprof #userEmailValue").text();
+            sendChat(str);
+        }
+    });
+    $('#updateProfileInfoBtn').click(function () {
+        var eUserName = $("#eprof #userNameValue").val();
+        var eUserEmail = $("#eprof #userEmailValue").val();
+        var eUserPhone = $("#eprof #phone").val();
+        user.fullName = eUserName;
+        user.emailId = eUserEmail;
+        user.phoneNo = eUserPhone;
+        localStorage.setItem("thisUser", JSON.stringify(user));
+        Materialize.toast("Profile Info changed. Please Refresh to see changes.", 4000);
+    });
+
+    $('#contacts > ul > li.request').click(function () {
+        var rq = localStorage.getItem("requests");
+        rq = JSON.parse(rq);
+        console.log($(event.currentTarget));
+        var emailId = $(event.currentTarget).data("emailid");
+        console.log(emailId);
+        var msg = '<li class="sent"><img src="images/profile.png" alt="">' +
+            '<p>' + rq[emailId].creator + ' wants to connect with you</p>' +
+            '&nbsp<i onClick="approveRequest(\'' + emailId + '\')" style="font-size:2em;color:seagreen" class="fa fa-check-circle" aria-hidden="true"></i>' +
+            '&nbsp&nbsp<i onClick="removeRequest(\'' + emailId + '\')" style="font-size:2em;color:indianred" class="fa fa-times" aria-hidden="true"></i></li>';
+        $('#messages ul').html(msg);
+        $('.message-input').css('visibility', 'hidden');
+        bringToTop($('#chat'));
+    });
 });
 
 // scroll to bottom
@@ -628,7 +611,7 @@ function readURL(input) {
         reader.onload = function (e) {
             $('#upload-demo').croppie('bind', {
                 url: e.target.result,
-                zoom : 0
+                zoom: 0
             });
         }
         reader.readAsDataURL(input.files[0]);
@@ -789,41 +772,42 @@ function addContact() {
     }
     // location.reload();
 }
+
 function sendReminderChat() {
     var message = $('#remaindermessage').val();
     console.log(message);
     var reminderDate = $('#remainderdate').val();
     console.log(reminderDate);
-    var reminderContact=$("#getcontact").val();
-    
+    var reminderContact = $("#getcontact").val();
+
     var isValid = isValidMessage(message);
     if (isValid) {
         //console.log("why");
-        storeReminder(message, reminderDate,reminderContact,0);  
+        storeReminder(message, reminderDate, reminderContact, 0);
     }
 }
 
-function storeReminder(message, reminderDate,reminderContact,messageType) {
+function storeReminder(message, reminderDate, reminderContact, messageType) {
     var messageData = {
         'creator': '',
         'receiver': '',
         'chatMessageId': 0,
         'createdOn': new Date(),
         'starred': false,
-        'contactIndex':2 ,
+        'contactIndex': 2,
         'chatMessageText': '',
         'messageType': 0,
         'chatStatus': 'SENT',
         'chatType': 'REMINDER',
-        "scheduledDate":"",  
+        "scheduledDate": "",
     }
     var remindermessages = localStorage.getItem("remindermessages");
     messageData.chatMessageText = message;
     messageData.scheduledDate = reminderDate;
-    messageData.messageType=0;
+    messageData.messageType = 0;
     messageData.receiver = reminderContact;
     messageData.creator = email;
-    
+
     if (remindermessages == null) {
         remindermessages = [];
         remindermessages.push(messageData);
@@ -843,69 +827,69 @@ function storeReminder(message, reminderDate,reminderContact,messageType) {
 
 function getReminderChat(str) {
     var messages = localStorage.getItem("remindermessages");
-   
+
     if (messages != null) {
         var remindermessagesArray = [];
         remindermessagesArray = localStorage.getItem("remindermessages");
-         
+
         remindermessagesArray = JSON.parse(remindermessagesArray);
         var allMessages1 = "";
-        
+
         var d = new Date();
-            var dd = d.getDate();
-            var mm = d.getMonth()+1; //January is 0!
-            
-            var yyyy = d.getFullYear();
-            if(dd<10){
-                dd='0'+dd;
-            } 
-            if(mm<10){
-                mm='0'+mm;
-            } 
-            var today = dd+'-'+mm+'-'+yyyy;
-        var datestring = dd+'-'+mm+'-'+yyyy;
+        var dd = d.getDate();
+        var mm = d.getMonth() + 1; //January is 0!
+
+        var yyyy = d.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '-' + mm + '-' + yyyy;
+        var datestring = dd + '-' + mm + '-' + yyyy;
         console.log(datestring);
-       
+
         for (var i = 0; i < remindermessagesArray.length; i++) {
             if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == str && remindermessagesArray[i].messageType == 0) {
                 var messageData = {
-                        'creator': remindermessagesArray[i].creator,
-                        'receiver': remindermessagesArray[i].receiver,
-                        'chatMessageId': 0,
-                        'createdOn': new Date(),
-                        'starred': false,
-                        'contactIndex': 2,
-                        'chatMessageText': remindermessagesArray[i].chatMessageText,
-                        'messageType': 0,
-                        'chatStatus': 'SENT',
-                        'chatType': 'REMINDER'
-                    };
-                 storeChat(messageData);
-                 remindermessagesArray[i].messageType = 1;   
-            }    
+                    'creator': remindermessagesArray[i].creator,
+                    'receiver': remindermessagesArray[i].receiver,
+                    'chatMessageId': 0,
+                    'createdOn': new Date(),
+                    'starred': false,
+                    'contactIndex': 2,
+                    'chatMessageText': remindermessagesArray[i].chatMessageText,
+                    'messageType': 0,
+                    'chatStatus': 'SENT',
+                    'chatType': 'REMINDER'
+                };
+                storeChat(messageData);
+                remindermessagesArray[i].messageType = 1;
+            }
 
-          if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == email && remindermessagesArray[i].messageType == 0) {
+            if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == email && remindermessagesArray[i].messageType == 0) {
                 var messageData = {
-                        'creator': remindermessagesArray[i].creator,
-                        'receiver': remindermessagesArray[i].receiver,
-                        'chatMessageId': 0,
-                        'createdOn': new Date(),
-                        'starred': false,
-                        'contactIndex': 2,
-                        'chatMessageText': remindermessagesArray[i].chatMessageText,
-                        'messageType': 1,
-                        'chatStatus': 'SENT',
-                        'chatType': 'REMINDER'
-                    };
-                 storeChat(messageData);
-                 remindermessagesArray[i].messageType = 1;   
-            }    
+                    'creator': remindermessagesArray[i].creator,
+                    'receiver': remindermessagesArray[i].receiver,
+                    'chatMessageId': 0,
+                    'createdOn': new Date(),
+                    'starred': false,
+                    'contactIndex': 2,
+                    'chatMessageText': remindermessagesArray[i].chatMessageText,
+                    'messageType': 1,
+                    'chatStatus': 'SENT',
+                    'chatType': 'REMINDER'
+                };
+                storeChat(messageData);
+                remindermessagesArray[i].messageType = 1;
+            }
         }
         remindermessagesArray = JSON.stringify(remindermessagesArray);
         console.log(remindermessagesArray)
         localStorage.setItem("remindermessages", remindermessagesArray);
         $('#messages ul').html(allMessages1);
-}
+    }
 }
 
 function reminderDisplaySearchUserResult(searchResult) {
@@ -922,18 +906,19 @@ function reminderDisplaySearchUserResult(searchResult) {
     }
     listElement.html(resultString);
 }
-function reminderContactToDisplay(){
+
+function reminderContactToDisplay() {
     var emailId = $(event.currentTarget).data("mail");
     var users = JSON.parse(localStorage.getItem("chatContacts"));
     var contact = users[emailId];
     name = contact.fullName;
-     var dis=name+"("+emailId+")";
-     $("#remindercontact").val(dis);
-     $("#getcontact").val(emailId);
-     $("#remindercreate").hide();
+    var dis = name + "(" + emailId + ")";
+    $("#remindercontact").val(dis);
+    $("#getcontact").val(emailId);
+    $("#remindercreate").hide();
 }
-   
-   
+
+
 
 function remindersearchUser() {
     var i = 0,
@@ -948,8 +933,8 @@ function remindersearchUser() {
             currentContactUserName = currentContactUserName.toLowerCase();
             currentContactEmailId = currentContactEmailId.toLowerCase();
             result.add(currentContact);
+        }
     }
-}
     console.log(result);
     reminderDisplaySearchUserResult(result);
 
