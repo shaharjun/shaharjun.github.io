@@ -18,15 +18,17 @@ var pollData ={
 								"receiverEmailId" : "",
 								"polledResponseId" : 0,
 								"polledResponseDate" : "",
-								"polledResponse": ""}],
+								"polledResponse": "nil"}],
 					"expirationDate" : "",
 					"polledResponseDate" : "",
 					"polledResponseType" : ["Yes","No","Cant Say"],
 					"pollYesCount":0,
 					"pollNoCount":0,
 					"pollCantSayCount":0,
-			
 }
+
+
+
 
 var field=0  ;            
 var max_fields      = 4; //maximum CONTACTS allowed
@@ -53,7 +55,7 @@ $(function () {
     	sendPoll();
     })
    
-    $(".submit").click(function(){
+    $(".sub").click(function(){
 		console.log(this.id);
 		
     	sendResponse(this.id);
@@ -85,11 +87,11 @@ function displayData(){
 
 function sendPoll(){
 	pollData.polledChatMessageText=$('#questionPoll').val();
-	//pollFieldCount = $('.input_fields_wrap').find('input');
+
 	for (var i = 1; i <= field; i++){
 		var user ={"receiverUserId" : "", "receiverEmailId" : "","polledResponseId" : 0,
 		"polledResponseDate" : "",
-		"polledResponse": ""};
+		"polledResponse": "nil"};
 		
 		if(sendReceiver != null || sendReceiver != undefined) {
 			console.log(sendReceiver[i-1])
@@ -97,31 +99,30 @@ function sendPoll(){
 			pollData.users[i-1]=user;
 		}
 	}
-	
-    var pollArray=localStorage.getItem("polledMessage");
+	var pollArray=getLocalStorage("polledMessage");
+    //var pollArray=localStorage.getItem("polledMessage");
     if(pollArray==null){
     	console.log(1)
     	pollArray=[];
     	pollArray.push(pollData);
-    	pollArray=JSON.stringify(pollArray);
-    	localStorage.setItem("polledMessage", pollArray);
+   
+		setLocalStorage("polledMessage", pollArray)
     }
     else{
-    	var pollArray=[];
-    	pollArray=localStorage.getItem("polledMessage");
-    	pollArray=JSON.parse(pollArray);
+		var pollArray=[];
+		pollArray=getLocalStorage("polledMessage");
+    	
     	pollArray.push(pollData);
-    	pollArray=JSON.stringify(pollArray);
-    	localStorage.setItem("polledMessage", pollArray);
+    
+		setLocalStorage("polledMessage", pollArray)
     }
 	console.log(pollData);
 }
 
 function displayQuestions() {
 	$("#questions").empty();
+	var Polldisplay=getLocalStorage("polledMessage");
 	
-	var Polldisplay=localStorage.getItem("polledMessage");
-	Polldisplay=JSON.parse(Polldisplay);
 	var str="";
 	$.each(Polldisplay,function(i,poll){
 		
@@ -156,7 +157,7 @@ function displayQuestions() {
 			str+="<label for=" +"test3"+i;
 			str+="> "+poll.polledResponseType[2] +"<div class='chip' style='float:right'>";
 			str+=poll.pollCantSayCount +"<br></div></label>";
-			str+="<input type='button' class='submit' id=" +i
+			str+="<input type='button' class='sub' id=" +i
 			str+=" value='Submit Poll'/>";
 			str+="</form>"
 		    str+="</span></div>";
@@ -170,30 +171,29 @@ function displayQuestions() {
 function sendResponse(x) {
 	console.log(x);
 	var radioValue = $("input[name=" + 'group' + x + "]:checked").val();
-	console.log(radioValue);
-		
-	var pollSendResponse=localStorage.getItem("polledMessage");
-	pollSendResponse=JSON.parse(pollSendResponse);
 	
-	// $("#11").html(pollSendResponse[x].pollYesCount)
-	// $("#22").html(pollSendResponse[x].pollNoCount)
-	// $("#33").html(pollSendResponse[x].pollCantSayCount)
+	var pollSendResponse=getLocalStorage("polledMessage");
 	
-	var thisUser=localStorage.getItem("thisUser");
-	thisUser=JSON.parse(thisUser);
-	console.log(thisUser.emailId)
+	var thisUser=getLocalStorage("thisUser");
+	
+	
 	for(var i=0;i<pollSendResponse[x].users.length;i++){
 		if(pollSendResponse[x].users[i].receiverEmailId==thisUser.emailId){
-			if(pollSendResponse[x].users[i].polledResponse=null){
+			console.log(pollSendResponse[x].users[i].polledResponse)
+			console.log(pollSendResponse[x].users[i].polledResponse=="nil")
+			if(pollSendResponse[x].users[i].polledResponse=="nil"){
+				console.log("entered")
 				if(radioValue=="yes"){
 					pollSendResponse[x].pollYesCount++;
-					console.log(pollSendResponse[x].pollYesCount);
+					console.log(radioValue)
 				}
 				else if(radioValue=="no"){
 					pollSendResponse[x].pollNoCount++;
+					console.log(radioValue)
 				}
 				else {
 					pollSendResponse[x].pollCantSayCount++;
+					console.log(radioValue)
 				}
 				pollSendResponse[x].users[i].polledResponse=radioValue;
 			}	
@@ -203,8 +203,7 @@ function sendResponse(x) {
 		
 	
 	console.log(pollSendResponse);
-	pollSendResponse = JSON.stringify(pollSendResponse);
-	localStorage.setItem("polledMessage", pollSendResponse);
+	setLocalStorage("polledMessage", pollSendResponse)
 	location.reload();
 }
 
@@ -243,7 +242,8 @@ var dis=[];
 function pollContactToDisplay(){
 	var flag=0;
 	var emailId = $(event.currentTarget).data("mail");
-    var users = JSON.parse(localStorage.getItem("chatContacts"));
+	var users=getLocalStorage("chatContacts")
+    
     var contact = users[emailId];
 	name = contact.fullName;
 	for(var i=0;i<dis.length;i++){
@@ -257,9 +257,7 @@ function pollContactToDisplay(){
 	console.log(sendReceiver);
 	}
      $("#addContactPoll1").val(dis);
-	 //$("#getcontact").val(emailId);
 	
-	 //$("#pollContactCreate").hide();
 	 
 	 if(field==max_fields)$("#pollContactCreate").hide();
 }
@@ -269,7 +267,8 @@ function pollContactToDisplay(){
 function pollsearchUser() {
     var i = 0,
         numberOfUsers, currentContact;
-    var result = new Set();
+	var result = new Set();
+	var allContacts=getLocalStorage("chatContacts")
     var allContacts = JSON.parse(localStorage.getItem("chatContacts"));
     for (var key in allContacts) {
         if (allContacts.hasOwnProperty(key)) {
