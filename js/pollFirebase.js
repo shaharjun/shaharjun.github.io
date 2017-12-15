@@ -1,0 +1,21 @@
+var pollDetails ={
+    
+            "polledChatMessageId" : 0,
+                "userId" : 0,
+                "polledChatMessageText" : "",
+                "createdOn" :"12/12/2017",
+                "polledChatStatus" : "SENT",
+                "starred" : false,
+                "chatType" : "POLLED", 
+                "users" : [{"receiverUserId" : "", 
+                            "receiverEmailId" : "",
+                            "polledResponseId" : 0,
+                            "polledResponseDate" : "",
+                            "polledResponse": "nil",
+                            "polledResponseDate" : "",}],
+                "expirationDate" : "",
+                "polledResponseType" : ["Yes","No","Cant Say"],
+                "pollYesCount":0,
+                "pollNoCount":0,
+                "pollCantSayCount":0,
+}

@@ -10,7 +10,7 @@ var pollData ={
 				"polledChatMessageId" : 0,
 					"userId" : 0,
 					"polledChatMessageText" : "",
-					"createdOn" :"12/12/2017",
+					"createdOn" :new Date(),
 					"polledChatStatus" : "SENT",
 					"starred" : false,
 					"chatType" : "POLLED", 
@@ -19,7 +19,7 @@ var pollData ={
 								"polledResponseId" : 0,
 								"polledResponseDate" : "",
 								"polledResponse": "nil",
-								"polledResponseDate" : "",}],
+								}],
 					"expirationDate" : "",
 					"polledResponseType" : ["Yes","No","Cant Say"],
 					"pollYesCount":0,
@@ -37,7 +37,19 @@ var max_fields      = 4; //maximum CONTACTS allowed
 
 $(function () {
 
-
+    var id=0;
+	firebase.database().ref('idGenerator/pollId').once('value').then(function (snapshot) {
+			id=snapshot.val();
+			++id;
+			firebase.database().ref('idGenerator').update({'pollId' : id});
+			console.log(id);
+			
+			
+			});
+	
+	
+	
+	
 	$("#popUp_1").hide();
 	$("#demo").hide();
 	
@@ -99,6 +111,8 @@ function sendPoll(){
 			pollData.users[i-1]=user;
 		}
 	}
+	
+	
 	var pollArray=getLocalStorage("polledMessage");
     //var pollArray=localStorage.getItem("polledMessage");
     if(pollArray==null){
