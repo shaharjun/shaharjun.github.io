@@ -307,7 +307,7 @@ $(document).ready(function () {
         var msg = '<li class="sent"><img src="images/profile.png" alt="">' +
             '<p>' + rq[emailId].creator + ' wants to connect with you</p>' +
             '&nbsp<i onClick="approveRequest(\'' + emailId + '\')" style="font-size:2em;color:seagreen" class="fa fa-check-circle" aria-hidden="true"></i>' +
-            '&nbsp&nbsp<i onClick="removeRequest(\'' + emailId + '\')" style="font-size:2em;color:indianred" class="fa fa-times" aria-hidden="true"></i></li>';
+            '&nbsp&nbsp<i onClick="declineRequest(\'' + emailId + '\')" style="font-size:2em;color:indianred" class="fa fa-times" aria-hidden="true"></i></li>';
         $('#messages ul').html(msg);
         $('.message-input').css('visibility', 'hidden');
         bringToTop($('#chat'));
@@ -371,25 +371,11 @@ function showStar() {
     $(star).css('visibility', 'visible');
 }
 
-
-function getAllContacts() {
-    allContacts = localStorage.getItem("chatContacts");
-    if (allContacts != null) {
-        var allContactsList = [];
-        allContactsList = JSON.parse(allContacts);
-        return allContactsList;
-    }
-    return null;
-}
-
 function displayAllContacts(allContacts) {
     var allContactsString = "";
-    var store = localStorage.getItem("requests");
-    store = JSON.parse(store);
+    var store = getLocalStorage("requests");
     if (store) {
         for (var key in store) {
-            console.log(store[key]);
-            console.log(store[key].emailId);
             allContactsString += '<li data-emailid="' + key + '" class="request" ><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
                 '<div class="meta"><p class="name">' + store[key].creator + '</p></div></div></li>';
         }
@@ -471,12 +457,8 @@ function readURL(input) {
     }
 }
 
-function removeRequest(email) {
-    var store = localStorage.getItem("requests");
-    store = JSON.parse(store);
-    delete store[email];
-    store = JSON.stringify(store);
-    localStorage.setItem("requests", store);
+function declineRequest(email) {
+    removeRequest(email);
     var el = $('#contacts > ul > li').eq($(event.currentTarget));
     el.remove();
     bringToTop($('#background'));
@@ -486,14 +468,14 @@ function removeRequest(email) {
 function approveRequest(email) {
     var store = getRequests();
     var name = store[email].creator;
-    removeRequest(store[email]);
+    removeRequest(email);
     var contact =new User();
     var users = getAllUsers();
     contact = users[email];
 
     var contacts = getChatContacts();
 
-    if (contacts != null) {
+    if (contacts != null && contacts.length!=0) {
         contacts[email] = contact;
         addChatContact(contacts);
     } else {
@@ -508,7 +490,7 @@ function approveRequest(email) {
         '<div class="meta"><p class="name">' + contact.fullName + '</p></div></div></li>';
     $('#contacts > ul').append(html);
     bringToTop($('#background'));
-    var $toastContent = $('<span>' + name + ' has been added ' + '</span>').add($('<button  class="btn-flat toast-action">Ok</button>'));
+    var $toastContent = $('<span>' + name + ' has been added ' + '</span>').add($('<button  onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
     Materialize.toast($toastContent, 10000);
 }
 /*
@@ -593,9 +575,9 @@ function addContact() {
         setLocalStorage("requests",map);
     } else {
         store[emailId] = request;
-        localStorage.setItem('requests', store);
+        setLocalStorage('requests', store);
     }
-    // location.reload();
+     location.reload();
 }
 
 function sendReminderChat() {

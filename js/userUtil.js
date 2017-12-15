@@ -1,5 +1,7 @@
 function getCurrentUserEmail() {
-    return getLocalStorage("thisUser").emailId;
+    var user =null;
+    user = getLocalStorage("thisUser");
+    return user.emailId;
 }
 
 function createUser(user){   
@@ -7,10 +9,10 @@ function createUser(user){
     setLocalStorage("thisUser", user);
 
     // storing user's data in user list(local storage)
-    addUserTouserList(user);
+    addUserToUserList(user);
 }
 
-function addUserTouserList(user){
+function addUserToUserList(user){
     var store = getLocalStorage("allUsers");
     if (store == null) {
         store = new Map();
@@ -28,12 +30,10 @@ function storeChat(message) {
     var messages = null;
     
     messages = getLocalStorage("messages");
-    if (message.messageType == 0)
-        key = message.receiver;
     if (messages == null) {
         messages = new Map();
         var arr = [];
-        arr.push(messageData);
+        arr.push(message);
         messages[key] = arr;
         setLocalStorage("messages",messages);
     } else {
@@ -106,11 +106,10 @@ function removeRequest(email) {
 }
 
 function getChatContacts() {
-    
-    
     var users = null;
 
     users = getAllUsers();
+    console.log(getCurrentUserEmail());
     var currUser = users[getCurrentUserEmail()];
     return currUser.chatContacts;
 }
@@ -119,8 +118,26 @@ function addChatContact(contactList) {
     
     users = getAllUsers();
     var currUser = users[getCurrentUserEmail()];
+    currUser.chatContacts = new Map();
     currUser.chatContacts = contactList;
-    users[getCurrentUserEmail] = currUser;
+    console.log(currUser.chatContacts);
+    console.log(currUser);
+    users[getCurrentUserEmail()] = currUser;
+    console.log(users[getCurrentUserEmail()]);
+    console.log(users);
+    setLocalStorage("thisUser",currUser);
     setLocalStorage("allUsers",users);
+}
+function getAllUsers() {
+    var users = null;
 
+    return getLocalStorage("allUsers");
+}
+function getAllContacts() {
+    var thisUser = getLocalStorage("thisUser");
+    var allContacts = thisUser.chatContacts;
+    if (allContacts != null) {
+        return allContacts;
+    }
+    return null;
 }

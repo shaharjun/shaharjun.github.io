@@ -7,5 +7,7 @@ $(document).ready(function(){
             contacts[contact["emailId"]] = contact;
             console.log(contacts);
         });
+    var user = getLocalStorage("thisUser");
+    contacts[user.emailId] = user;
      localStorage.setItem("allUsers", JSON.stringify(contacts));
 });
