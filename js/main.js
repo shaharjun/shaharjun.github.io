@@ -153,6 +153,7 @@ $(document).ready(function () {
     var allContacts = []
     allContacts = getAllContacts();
     displayAllContacts(allContacts);
+    storeLoggedInUser(user);
 
     $('#sb').click(function () {
         var str = $("#cprof #userEmailValue").text();
@@ -190,19 +191,23 @@ $(document).ready(function () {
         $("#status-busy").removeClass("active");
         $("#status-offline").removeClass("active");
         $(this).addClass("active");
-
+        var myStatus = null;        
         if ($("#status-online").hasClass("active")) {
             $("#profile-img").addClass("online");
+            myStatus = "available";
         } else if ($("#status-away").hasClass("active")) {
             $("#profile-img").addClass("away");
+            myStatus = "away";
         } else if ($("#status-busy").hasClass("active")) {
             $("#profile-img").addClass("busy");
+            myStatus = "busy";
         } else if ($("#status-offline").hasClass("active")) {
             $("#profile-img").addClass("offline");
+            myStatus = "offline";
         } else {
             $("#profile-img").removeClass();
         };
-
+        updateStatus(myStatus, user);
         $("#status-options").removeClass("active");
     });
     $('.modal').modal();
