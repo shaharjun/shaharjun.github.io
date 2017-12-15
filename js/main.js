@@ -335,13 +335,13 @@ function scrollToBottom(id) {
 function displayChatMessages(email) {
     var allMessages = " ";
     $('.message-input').css('visibility', 'visible');
-
+    var userMail = getCurrentUserEmail();
     var messages = getChatMessages();
     var star = "<i onClick='makeGold()' style='color: burlywood' class='fa fa-star starmsg' aria-hidden='true'></i>"
-    if (messages != null) {
+    if (messages[userMail][email] != null) {
         var thisUser = getLocalStorage("thisUser");
         var messagesArray = [];
-        messagesArray = messages[email];
+        messagesArray = messages[userMail][email];
         if (messagesArray != undefined) {
             for (var i = 0; i < messagesArray.length; i++) {
                 if (messagesArray[i].creator == thisUser.emailId) {
