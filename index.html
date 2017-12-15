@@ -37,6 +37,24 @@ src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.m
 <script src='js/poll.js'></script>
 <link rel="stylesheet" href="css/croppie.css" />
 <script src="js/croppie.js"></script>
+	<!-- firebase scripts -->
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyAC7vCACafVTaQZ_uyyxSRmoWNofhX185Q",
+			authDomain: "gconnect-4524f.firebaseapp.com",
+			databaseURL: "https://gconnect-4524f.firebaseio.com",
+			projectId: "gconnect-4524f",
+			storageBucket: "gconnect-4524f.appspot.com",
+			messagingSenderId: "792119929745"
+		};
+		firebase.initializeApp(config);
+	</script>
+	<script src='js/firebase.js'></script>
 </head>
 <body id="mainBody">
 	<div id="frame">
@@ -51,7 +69,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.m
 						<ul>
 							<li id="status-online" class="active"><span
 								class="status-circle"></span>
-								<p>Online</p></li>
+								<p>Available</p></li>
 							<li id="status-away"><span class="status-circle"></span>
 								<p>Away</p></li>
 							<li id="status-busy"><span class="status-circle"></span>
@@ -336,7 +354,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.m
 		</div>
 			<div class="modal-footer">
 			<a href="#!" style="background:#32465a;color:white;"
-				class="modal-action modal-close btn-flat" id="addrem" onClick='sendReminderChat()'>Add Reminder</a>
+				class="modal-action modal-close btn-flat" id="addrem" onClick='sendReminderChatValues()'>Add Reminder</a>
 			<a href="#!" style="background:#32465a;color:white;"
 				class="modal-action modal-close btn-flat">Close</a>
 		</div>
@@ -422,3 +440,4 @@ src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.m
 	<script src='js/datepicker.js'></script>
 </body>
 </html>
+
