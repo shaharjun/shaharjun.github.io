@@ -55,12 +55,10 @@ function random() {
     $('#addreminder').modal();
 }
 function searchContact() {
-    console.log("in search contact");
+    //console.log("in search contact");
     var searchContactText = $("#searchContactText").val();
     var searchResult = null;
-    var allContactsList = null;
-    var allContacts = localStorage.getItem("chatContacts");
-    allContactsList = JSON.parse(allContacts);
+    var allContactsList = getChatContacts();
     var allContactsOfUser = allContactsList;
     if (searchContactText == "") {
         searchResult = null;
@@ -68,7 +66,7 @@ function searchContact() {
     } else {
         searchResult = new Set();
         searchContactText = searchContactText.toLowerCase();
-        console.log(searchContactText);
+        //console.log(searchContactText);
         for (var key in allContactsList) {
             if (allContactsList.hasOwnProperty(key)) {
                 var currentContact = allContactsList[key]; //this is the user object
@@ -86,16 +84,16 @@ function searchContact() {
 }
 
 function searchContactDisplayResult(searchResult, allContactsOfUser) {
-    console.log("in display");
-    console.log(searchResult);
+    //console.log("in display");
+    //console.log(searchResult);
     var allContactsString = "";
     if (searchResult != null) {
-        console.log("in not null");
+        //console.log("in not null");
         searchResult.forEach(function (value, key, setObj) {
-            console.log("in loop");
+            //console.log("in loop");
             var contactName = value["fullName"];
             var email = value["emailId"];
-            console.log(contactName);
+            //console.log(contactName);
             allContactsString += '<li class="contact" data-email="' + email + '"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
                 '<div class="meta"><p class="name">' + contactName + '</p></div></div></li>';
         })
@@ -253,40 +251,46 @@ $(document).ready(function () {
             $("#status-options").removeClass("active");
         }
     });
-    $("#searchUserButton").prop("disabled", true);
+    //$("#searchUserButton").prop("disabled", true);
+    $("#addcontact").click(function(){
+        clearSearchBar();
+        searchUser(true);
+    })
     $("#closeAddContactButton").click(function () {
         clearSearchBar();
     });
-    clearSearchBar();
     $("#clearSearchContactBar").click(function () {
         $("#searchContactText").val('');
-        var allContacts = localStorage.getItem("chatContacts");
-        var allContactsOfUser = JSON.parse(allContacts);
+        var allContactsOfUser = getChatContacts();
         //$('#contacts > ul').html(''); 
         displayAllContacts(allContactsOfUser);
     });
     var contacts = new Map();
-    $.getJSON('./contacts.json', function (data) {}).done(function (data) {
-            $.each(data, function (i, contact) {
-                // $('ul').append('<li>' + contact.name +'</li>');
-                contacts[contact["emailId"]] = contact;
-                //console.log(contacts);
-            });
-            localStorage.setItem("allUsers", JSON.stringify(contacts));
-            areContactsLoaded(true);
-            $("#searchUserButton").prop("disabled", false);
-            $("#searchUserButton").click(function () {
-                searchUser(true);
-            });
-        })
-        .error(function () {
-            console.log("Data could not be loaded");
-            areContactsLoaded(true);
-            $("#searchUserButton").prop("disabled", false);
-            $("#searchUserButton").click(function () {
-                searchUser(true);
-            })
-        });
+    areContactsLoaded(true);
+    $("#searchUserButton").click(function(){
+        searchUser(true);
+    })
+    // $.getJSON('./contacts.json', function (data) {}).done(function (data) {
+    //         $.each(data, function (i, contact) {
+    //             // $('ul').append('<li>' + contact.name +'</li>');
+    //             contacts[contact["emailId"]] = contact;
+    //             //console.log(contacts);
+    //         });
+    //         localStorage.setItem("allUsers", JSON.stringify(contacts));
+    //         areContactsLoaded(true);
+    //         $("#searchUserButton").prop("disabled", false);
+    //         $("#searchUserButton").click(function () {
+    //             searchUser(true);
+    //         });
+    //     })
+    //     .error(function () {
+    //         console.log("Data could not be loaded");
+    //         areContactsLoaded(true);
+    //         $("#searchUserButton").prop("disabled", false);
+    //         $("#searchUserButton").click(function () {
+    //             searchUser(true);
+    //         })
+    //     });
     $('#chatBox').keypress(function (event) {
         if (event.keyCode == 13) {
             var str = $("#cprof #userEmailValue").text();
@@ -518,7 +522,7 @@ function searchUser(contactListReady) {
         var searchText = $("#searchText").val();
         searchText = searchText.toLowerCase();
 
-        var allContacts = JSON.parse(localStorage.getItem("allUsers"));
+        var allContacts = getAllUsers();
 
         //allContacts is an array of objects
         for (var key in allContacts) {
@@ -542,6 +546,7 @@ function searchUser(contactListReady) {
 function displaySearchUserResult(searchResult) {
     //searchResult is a set we get from searchUser function
     var listElement = $("#searchUserResultList");
+    var resultString = "";
     if (searchResult != null) {
         var resultString = "";
         searchResult.forEach(function (value, key, setObj) {
