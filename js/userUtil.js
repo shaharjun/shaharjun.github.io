@@ -26,25 +26,32 @@ function addUserToUserList(user){
 
 function storeChat(message) {
     
-    var key = message.creator;
+    var thisUser = getLocalStorage("thisUser");
+    var key = null;
+    if(thisUser.emailId == message.creator)
+        key = message.receiver;
+    else
+        key = message.creator;
     var messages = null;
     
     messages = getLocalStorage("messages");
     if (messages == null) {
         messages = new Map();
-        var arr = [];
-        arr.push(message);
-        messages[key] = arr;
+        var arr = new Map();
+        var arr1 = [];
+        arr1.push(message);
+        arr[key] = arr1;
+        messages[thisUser.emailId] = arr;
         setLocalStorage("messages",messages);
     } else {
-        if (!messages[key]) {
+        if (!messages[thisUser.emailId][key]) {
             var arr = [];
             arr.push(message);
-            messages[key] = arr;
+            messages[thisUser.emailId][key] = arr;
         } else {
-            var arr = messages[key];
+            var arr = messages[thisUser.emailId][key];
             arr.push(message);
-            messages[key] = arr;
+            messages[thisUser.emailId][key] = arr;
         }
         setLocalStorage("messages",messages);
     }

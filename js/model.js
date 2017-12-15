@@ -8,7 +8,7 @@ var User = function () {
   this.chatContacts = new Map();
 }
 
-var Message = function(){
+var IndividualChatMessage = function(){
   this.creator = "";
   this.receiver = "";
   this.chatMessageId = 0;
