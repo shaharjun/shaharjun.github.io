@@ -1,14 +1,13 @@
-/**
- * 
- */
 $(document).ready(function(){
-	var user = JSON.parse(localStorage.getItem("thisUser"));
+	var user = null;	
+	// Get data from local storage
+	user = getLocalStorage("thisUser");
+	// Get data from java server
+		
 	if(user === null){
 		$("#email").val("");
 	}
-	if(localStorage.getItem("sessionId") !== null || localStorage.getItem("isRegistered") !== null){
-		console.log("token already exists");
-		console.log(user.emailId);
+	if(getLocalStorage("sessionId") !== null || getLocalStorage("isRegistered") !== null){
 		$("#email").val(user.emailId);
 	}
 	else{
@@ -17,16 +16,14 @@ $(document).ready(function(){
 	$("#login-button").click(function(){
 		var email = $("#email").val();
 		var password = $("#password").val();
-		console.log(email);
-		console.log(password);
 		if(email === ""){
 			Materialize.toast("Enter email", 1000);
 		}
 		else if(password === ""){
 			Materialize.toast("Enter password", 1000);
 		}
-		else if(user.emailId=== email && user.password===password){
-			localStorage.setItem("sessionId",email.hashCode());
+		else if(user.emailId === email && user.password=== password){
+			setLocalStorage("sessionId",email.hashCode());
 			window.location.href = "index.html";
 		}
 		else{
