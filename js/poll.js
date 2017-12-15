@@ -256,7 +256,7 @@ var dis=[];
 function pollContactToDisplay(){
 	var flag=0;
 	var emailId = $(event.currentTarget).data("mail");
-	var users=getLocalStorage("chatContacts")
+	var users=getChatContacts();
     
     var contact = users[emailId];
 	name = contact.fullName;
@@ -282,19 +282,19 @@ function pollsearchUser() {
     var i = 0,
         numberOfUsers, currentContact;
 	var result = new Set();
-	var allContacts=getLocalStorage("chatContacts")
-    var allContacts = JSON.parse(localStorage.getItem("chatContacts"));
+	var allContacts=getChatContacts();
+    //var allContacts = JSON.parse(localStorage.getItem("chatContacts"));
     for (var key in allContacts) {
-        if (allContacts.hasOwnProperty(key)) {
+        
             var currentContact = allContacts[key]; //this is the user object
-            var currentContactUserName = currentContact["fullName"];
-            var currentContactEmailId = currentContact["emailId"];
-            currentContactUserName = currentContactUserName.toLowerCase();
-            currentContactEmailId = currentContactEmailId.toLowerCase();
+            var currentContactUserName = currentContact.fullName;
+            var currentContactEmailId = currentContact.emailId;
             result.add(currentContact);
     }
-}
+
     console.log(allContacts);
     pollDisplaySearchUserResult(result);
 
 }
+
+
