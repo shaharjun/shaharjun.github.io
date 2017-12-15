@@ -95,7 +95,7 @@ function searchContactDisplayResult(searchResult, allContactsOfUser) {
             //console.log("in loop");
             var contactName = value["fullName"];
             var email = value["emailId"];
-            console.log(contactName);
+            //console.log(contactName);
             allContactsString += '<li class="contact" data-email="' + email + '"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
                 '<div class="meta"><p class="name">' + contactName + '</p></div></div></li>';
         })
@@ -255,14 +255,12 @@ $(document).ready(function () {
     });
     //$("#searchUserButton").prop("disabled", true);
     $("#addcontact").click(function(){
-        console.log("add contact called");
         clearSearchBar();
         searchUser(true);
-    });
+    })
     $("#closeAddContactButton").click(function () {
         clearSearchBar();
     });
-    clearSearchBar();
     $("#clearSearchContactBar").click(function () {
         $("#searchContactText").val('');
         var allContacts = getChatContacts(); //localStorage.getItem("chatContacts");
@@ -272,10 +270,9 @@ $(document).ready(function () {
     });
     var contacts = new Map();
     areContactsLoaded(true);
-    $("#searchUserButton").click(function () {
+    $("#searchUserButton").click(function(){
         searchUser(true);
-    });
-    
+    })
     // $.getJSON('./contacts.json', function (data) {}).done(function (data) {
     //         $.each(data, function (i, contact) {
     //             // $('ul').append('<li>' + contact.name +'</li>');
@@ -552,6 +549,7 @@ function searchUser(contactListReady) {
 function displaySearchUserResult(searchResult) {
     //searchResult is a set we get from searchUser function
     var listElement = $("#searchUserResultList");
+    var resultString = "";
     if (searchResult != null) {
         var resultString = "";
         searchResult.forEach(function (value, key, setObj) {
