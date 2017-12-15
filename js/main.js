@@ -17,12 +17,12 @@ function sendChat(email) {
 
     thisUser = getLocalStorage("thisUser");
 
-    var sentMessage = new Message();
+    var sentMessage = new IndividualChatMessage();
     sentMessage.chatMessageText = $('#chatBox').val();
     sentMessage.creator = thisUser.emailId;
     sentMessage.receiver = email;
     
-    var receivedMessage = new Message();
+    var receivedMessage = new IndividualChatMessage();
     receivedMessage.chatMessageText = 'hmm';
     receivedMessage.receiver = thisUser.emailId;
     receivedMessage.creator = email;
@@ -355,7 +355,7 @@ function displayChatMessages(email) {
 }
 function makeGold() {
     var thisUser = getLocalStorage("thisUser");
-    var msg = new Message();
+    var msg = new IndividualChatMessage();
     $(event.currentTarget).css('color', 'gold');
     var email = $('#cprof #userEmailValue').text();
     var text = $(event.currentTarget).parent().children('p').text();
@@ -483,7 +483,6 @@ function approveRequest(email) {
         contactMap[email] = contact;
         addChatContact(contactMap);
     }
-
     var el = $('#contacts > ul > li').eq($(event.currentTarget));
     el.remove();
     var html = '<li class="contact" data-email="' + email + '"><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
@@ -559,10 +558,9 @@ function areContactsLoaded(gotDataFromSource) {
 }
 
 function addContact() {
-    var $toastContent = $('<span>' + 'Request Sent ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
-    Materialize.toast($toastContent, 10000);
+
     var emailId = $(event.currentTarget).data("mail");
-    var request = new Message();
+    var request = new IndividualChatMessage();
     var users = getAllUsers();
     var contact = users[emailId];
     request.creator = contact.fullName;
@@ -577,7 +575,8 @@ function addContact() {
         store[emailId] = request;
         setLocalStorage('requests', store);
     }
-     location.reload();
+    var $toastContent = $('<span>' + 'Request Sent ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
+    Materialize.toast($toastContent, 10000);
 }
 
 function sendReminderChat() {

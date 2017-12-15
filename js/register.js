@@ -1,8 +1,8 @@
 $(document).ready(function () {
-	if (getLocalStorage("generatedId") == null) {
-		setLocalStorage("generatedId", 1);
-		console.log('user id set');
-	}
+	// if (getLocalStorage("generatedId") == null) {
+	// 	setLocalStorage("generatedId", 1);
+	// 	console.log('user id set');
+	// }
 	$("#register-button").click(function () {
 		var formComplete = true;
 		var fullname = $("#fullname").val();
@@ -13,7 +13,7 @@ $(document).ready(function () {
 		if (isFormComplete) {
 			var thisUser = null;
 
-			thiUser = getLocalStorage("thisUser");
+			//thiUser = getLocalStorage("thisUser");
 			if (thisUser !== null) {
 				var registeredUser = getLocalStorage("thisUser");
 				var emailToCheck = registeredUser.emailId;
