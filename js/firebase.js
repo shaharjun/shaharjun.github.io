@@ -9,53 +9,47 @@ var user = {
 };
 // ab honga dangal
 user = JSON.parse(localStorage.getItem("thisUser"));
-
 var sessionId = JSON.parse(localStorage.getItem("sessionId"));
 var allContacts = localStorage.getItem("chatContacts");
 var myStatus = "available";
-
-console.log(user);
-
-//hard-coded
+//console.log(user);
 var contactArray = [];
+//hard-coded
 if (user.userId == 2) {
-    contactArray[3] = {
+    contactArray[1] = {
         'fullName': "rachna saluja",
         'emailId': "rachnasaluja@gmail.com",
-        'userId': 3,
+        'userId': 1,
         'phoneNo': "9292929292",
         'profilePictureUrl': "",
-        'contactUserStatus': 'offline'
+        'contactUserStatus': ""
     };
 }
-else if (user.userId == 3) {
+else if (user.userId == 1) {
     contactArray[2] = {
-        'fullName': "kevin spacey",
-        'emailId': "kevinspacey@gmail.com",
+        'fullName': "riya tilwani",
+        'emailId': "riyatilwani@gmail.com",
         'userId': 2,
         'phoneNo': "9292929292",
         'profilePictureUrl': "",
-        'contactUserStatus': 'offline'
+        'contactUserStatus': ""
     };
 }
 if (allContacts != null) {
     var allContactsList = [];
     allContactsList = JSON.parse(allContacts);
     for (var i = 0; i < allContactsList.length; i++) {
-
         contactArray[allContactList[i].userId] = {
             'fullName': allContactsList[i].fullName,
             'emailId': allContactsList[i].emailId,
             'userId': allContactsList[i].userId,
             'phoneNo': allContactsList[i].phoneNo,
             'profilePictureUrl': allContactsList[i].profilePictureUrl,
-            'contactUserStatus': 'offline'
+            'contactUserStatus': ""
         };
     }
-
 }
 function storeLoggedInUser(user) {
-
     var myStatus = "available";
     var contactStatus;
     firebase.database().ref().child('loggedInUser').child(user.userId).set({
@@ -68,7 +62,6 @@ function storeLoggedInUser(user) {
         'chatContacts': contactArray
     });
     firebase.database().ref('loggedInUser/').once('value', function (snapshot) {
-
         for (var contact in contactArray) {
             if (snapshot.child(contact).exists()) {
                 firebase.database().ref('loggedInUser/' + contactArray[contact].userId + '/chatContacts/' + user.userId)
@@ -80,7 +73,6 @@ function storeLoggedInUser(user) {
         }
     });
 }
-
 function updateStatus(myStatus, user) {
     firebase.database().ref('loggedInUser/' + user.userId).update({ 'userStatus': myStatus });
     firebase.database().ref('loggedInUser/').once('value', function (snapshot) {
@@ -92,25 +84,30 @@ function updateStatus(myStatus, user) {
         }
     });
 }
-
-var changedStatus;
 firebase.database().ref('loggedInUser/' + user.userId + '/chatContacts').on('value', function (snapshot) {
     {
         snapshot.forEach(function (userSnapshot) {
-            changedStatus = userSnapshot.child('contactUserStatus').val();
-            console.log(changedStatus);
-            if (changedStatus == "available") {
-                $('.contact-status').css('border-color', 'green');
-            }
-            else if (changedStatus == "away") {
-                $('.contact-status').css('border-color', 'yellow');
-            }
-            else if (changedStatus == "busy") {
-                $('.contact-status').css('border-color', 'red');
-            }
-            else if (changedStatus == "offline") {
-                $('.contact-status').css('border-color', '#32465a');
-            }
+            console.log(userSnapshot.val());
+            var changedStatus = userSnapshot.child('contactUserStatus').val();
+            console.log("User " + userSnapshot.child("fullName").val() + " is " + changedStatus);
+            var flag =0;
+            $('li.contact').each(function (contact) {                
+                if ($(this).data("email") == userSnapshot.child('emailId').val() && flag==0) {
+                    if (changedStatus == "available") {
+                        $('div span',this).css('background-color', 'green');
+                    }
+                    else if (changedStatus == "away") {
+                        $('div span',this).css('background-color', 'yellow');
+                    }
+                    else if (changedStatus == "busy") {
+                        $('div span',this).css('background-color', 'red');
+                    }
+                    else if (changedStatus == "offline") {
+                        $('div span',this).css('background-color', '#95a5a6');
+                    }
+                    flag=1;
+                }
+            });
         });
     }
 });
