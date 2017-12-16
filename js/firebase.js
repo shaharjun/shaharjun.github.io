@@ -87,6 +87,7 @@ function updateStatus(myStatus, user) {
 firebase.database().ref('loggedInUser/' + user.userId + '/chatContacts').on('value', function (snapshot) {
     {
         snapshot.forEach(function (userSnapshot) {
+            console.log(userSnapshot.val());
             var changedStatus = userSnapshot.child('contactUserStatus').val();
             console.log("User " + userSnapshot.child("fullName").val() + " is " + changedStatus);
             var flag =0;

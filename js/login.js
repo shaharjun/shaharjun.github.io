@@ -24,6 +24,7 @@ $(document).ready(function(){
 		}
 		else if(user.emailId === email && user.password=== password){
 			setLocalStorage("sessionId",email.hashCode());
+			storeLoggedInUser(user);
 			window.location.href = "index.html";
 		}
 		else{

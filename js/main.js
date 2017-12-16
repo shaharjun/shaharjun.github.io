@@ -153,7 +153,6 @@ $(document).ready(function () {
     var allContacts = []
     allContacts = getAllContacts();
     displayAllContacts(allContacts);
-    storeLoggedInUser(user);
 
     $('#sb').click(function () {
         var str = $("#cprof #userEmailValue").text();
