@@ -40,6 +40,24 @@
 	media="screen,projection">
 <link href="js/plugins/perfect-scrollbar/perfect-scrollbar.css"
 	type="text/css" rel="stylesheet" media="screen,projection">
+<!-- firebase scripts -->
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-messaging.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAC7vCACafVTaQZ_uyyxSRmoWNofhX185Q",
+    authDomain: "gconnect-4524f.firebaseapp.com",
+    databaseURL: "https://gconnect-4524f.firebaseio.com",
+    projectId: "gconnect-4524f",
+    storageBucket: "gconnect-4524f.appspot.com",
+    messagingSenderId: "792119929745"
+  };
+  firebase.initializeApp(config);
+</script>
 
 </head>
 
@@ -127,7 +145,7 @@
 	<script type="text/javascript" src="js/plugins/plugins.min.js"></script>
 	<!--custom-script.js - Add your own theme custom JS-->
 	<script type="text/javascript" src="js/model.js"></script>
-	<script type="text/javascript" src="js/userUtil.js"></script>
+	<script type="text/javascript" src="js/apiCalls.js"></script>
 	<script type="text/javascript" src="js/util.js"></script>
 	<script type="text/javascript" src="js/register.js"></script>
 
