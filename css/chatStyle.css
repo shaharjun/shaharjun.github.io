@@ -1070,3 +1070,9 @@ Rachna Saluja - Search Contact - Result List
     margin: 0 0 0 1px;
     opacity: .5;
 }
+#clearSearchContactBar{
+    cursor: pointer;
+}
+.fa.fa-search{
+    cursor: pointer;
+}

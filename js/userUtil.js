@@ -1,5 +1,7 @@
 function getCurrentUserEmail() {
-    return getLocalStorage("thisUser").emailId;
+    var user =null;
+    user = getLocalStorage("thisUser");
+    return user.emailId;
 }
 
 function createUser(user){   
@@ -7,10 +9,10 @@ function createUser(user){
     setLocalStorage("thisUser", user);
 
     // storing user's data in user list(local storage)
-    addUserTouserList(user);
+    addUserToUserList(user);
 }
 
-function addUserTouserList(user){
+function addUserToUserList(user){
     var store = getLocalStorage("allUsers");
     if (store == null) {
         store = new Map();
@@ -23,26 +25,33 @@ function addUserTouserList(user){
 }
 
 function storeChat(message) {
-    var key = message.creator;
-    var messages = null;
-    messages = getLocalStorage("messages");
-    if (message.messageType == 0)
+    
+    var thisUser = getLocalStorage("thisUser");
+    var key = null;
+    if(thisUser.emailId == message.creator)
         key = message.receiver;
+    else
+        key = message.creator;
+    var messages = null;
+    
+    messages = getLocalStorage("messages");
     if (messages == null) {
         messages = new Map();
-        var arr = [];
-        arr.push(messageData);
-        messages[key] = arr;
+        var arr = new Map();
+        var arr1 = [];
+        arr1.push(message);
+        arr[key] = arr1;
+        messages[thisUser.emailId] = arr;
         setLocalStorage("messages",messages);
     } else {
-        if (!messages[key]) {
+        if (!messages[thisUser.emailId][key]) {
             var arr = [];
             arr.push(message);
-            messages[key] = arr;
+            messages[thisUser.emailId][key] = arr;
         } else {
-            var arr = messages[key];
+            var arr = messages[thisUser.emailId][key];
             arr.push(message);
-            messages[key] = arr;
+            messages[thisUser.emailId][key] = arr;
         }
         setLocalStorage("messages",messages);
     }
@@ -104,11 +113,10 @@ function removeRequest(email) {
 }
 
 function getChatContacts() {
-    
-    
     var users = null;
 
     users = getAllUsers();
+    console.log(getCurrentUserEmail());
     var currUser = users[getCurrentUserEmail()];
     return currUser.chatContacts;
 }
@@ -117,23 +125,31 @@ function addChatContact(contactList) {
     
     users = getAllUsers();
     var currUser = users[getCurrentUserEmail()];
+    currUser.chatContacts = new Map();
     currUser.chatContacts = contactList;
-    users[getCurrentUserEmail] = currUser;
+    console.log(currUser.chatContacts);
+    console.log(currUser);
+    users[getCurrentUserEmail()] = currUser;
+    console.log(users[getCurrentUserEmail()]);
+    console.log(users);
+    setLocalStorage("thisUser",currUser);
     setLocalStorage("allUsers",users);
-
 }
+function getAllUsers() {
+    var users = null;
 
-function sendReminderChatValues() {
-    var message = $('#remaindermessage').val();
-    var reminderDate = $('#remainderdate').val();
-    var reminderContact = $("#getcontact").val();
-    var isValid = isValidMessage(message);
-    if (isValid) {
-        storeReminder(message, reminderDate, reminderContact, 0);
+    return getLocalStorage("allUsers");
+}
+function getAllContacts() {
+    var thisUser = getLocalStorage("thisUser");
+    var allContacts = thisUser.chatContacts;
+    if (allContacts != null) {
+        return allContacts;
     }
+    return null;
 }
 
-function storeReminder(message, reminderDate, reminderContact, messageType) {
+function storeReminder(message, reminderDate, reminderContact) {
     var messageData = new ReminderMessage();
     var remindermessages = getLocalStorage("remindermessages");
     messageData.chatMessageText = message;
@@ -173,7 +189,8 @@ function getReminderChat(str) {
         var datestring = dd + '-' + mm + '-' + yyyy;
         for (var i = 0; i < remindermessagesArray.length; i++) {
             if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == str && remindermessagesArray[i].chatStatus != "RECIEVED") {
-                var messageData = new Message()
+               //console.log(remindermessagesArray[i])
+                var messageData = new IndividualChatMessage()
                     messageData.creator = remindermessagesArray[i].creator,
                     messageData.receiver = remindermessagesArray[i].receiver,
                     messageData.chatMessageId = 0,
@@ -188,7 +205,7 @@ function getReminderChat(str) {
             }
 
             if (datestring == remindermessagesArray[i].scheduledDate && remindermessagesArray[i].receiver == email && remindermessagesArray[i].chatStatus != "RECIEVED") {
-                var messageData = new Message()
+                var messageData = new IndividualChatMessage()
                 messageData.creator = remindermessagesArray[i].creator,
                 messageData.receiver = remindermessagesArray[i].receiver,
                 messageData.chatMessageId = 0,
@@ -205,22 +222,4 @@ function getReminderChat(str) {
         }
         setLocalStorage("remindermessages", remindermessagesArray);
     }
-}
-function remindersearchUser() {
-    var i = 0,
-        numberOfUsers, currentContact;
-    var result = new Set();
-    var allContacts = getLocalStorage("chatContacts");
-    for (var key in allContacts) {
-        if (allContacts.hasOwnProperty(key)) {
-            var currentContact = allContacts[key]; //this is the user object
-            var currentContactUserName = currentContact["fullName"];
-            var currentContactEmailId = currentContact["emailId"];
-            currentContactUserName = currentContactUserName.toLowerCase();
-            currentContactEmailId = currentContactEmailId.toLowerCase();
-            result.add(currentContact);
-        }
-    }
-    reminderDisplaySearchUserResult(result);
-
 }

@@ -5,10 +5,10 @@ var User = function () {
   this.phoneNo = 0;
   this.emailId = "";
   this.profilePictureUrl = profilePictureUrl;
-  this.chatContacts = [];
+  this.chatContacts = new Map();
 }
 
-var Message = function(){
+var IndividualChatMessage = function(){
   this.creator = "";
   this.receiver = "";
   this.chatMessageId = 0;
