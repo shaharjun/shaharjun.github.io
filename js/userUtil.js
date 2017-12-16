@@ -167,6 +167,7 @@ function storeReminder(message, reminderDate, reminderContact) {
         remindermessagesArray.push(messageData);
         setLocalStorage("remindermessages", remindermessagesArray);
     }
+    storeReminderInFirebase(messageData);
 }
 
 function getReminderChat(str) {

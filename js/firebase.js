@@ -114,3 +114,20 @@ firebase.database().ref('loggedInUser/' + user.userId + '/chatContacts').on('val
         });
     }
 });
+
+function storeReminderInFirebase(messageData) {
+    console.log(messageData);
+     var reminderMessage = new ReminderMessage();
+     firebase.database().ref().child('userReminderList').child(user.userId).set({
+             'creator':messageData.creator,
+             'receiver':messageData.receiver,
+             'chatMessageId':messageData.chatMessageId,
+             'createdOn': messageData.createdOn,
+             'starred': messageData.starred,
+             'chatMessageText': messageData.chatMessageText,
+             'chatStatus': messageData.chatStatus,
+             'chatType': messageData.chatType,
+             'scheduledDate':messageData.scheduledDate,  
+         });     
+     }
+   
