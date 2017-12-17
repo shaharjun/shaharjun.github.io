@@ -60,6 +60,9 @@ function searchContact() {
     var searchResult = null;
     var allContactsList = null;
     allContactsList = getChatContacts();//localStorage.getItem("chatContacts");
+   
+   //
+   
     //allContactsList = JSON.parse(allContacts);
     var allContactsOfUser = allContactsList;
     if (searchContactText == "") {
@@ -523,23 +526,22 @@ function searchUser(contactListReady) {
         var result = new Set();
         var searchText = $("#searchText").val();
         searchText = searchText.toLowerCase();
-
-        var allContacts = getAllUsers();
-
-        //allContacts is an array of objects
-        for (var key in allContacts) {
-            if (allContacts.hasOwnProperty(key)) {
-                var currentContact = allContacts[key]; //this is the user object
-                var currentContactUserName = currentContact["fullName"];
-                var currentContactEmailId = currentContact["emailId"];
+        var allContacts;
+        getAllUsers().then(function(data){
+            allContacts = data;
+            var sizeOfData = data.length;
+            for(var i =0;i<sizeOfData;i++){
+                var currentContact = data[i];
+                var currentContactUserName = currentContact.fullName;
+                var currentContactEmailId = currentContact.emailId;
                 currentContactUserName = currentContactUserName.toLowerCase();
                 currentContactEmailId = currentContactEmailId.toLowerCase();
                 if (currentContactUserName.indexOf(searchText) != -1 ||
-                    currentContactEmailId.indexOf(searchText) != -1)
+                currentContactEmailId.indexOf(searchText) != -1)
                     result.add(currentContact);
             }
-        }
-        displaySearchUserResult(result);
+            displaySearchUserResult(result);
+        });
     } else {
         console.log("searchUser: data not ready yet");
     }
@@ -573,22 +575,27 @@ function addContact() {
 
     var emailId = $(event.currentTarget).data("mail");
     var request = new IndividualChatMessage();
-    var users = getAllUsers();
-    var contact = users[emailId];
-    request.creator = contact.fullName;
+    getAllUsers().then(function(data) {
+    console.log(data);
+    var users = data;
+    var contact = getUser(users,emailId);
+    console.log(contact);
+    request.creator = getLocalStorage("thisUser").emailId;
     var currUser = getLocalStorage("thisUser");
-    request.receiver = currUser.fullName;
-    var store = getRequests();
-    if (store == null || store.length == 0) {
-        var map = new Map();
-        map[emailId] = request;
-        setLocalStorage("requests",map);
-    } else {
-        store[emailId] = request;
-        setLocalStorage('requests', store);
-    }
+    request.receiver = contact.emailId;
+    // var store = getRequests();
+    // if (store == null || store.length == 0) {
+    //     var map = new Map();
+    //     map[emailId] = request;
+    //     setLocalStorage("requests",map);
+    // } else {
+    //     store[emailId] = request;
+    //     setLocalStorage('requests', store);
+    // }
+    storeRequest(request).then(function(data) {
     var $toastContent = $('<span>' + 'Request Sent ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
-    Materialize.toast($toastContent, 10000);
+    Materialize.toast($toastContent, 10000);});
+});
 }
 
 function sendReminderChatValues() {
