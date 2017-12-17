@@ -34,7 +34,6 @@ $(document).ready(function () {
 					createUser(user);
 					id++;
 					firebase.database().ref('idGenerator').update({'uId':id}).then(function(){
-						
 					window.location.href = "login.html";});
 				});	
 				// var generatedId = parseInt(getLocalStorage("generatedId"));

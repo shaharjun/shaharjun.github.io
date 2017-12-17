@@ -22,7 +22,7 @@ $(document).ready(function(){
 		else if(password === ""){
 			Materialize.toast("Enter password", 1000);
 		}
-		else if(user.emailId === email && user.password=== password){
+		else if(user.emailId == email && user.password == password){
 			setLocalStorage("sessionId",email.hashCode());
 			storeLoggedInUser(user);
 			window.location.href = "index.html";

@@ -316,7 +316,7 @@ $(document).ready(function () {
     $('#contacts > ul > li.request').click(function () {
         var rq = null;
         
-        rq = getRequests();
+        rq =getRequests();
         var emailId = $(event.currentTarget).data("emailid");
         var msg = '<li class="sent"><img src="images/profile.png" alt="">' +
             '<p>' + rq[emailId].creator + ' wants to connect with you</p>' +
@@ -387,11 +387,11 @@ function showStar() {
 
 function displayAllContacts(allContacts) {
     var allContactsString = "";
-    var store = getLocalStorage("requests");
+    getRequests().then(function(store) {
     if (store) {
-        for (var key in store) {
-            allContactsString += '<li data-emailid="' + key + '" class="request" ><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
-                '<div class="meta"><p class="name">' + store[key].creator + '</p></div></div></li>';
+        for (i=0;i<store.length;i++) {
+            allContactsString += '<li data-emailid="' + store[i].emailId + '" class="request" ><div class="wrap"><span class="contact-status"></span> <img src="images/profile.png" alt="" />' +
+                '<div class="meta"><p class="name">' + store[i].creator + '</p></div></div></li>';
         }
     }
     if (allContacts != null) {
@@ -401,6 +401,7 @@ function displayAllContacts(allContacts) {
         }
     }
     $('#contacts > ul').html(allContactsString);
+});
 }
 
 
@@ -583,6 +584,8 @@ function addContact() {
     request.creator = getLocalStorage("thisUser").emailId;
     var currUser = getLocalStorage("thisUser");
     request.receiver = contact.emailId;
+    //ack being used as userId of receiver buffer
+    request.ack = contact.userId;
     // var store = getRequests();
     // if (store == null || store.length == 0) {
     //     var map = new Map();
@@ -594,7 +597,8 @@ function addContact() {
     // }
     storeRequest(request).then(function(data) {
     var $toastContent = $('<span>' + 'Request Sent ' + '</span>').add($('<button onClick="location.reload()" class="btn-flat toast-action">Ok</button>'));
-    Materialize.toast($toastContent, 10000);});
+    Materialize.toast($toastContent, 10000);
+    });
 });
 }
 
