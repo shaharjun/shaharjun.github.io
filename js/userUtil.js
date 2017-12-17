@@ -137,7 +137,6 @@ function addChatContact(contactList) {
 }
 function getAllUsers() {
     var users = null;
-
     return getLocalStorage("allUsers");
 }
 function getAllContacts() {

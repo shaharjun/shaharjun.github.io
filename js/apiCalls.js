@@ -109,8 +109,7 @@ function getRequests() {
 }
 
 function removeRequest(email) {
-    var rqs = null;
-
+    var rqs = null
     rqs = getLocalStorage("requests");
     delete rqs[email];
     setLocalStorage("requests",rqs);
@@ -139,11 +138,11 @@ function addChatContact(contactList) {
     setLocalStorage("thisUser",currUser);
     setLocalStorage("allUsers",users);
 }
-function getAllUsers() {
-    var users = null;
+// function getAllUsers() {
+//     var users = null;
 
-    return getLocalStorage("allUsers");
-}
+//     return firebase.database().ref('allUsers/').child('');
+// }
 function getAllContacts() {
     var thisUser = getLocalStorage("thisUser");
     var allContacts = thisUser.chatContacts;
@@ -151,4 +150,48 @@ function getAllContacts() {
         return allContacts;
     }
     return null;
+}
+function getAllUsers() {
+    //var def = $.Deferred();
+    return firebase.database().ref('allUsers/').once('value').then(function(snapshot) {
+        console.log(snapshot.val());
+        return snapshot.val();
+    });
+    //return def.promise();
+}
+function getLoggedInUsers() {
+    return firebase.database().ref('loggedInUser/').once('value').then(function(snapshot) {
+        console.log(snapshot.val());
+        return snapshot.val();
+    });
+}
+function getUser(users,emailId) {
+    for(i=0;i<users.length;i++) {
+        if((users[i].emailId).indexOf(emailId) != -1) {
+            console.log(users[i]);
+            return users[i];
+        }
+    }
+    return null;
+}
+function storeRequest(request) {
+    var receiverStatus = "offline";
+    var receiverObject;
+    getLoggedInUsers().then(function(data) {
+        console.log("in store request");
+        console.log(data);
+        receiverObject = getUser(data,request.receiver)
+        if(receiverObject!=null) {
+            receiverStatus = receiverObject.userStatus;
+        }
+        var creatorId = getLocalStorage("thisUser").userId;
+        firebase.database().ref().child('contactRequests').child(creatorId).set({
+            'receiver' : request.receiver,
+            'requestStatus' : 'pending',
+            'availabilityOfReceiver' : receiverStatus,
+            'createdOn' : request.createdOn.toString()
+        })
+        return true;
+    })
+    return false;
 }
