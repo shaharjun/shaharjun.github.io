@@ -102,10 +102,12 @@ function getStarredMessages() {
 }
 
 function getRequests() {
-    var rqs = null;
-
-    rqs = getLocalStorage("requests");
-    return rqs;
+    
+    return firebase.database().ref('contactRequests/').once('value').then(function(snapshot) {
+        console.log(snapshot.val());
+        return snapshot.val();
+    });
+   
 }
 
 function removeRequest(email) {
@@ -175,8 +177,10 @@ function getUser(users,emailId) {
     return null;
 }
 function storeRequest(request) {
-    var receiverStatus = "offline";
+    var senderStatus = "offline";
+    var senderObject;
     var receiverObject;
+    var receiverStatus = 'offline';
     getLoggedInUsers().then(function(data) {
         console.log("in store request");
         console.log(data);
@@ -184,11 +188,15 @@ function storeRequest(request) {
         if(receiverObject!=null) {
             receiverStatus = receiverObject.userStatus;
         }
+        var picUrl = getLocalStorage("thisUser").profilePictureUrl;
         var creatorId = getLocalStorage("thisUser").userId;
-        firebase.database().ref().child('contactRequests').child(creatorId).set({
-            'receiver' : request.receiver,
+        var name = getLocalStorage("thisUser").fullName;
+        firebase.database().ref().child('contactRequests').child(request.ack).child(creatorId).set({
+            'sender' : request.creator,
+            'senderName' : name,
             'requestStatus' : 'pending',
             'availabilityOfReceiver' : receiverStatus,
+            'profilePictureUrlOfSender' : profilePictureUrl,
             'createdOn' : request.createdOn.toString()
         })
         return true;
